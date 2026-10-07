@@ -41,3 +41,15 @@ import JumpProcessesLean
 #print axioms JumpProcessesLean.Proofs.nrm_transition_full_law
 #print axioms JumpProcessesLean.Proofs.nrm_actual_transition_full_law
 #print axioms JumpProcessesLean.Proofs.nrm_float_certificate_refines
+#print axioms JumpProcessesLean.Proofs.nrm_float_joint_tail_approx
+#print axioms JumpProcessesLean.Proofs.nrm_history_step_factorization
+#print axioms JumpProcessesLean.Proofs.nrm_cached_word_law
+#print axioms JumpProcessesLean.Proofs.finite_operational_word_laws_equal
+#print axioms JumpProcessesLean.Proofs.nrmInitialize_masked_executes
+#print axioms JumpProcessesLean.Proofs.nrmNext_masked_unique
+#print axioms JumpProcessesLean.Proofs.masked_race_residual_probability
+#print axioms JumpProcessesLean.Proofs.masked_transition_full_law
+#print axioms JumpProcessesLean.Proofs.maskedActualResidual_executes
+#print axioms JumpProcessesLean.Proofs.masked_history_step_factorization
+#print axioms JumpProcessesLean.Proofs.masked_cached_word_law
+#print axioms JumpProcessesLean.Proofs.finite_masked_word_laws_equal

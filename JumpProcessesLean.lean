@@ -17,3 +17,11 @@ import JumpProcessesLean.Proofs.DirectFloatLaw
 import JumpProcessesLean.Proofs.NRMUpdate
 import JumpProcessesLean.Proofs.NRMTransitionLaw
 import JumpProcessesLean.Proofs.NRMFloatLaw
+import JumpProcessesLean.Proofs.NRMFloatDistribution
+import JumpProcessesLean.Proofs.TrajectoryCache
+import JumpProcessesLean.Proofs.FinitePathLaw
+import JumpProcessesLean.Proofs.MaskedRace
+import JumpProcessesLean.Proofs.MaskedNRM
+import JumpProcessesLean.Proofs.MaskedTransition
+import JumpProcessesLean.Proofs.MaskedCache
+import JumpProcessesLean.Proofs.NonnegativePathLaw

@@ -2,7 +2,7 @@
 
 Lean translations of JumpProcesses.jl's Direct, NRM, and RSSA using FloatLib binary64 arithmetic and a shared real interpretation.
 
-**Status:** executable one-event laws and the positive-rate NRM update invariant are checked. Direct has a complete one-event float distribution approximation; NRM has an initialization/selection numerical refinement. The requested complete simulation trajectory proof is **not finished**.
+**Status:** executable one-event laws and finite reaction-word laws with a persistent NRM cache are checked, including inactive, activated and deactivated channels. Direct and NRM initialization/selection have float distribution approximations. The refinement of the concrete simulation driver and complete float trajectory bounds are **not finished**.
 
 ## Build and test
 
@@ -50,7 +50,7 @@ Independent uniforms on `(0,1)` are transformed by `-log(u)/rate`. Lean derives 
 
 The cache invariant is derived at a random winning time from the primitive product measure, including the fired channel's independent fresh draw. Independence is not supplied as a hypothesis. A finite-vector measure extension theorem turns joint-tail identities into all-Borel residual laws.
 
-The equality and probabilistic NRM invariant assume strictly positive NRM rates. Direct/RSSA admit individual zero rates. NRM's deterministic update proof covers activation and deactivation; its distributional invariant currently covers positive old/new rates. Executable absorbing states are covered by deterministic tests.
+`MaskedTransition.lean` extends the full joint cache law to inactive, activated and deactivated channels. Inactive coordinates are unused independent ghost variables: the implementation stores `none`, draws no inactive initialization clock, and excludes them from the race. `masked_history_step_factorization` proves independence of the entire sampled past. `masked_cached_word_law` iterates the actual returned cache. `finite_masked_word_laws_equal` proves equality of all finite reaction-word measures with state-dependent nonnegative rates and positive total rates. These are cylinder laws; the refinement of `simulateLoop` remains separate. Executable absorbing states are covered by deterministic tests.
 
 RSSA equality uses the **unbounded first-success law**, expressed as a sum of successful-branch measures. Capped RSSA has a `proposalLimit` outcome. For valid bounds and `0 < A ≤ B`, its exact real failure mass after `N` proposals is `(1-A/B)^N`; this mass is not discarded or normalized away.
 
@@ -70,6 +70,7 @@ Certificates constrain inputs, finite intermediates, numerical budgets, and bran
 
   The real target rates are the exact decoded binary64 inputs. Source error is included in the certificate; `β` is the probability of certificate failure.
 * `nrm_float_certificate_refines` proves actual float initialization/minimum preserve a winner when its clock gap exceeds twice the numerical budget, and bounds its time error. Source exponential errors are included.
+* `nrm_float_joint_tail_approx` gives the corresponding marked-time distribution envelopes for actual FloatLib NRM initialization and minimum selection.
 * `chooseAux_float_margin`, `nrm_float_winner_approx`, and `rssa_float_accept_stable` prove stability of the actual CDF, minimum, and acceptance decisions.
 * `coupled_joint_tail_bounds` supplies a general approximation inequality with an explicit bad-set probability.
 
@@ -78,7 +79,7 @@ These are conditional approximation results. They do not bound certificate failu
 ## Remaining proof obligations
 
 1. Refine `simulate` / `simulateLoop` and compose the verified laws into finite trajectory laws with state-dependent rates, horizon stopping, transitions, and event limits. The actual positive-rate update invariant is proved; this simulation-level composition is not.
-2. Extend NRM's probabilistic initialization/cache invariant to arbitrary inactive, activated, and deactivated channels. The deterministic execution proof and tests already cover these branches.
+2. Incorporate absorbing states and horizon stopping into the simulation-level composition. The probabilistic cache law now covers inactive, activated and deactivated channels.
 3. Prove complete NRM/RSSA float distribution bounds and propagate certificates through whole simulations. Initialization, rescaling, RSSA acceptance, and CDF bounds are checked components.
 4. Quantify source/certificate failure probabilities for a chosen finite source. Infinite-path CTMC results also require a nonexplosion hypothesis.
 

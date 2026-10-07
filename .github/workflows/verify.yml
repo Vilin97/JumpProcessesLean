@@ -1,0 +1,38 @@
+name: Verify Lean proofs and executable samplers
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  lean:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Install Elan
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Fetch pinned dependencies and Mathlib cache
+        run: lake exe cache get
+      - name: Check proofs
+        run: lake build
+      - name: Compile and run executable tests
+        run: lake test
+      - name: Check proof dependencies
+        run: |
+          lake env lean Tests/Trust.lean > trust.log
+          python3 scripts/audit.py trust.log
+  upstream-fixtures:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Install pinned Julia
+        run: |
+          curl -fsSL https://julialang-s3.julialang.org/bin/linux/x64/1.11/julia-1.11.7-linux-x86_64.tar.gz -o julia.tar.gz
+          tar -xf julia.tar.gz
+      - name: Run original algorithm fixtures
+        run: ./julia-1.11.7/bin/julia --startup-file=no scripts/upstream_fixtures.jl
