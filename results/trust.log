@@ -53,3 +53,14 @@
 'JumpProcessesLean.Proofs.masked_history_step_factorization' depends on axioms: [propext, Classical.choice, Quot.sound]
 'JumpProcessesLean.Proofs.masked_cached_word_law' depends on axioms: [propext, Classical.choice, Quot.sound]
 'JumpProcessesLean.Proofs.finite_masked_word_laws_equal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.simulateLoop_refines_replay' depends on axioms: [propext, Quot.sound]
+'JumpProcessesLean.Proofs.simulate_refines_replay' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.operational_finite_paths_same_law' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.finite_simulation_observables_same_law' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'JumpProcessesLean.Proofs.nrm_absolute_update_executes' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.nrm_raw_path_pushforward' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.nrm_raw_holding_times_law' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.rssa_float_branch_executes' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.rssa_float_certificate_refines' depends on axioms: [propext, Classical.choice, Quot.sound]

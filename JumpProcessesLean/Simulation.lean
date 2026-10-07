@@ -22,19 +22,47 @@ structure Solution (α σ R : Type) where
   /-- Initial state, post-jump states, and final horizon. -/
   trace : Array (α × σ)
 
+/-- The algorithm-specific event call used by the simulation driver. -/
+def sampleEvent {α σ R : Type} [Inhabited α] (op : Arithmetic α)
+    (src : RandomSource α R) (model : Model α σ) (algorithm : Algorithm)
+    (maxProposals : Nat) (state : σ) (now : α) (rng : R) (nrmState : Option (NRMState α)) :
+    Except Error (Option (Event α) × R) :=
+  match algorithm with
+  | .direct => direct op src (model.rates state) now rng
+  | .rssa => rssa op src (model.rates state) (model.bounds state) now rng maxProposals
+  | .nrm => match nrmState with
+    | some s => .ok (nrmNext op s, rng)
+    | none => .error .invalidShape
+
+/-- Refreshes precisely the persistent NRM cache after a state transition. -/
+def refreshCache {α σ R : Type} [Inhabited α] (op : Arithmetic α)
+    (src : RandomSource α R) (model : Model α σ) (algorithm : Algorithm)
+    (newState : σ) (event : Event α) (rng : R) (nrmState : Option (NRMState α)) :
+    Except Error (Option (NRMState α) × R) :=
+  match algorithm, nrmState with
+  | .nrm, some s => do
+    let newRates := model.rates newState
+    let deps := (List.range newRates.size).toArray
+    let (s, rng) ← nrmUpdate op src s newRates event.reaction event.time deps rng
+    pure (some s, rng)
+  | _, _ => .ok (none, rng)
+
+def initializeCache {α σ R : Type} [Inhabited α] (op : Arithmetic α)
+    (src : RandomSource α R) (model : Model α σ) (algorithm : Algorithm)
+    (initial : σ) (start : α) (rng : R) : Except Error (Option (NRMState α) × R) :=
+  match algorithm with
+  | .nrm => do
+    let (s, rng) ← nrmInitialize op src (model.rates initial) start rng
+    pure (some s, rng)
+  | _ => .ok (none, rng)
+
 def simulateLoop {α σ R : Type} [Inhabited α] (op : Arithmetic α)
     (src : RandomSource α R) (model : Model α σ) (algorithm : Algorithm)
     (horizon : α) (saveEvents : Bool) (maxProposals : Nat) :
     Nat → σ → α → R → Option (NRMState α) → Nat → Array (α × σ) →
       Except Error (Solution α σ R)
   | fuel, state, now, rng, nrmState, count, trace => do
-    let rates := model.rates state
-    let (event, rng) ← match algorithm with
-      | .direct => direct op src rates now rng
-      | .rssa => rssa op src rates (model.bounds state) now rng maxProposals
-      | .nrm => match nrmState with
-        | some s => pure (nrmNext op s, rng)
-        | none => throw .invalidShape
+    let (event, rng) ← sampleEvent op src model algorithm maxProposals state now rng nrmState
     match event with
     | none => return ⟨state, horizon, count, rng, trace.push (horizon, state)⟩
     | some e =>
@@ -45,13 +73,7 @@ def simulateLoop {α σ R : Type} [Inhabited α] (op : Arithmetic α)
       | 0 => throw .eventLimit
       | fuel + 1 =>
         let newState ← model.transition state e.reaction
-        let (nextNRM, rng) ← match algorithm, nrmState with
-          | .nrm, some s => do
-            let newRates := model.rates newState
-            let deps := (List.range newRates.size).toArray
-            let (s, rng) ← nrmUpdate op src s newRates e.reaction e.time deps rng
-            pure (some s, rng)
-          | _, _ => pure (none, rng)
+        let (nextNRM, rng) ← refreshCache op src model algorithm newState e rng nrmState
         let trace := if saveEvents then trace.push (e.time, newState) else trace
         simulateLoop op src model algorithm horizon saveEvents maxProposals
           fuel newState e.time rng nextNRM (count + 1) trace
@@ -63,11 +85,7 @@ def simulate {α σ R : Type} [Inhabited α] (op : Arithmetic α)
     Except Error (Solution α σ R) := do
   if !(op.finite start && op.finite horizon && op.le start horizon) then throw .invalidTime
   if !op.lt start horizon then return ⟨initial, horizon, 0, rng, #[(start, initial)]⟩
-  let (nrmState, rng) ← match algorithm with
-    | .nrm => do
-      let (s, rng) ← nrmInitialize op src (model.rates initial) start rng
-      pure (some s, rng)
-    | _ => pure (none, rng)
+  let (nrmState, rng) ← initializeCache op src model algorithm initial start rng
   simulateLoop op src model algorithm horizon saveEvents maxProposals maxEvents
     initial start rng nrmState 0 #[(start, initial)]
 
@@ -109,4 +127,3 @@ def massActionTransition {α : Type} (rx : MassActionReaction α)
   return result
 
 end JumpProcessesLean
-

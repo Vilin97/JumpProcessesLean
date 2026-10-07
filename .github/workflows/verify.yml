@@ -16,7 +16,9 @@ jobs:
           curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
       - name: Fetch pinned dependencies and Mathlib cache
-        run: lake exe cache get
+        run: |
+          python3 scripts/bootstrap_dependencies.py
+          lake exe cache get
       - name: Check proofs
         run: lake build
       - name: Compile and run executable tests

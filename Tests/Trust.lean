@@ -53,3 +53,12 @@ import JumpProcessesLean
 #print axioms JumpProcessesLean.Proofs.masked_history_step_factorization
 #print axioms JumpProcessesLean.Proofs.masked_cached_word_law
 #print axioms JumpProcessesLean.Proofs.finite_masked_word_laws_equal
+#print axioms JumpProcessesLean.Proofs.simulateLoop_refines_replay
+#print axioms JumpProcessesLean.Proofs.simulate_refines_replay
+#print axioms JumpProcessesLean.Proofs.operational_finite_paths_same_law
+#print axioms JumpProcessesLean.Proofs.finite_simulation_observables_same_law
+#print axioms JumpProcessesLean.Proofs.nrm_absolute_update_executes
+#print axioms JumpProcessesLean.Proofs.nrm_raw_path_pushforward
+#print axioms JumpProcessesLean.Proofs.nrm_raw_holding_times_law
+#print axioms JumpProcessesLean.Proofs.rssa_float_branch_executes
+#print axioms JumpProcessesLean.Proofs.rssa_float_certificate_refines
