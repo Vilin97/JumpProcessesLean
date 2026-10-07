@@ -1,0 +1,7 @@
+Test Summary:        | Pass  Total  Time
+original Direct body |    2      2  0.1s
+Test Summary:     | Pass  Total  Time
+original NRM body |    3      3  0.3s
+Test Summary:      | Pass  Total  Time
+original RSSA body |    3      3  0.1s
+Original Julia Direct/NRM/RSSA fixture outputs agree with the Lean fixtures.

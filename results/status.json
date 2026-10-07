@@ -1,0 +1,37 @@
+{
+  "implementation": "complete within documented core algorithm scope",
+  "lean_tests": "passed",
+  "original_julia_fixtures": "passed: 8 assertions",
+  "ideal_joint_probability_models": "proved equal and normalized",
+  "full_operational_sampler_refinement": "not proved: simulate/simulateLoop trajectory composition and general zero-channel NRM probability invariant remain open",
+  "float_to_continuous_law_refinement": "partial: Direct one-event conditional bounds proved; complete NRM/RSSA distribution and all-algorithm trajectory bounds remain open",
+  "full_upstream_sciml_suite": "not run",
+  "seed": {
+    "clocks": 12345,
+    "linear_reaction": 24680
+  },
+  "clock_samples_per_algorithm": 20000,
+  "linear_reaction_runs_per_algorithm": 8000,
+  "max_clock_tests": {
+    "mean_tolerance": 0.008,
+    "variance_tolerance": 0.007,
+    "mark_tolerance": 0.015,
+    "tail_tolerance": 0.012,
+    "joint_tail_tolerance": 0.012
+  },
+  "lean_proof_build": "passed",
+  "proof_dependency_audits": {
+    "count": 41,
+    "result": "passed; only propext, Classical.choice, Quot.sound"
+  },
+  "executable_real_one_event_laws": "proved equal for all marked Borel time sets; NRM rates strictly positive; RSSA unbounded first-success law",
+  "rssa_capped_failure_probability": "proved for actual real rssa: (1-A/B)^N with valid live rates/bounds",
+  "nrm_full_graph_update_execution": "proved including zero rates, fresh activation and deactivation",
+  "nrm_actual_update_joint_law": "proved for strictly positive old and new rates, including independence of the full returned residual vector",
+  "float_direct_one_event_approximation": "proved conditional joint-tail bounds for actual FloatLib Direct; source/intermediate/margin certificate and explicit bad-set probability",
+  "float_nrm_initialization_selection": "proved actual initialization/selection numerical refinement under source budgets and a winner-gap certificate",
+  "float_nrm_rescale": "proved actual expression error bound",
+  "float_rssa_acceptance_selection": "proved actual comparison and CDF stability under explicit margins",
+  "finite_prng_iid_correctness": "not claimed or proved",
+  "full_end_to_end_user_request": "not complete"
+}

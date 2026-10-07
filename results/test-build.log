@@ -1,0 +1,10 @@
+✔ [6393/6401] Built JumpProcessesLean.Core:c.o (306ms)
+✔ [6394/6401] Built JumpProcessesLean.Direct:c.o (172ms)
+✔ [6395/6401] Built JumpProcessesLean.FloatLibBackend:c.o (219ms)
+✔ [6396/6401] Built JumpProcessesLean.RSSA:c.o (295ms)
+✔ [6397/6401] Built JumpProcessesLean.NRM:c.o (459ms)
+✔ [6398/6401] Built JumpProcessesLean.Simulation:c.o (414ms)
+✔ [6399/6401] Built Tests.Main (2.8s)
+✔ [6400/6401] Built Tests.Main:c.o (1.1s)
+✔ [6401/6401] Built jumpTests:exe (1.3s)
+Build completed successfully (6401 jobs).

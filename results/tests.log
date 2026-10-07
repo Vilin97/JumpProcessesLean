@@ -1,0 +1,9 @@
+PASS deterministic fixtures (Direct, NRM, RSSA, validation, mass action)
+PASS JumpProcessesLean.Algorithm.direct: 20000 clocks, mean=0.249413, variance=0.063395, P(i=1)=0.752250
+PASS JumpProcessesLean.Algorithm.nrm: 20000 clocks, mean=0.249802, variance=0.062566, P(i=1)=0.747800
+PASS JumpProcessesLean.Algorithm.rssa: 20000 clocks, mean=0.249844, variance=0.061971, P(i=1)=0.750700
+PASS JumpProcessesLean.Algorithm.direct: upstream A→B (8000 simulations), mean=25.706750, expected=25.666078
+PASS JumpProcessesLean.Algorithm.nrm: upstream A→B (8000 simulations), mean=25.659750, expected=25.666078
+PASS JumpProcessesLean.Algorithm.rssa: upstream A→B (8000 simulations), mean=25.655750, expected=25.666078
+PASS extinction and trace chronology for all three algorithms
+All tests passed.
