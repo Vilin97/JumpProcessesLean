@@ -3,8 +3,8 @@
   "lean_tests": "passed",
   "original_julia_fixtures": "passed: 8 assertions",
   "ideal_joint_probability_models": "proved equal and normalized",
-  "full_operational_sampler_refinement": "not proved: simulate/simulateLoop trajectory composition and general zero-channel NRM probability invariant remain open",
-  "float_to_continuous_law_refinement": "partial: Direct one-event conditional bounds proved; complete NRM/RSSA distribution and all-algorithm trajectory bounds remain open",
+  "full_operational_sampler_refinement": "proved from primitive uniforms through actual samplers, persistent NRM updates and the public simulate driver for all finite event budgets; nonnegative rates including inactive and absorbing channels",
+  "float_to_continuous_law_refinement": "proved complete FloatLib trajectory probability envelopes for Direct, NRM and capped RSSA against their common real law under positive decoded-rate numerical/source/margin certificates, retaining all failed certificates in the bad-set mass",
   "full_upstream_sciml_suite": "not run",
   "seed": {
     "clocks": 12345,
@@ -21,17 +21,27 @@
   },
   "lean_proof_build": "passed",
   "proof_dependency_audits": {
-    "count": 41,
+    "count": 114,
     "result": "passed; only propext, Classical.choice, Quot.sound"
   },
   "executable_real_one_event_laws": "proved equal for all marked Borel time sets; NRM rates strictly positive; RSSA unbounded first-success law",
   "rssa_capped_failure_probability": "proved for actual real rssa: (1-A/B)^N with valid live rates/bounds",
   "nrm_full_graph_update_execution": "proved including zero rates, fresh activation and deactivation",
-  "nrm_actual_update_joint_law": "proved for strictly positive old and new rates, including independence of the full returned residual vector",
+  "nrm_actual_update_joint_law": "proved for nonnegative old and new rates, using masked residual coordinates for inactive channels; complete joint cache independence from the sampled history",
   "float_direct_one_event_approximation": "proved conditional joint-tail bounds for actual FloatLib Direct; source/intermediate/margin certificate and explicit bad-set probability",
   "float_nrm_initialization_selection": "proved actual initialization/selection numerical refinement under source budgets and a winner-gap certificate",
   "float_nrm_rescale": "proved actual expression error bound",
   "float_rssa_acceptance_selection": "proved actual comparison and CDF stability under explicit margins",
   "finite_prng_iid_correctness": "not claimed or proved",
-  "full_end_to_end_user_request": "not complete"
+  "full_end_to_end_user_request": "complete within documented finite homogeneous pure jump algorithm and certificate scope",
+  "float_nrm_trajectory_approximation": "proved initialization and native persistent update error recurrence by induction, then complete native simulation probability bounds",
+  "float_rssa_trajectory_approximation": "proved all rejection/acceptance and clock accumulation steps, then complete native simulation probability bounds; fixed-cap failure branches retained",
+  "real_simulation_law_theorem": "JumpProcessesLean.Proofs.direct_nrm_rssa_simulations_same_law",
+  "float_simulation_approximation_theorem": "JumpProcessesLean.Proofs.float_simulations_approximate_same_real_law",
+  "scope": {
+    "real": "fixed nonempty finite channels, nonnegative state-dependent rates, valid bounds and total indexed transitions; every finite public simulation event budget",
+    "rssa_exact": "unbounded first-success semantics; finite cap error probability proved separately",
+    "float": "positive decoded rates, certified finite arithmetic/source errors and branch/horizon margins; explicit bad mass",
+    "infinite_time_nonexplosion": "not claimed"
+  }
 }

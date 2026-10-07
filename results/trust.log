@@ -64,3 +64,71 @@
 'JumpProcessesLean.Proofs.nrm_raw_holding_times_law' depends on axioms: [propext, Classical.choice, Quot.sound]
 'JumpProcessesLean.Proofs.rssa_float_branch_executes' depends on axioms: [propext, Classical.choice, Quot.sound]
 'JumpProcessesLean.Proofs.rssa_float_certificate_refines' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.rssa_stopping_input_marked_law' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.rssa_stopping_inputs_probability' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.rssa_float_joint_tail_approx' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.path_word_weights_normalize' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.operational_finite_path_probability' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'JumpProcessesLean.Proofs.nrm_schedule_concrete_run' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.nrm_simulate_primitive_execution' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.nrm_raw_good_ae' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.nrm_raw_driver_executes' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.nrm_completed_raw_driver_executes' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.nrm_simulation_word_law' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.raw_word_holding_law' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.raw_word_good_ae' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.rssa_first_success_suffix_executes' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.rssa_uniform_branch_suffix_executes' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'JumpProcessesLean.Proofs.packet_raw_driver_executes' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.packet_simulation_word_law' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.direct_simulation_word_law' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.rssa_simulation_word_law' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.native_simulation_law_eq_target' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.direct_nrm_rssa_simulations_same_law' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'JumpProcessesLean.Proofs.native_simulation_probability' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.nrm_update_aux_flags' depends on axioms: [propext, Quot.sound]
+'JumpProcessesLean.Proofs.nrm_float_update_executes' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.nrm_float_update_certificate_refines' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'JumpProcessesLean.Proofs.replay_float_trace_close' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.simulate_float_refines_replay' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.direct_float_step_refines' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.scheduled_concrete_run' depends on axioms: [propext, Quot.sound]
+'JumpProcessesLean.Proofs.scheduled_event_tapes_close' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.simulate_float_schedule_close' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.packet_accumulated_time_error' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.float_packet_trajectory_close' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.direct_float_trajectory_close' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.rssa_float_trajectory_close' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.nrm_float_initialize_conditions' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.nrm_float_cache_errors' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.nrm_float_update_schedule' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.nrm_float_trajectory_close' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.primitive_packet_replay_law' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.primitive_nrm_replay_law' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.DirectTrajectoryConditions.refines' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.RSSATrajectoryConditions.refines' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.NRMTrajectoryConditions.refines' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.direct_float_simulation_joint_tail_approx' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'JumpProcessesLean.Proofs.nrm_float_simulation_joint_tail_approx' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'JumpProcessesLean.Proofs.rssa_float_simulation_joint_tail_approx' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'JumpProcessesLean.Proofs.float_branch_joint_tail_approx' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.float_simulations_approximate_same_real_law' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'JumpProcessesLean.Proofs.primitive_float_word_mass' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.float_full_bad_mass_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.recorded_trace_observables_close' depends on axioms: [propext, Classical.choice, Quot.sound]

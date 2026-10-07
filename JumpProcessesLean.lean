@@ -31,3 +31,4 @@ import JumpProcessesLean.Proofs.AbsoluteExecution
 import JumpProcessesLean.Proofs.NRMRawPath
 import JumpProcessesLean.Proofs.RSSAFloatExecution
 import JumpProcessesLean.Proofs.RSSAFloatLaw
+import JumpProcessesLean.Proofs.TraceObservables
