@@ -11,8 +11,9 @@ Uniform(0,1) streams (uniform draws and the uniforms behind `-log` exponential d
   event probabilities converge to the target as the cap grows.
 * The common law is a probability measure and equals the native word-branch law.
 
-The FloatLib approximation theorems are `direct_float_iid_law_bounds`,
-`nrm_float_iid_law_bounds` and `rssa_float_iid_law_bounds` in `FloatIID.lean`.
+The FloatLib approximation theorems are in `FloatIIDStop.lean`, with absorbing states
+and inactive NRM channels. `FloatEndToEnd.lean` compares the FloatLib Direct and NRM
+simulators with the real simulators on the same streams.
 -/
 
 namespace JumpProcessesLean.Proofs

@@ -4,7 +4,7 @@
   "original_julia_fixtures": "passed: 8 assertions",
   "ideal_joint_probability_models": "proved equal and normalized",
   "full_operational_sampler_refinement": "proved for the public simulate driver on tapeSource with tapes read from two independent IID Uniform(0,1) streams: word events derived from the streams by stopping-reader regeneration, proved disjoint with total mass one; nonnegative rates including inactive and absorbing channels; every finite event budget",
-  "float_to_continuous_law_refinement": "proved: FloatLib simulators read the same IID streams through fixed rounding maps; on explicit certificate events along the realized real word they are trace-close to the public real simulators, and joint tails are within the outer certificate-failure probability beta of the exact target law",
+  "float_to_continuous_law_refinement": "proved: FloatLib simulators read the same IID streams through fixed rounding maps; on explicit certificate events along the realized real word, up to a stop index at an absorbing state, they are trace-close to the public real simulators, and joint tails are within the outer certificate-failure probability beta of the law of the public real simulators on the same streams (the exact target law); NRM uses the masked FloatLib cache with inactive, deactivated and reactivated channels",
   "full_upstream_sciml_suite": "not run",
   "seed": {
     "clocks": 12345,
@@ -21,7 +21,7 @@
   },
   "lean_proof_build": "passed",
   "proof_dependency_audits": {
-    "count": 148,
+    "count": 176,
     "result": "passed; only propext, Classical.choice, Quot.sound"
   },
   "executable_real_one_event_laws": "proved equal for all marked Borel time sets; NRM rates strictly positive; RSSA unbounded first-success law",
@@ -34,18 +34,20 @@
   "float_rssa_acceptance_selection": "proved actual comparison and CDF stability under explicit margins",
   "finite_prng_iid_correctness": "not claimed or proved",
   "full_end_to_end_user_request": "complete within the documented finite homogeneous pure jump algorithm and certificate scope",
-  "float_nrm_trajectory_approximation": "proved initialization and native persistent update error recurrence by induction, then complete native simulation probability bounds",
-  "float_rssa_trajectory_approximation": "proved all rejection/acceptance and clock accumulation steps, then complete native simulation probability bounds; fixed-cap failure branches retained",
+  "float_nrm_trajectory_approximation": "proved for the masked native cache: masked initialization, race among active channels, absorbing empty cache, and the active-clock error recurrence by induction; then complete native simulation probability bounds through absorbing states",
+  "float_rssa_trajectory_approximation": "proved all rejection/acceptance and clock accumulation steps and native absorption, then complete native simulation probability bounds; fixed-cap failure branches retained",
   "real_simulation_law_theorem": "JumpProcessesLean.Proofs.iid_direct_nrm_same_law",
   "float_simulation_approximation_theorem": [
-    "JumpProcessesLean.Proofs.direct_float_iid_law_bounds",
-    "JumpProcessesLean.Proofs.nrm_float_iid_law_bounds",
-    "JumpProcessesLean.Proofs.rssa_float_iid_law_bounds"
+    "JumpProcessesLean.Proofs.iid_float_direct_approximates_real",
+    "JumpProcessesLean.Proofs.iid_float_nrm_approximates_real",
+    "JumpProcessesLean.Proofs.direct_float_iid_stop_law_bounds",
+    "JumpProcessesLean.Proofs.nrm_float_iid_masked_law_bounds",
+    "JumpProcessesLean.Proofs.rssa_float_iid_stop_law_bounds"
   ],
   "scope": {
     "real": "fixed nonempty finite channels, nonnegative state-dependent rates, valid bounds and total indexed transitions; every finite public simulation event budget; IID stream tapes long enough for the budget (and cap)",
     "rssa_exact": "exact off the explicit cap-defect event; probabilities converge to the target as the cap grows",
-    "float": "arbitrary rounding maps; certificates require positive decoded rates along the word for NRM, positive total rate per certified step for Direct and an accepted proposal per certified step for RSSA; beta is explicit but not numerically bounded for specific models",
+    "float": "arbitrary rounding maps; certificates allow absorbing states within the event budget for all algorithms and inactive, deactivated and reactivated NRM channels; Direct needs a positive total rate and RSSA an accepted proposal at every certified step before the stop; beta is explicit but not numerically bounded for specific models",
     "infinite_time_nonexplosion": "not claimed"
   },
   "real_simulation_law_components": [
@@ -56,8 +58,22 @@
     "JumpProcessesLean.Proofs.iid_rssa_tendsto_target"
   ],
   "float_pathwise_theorems": [
-    "JumpProcessesLean.Proofs.direct_float_iid_close",
-    "JumpProcessesLean.Proofs.nrm_float_iid_close",
-    "JumpProcessesLean.Proofs.rssa_float_iid_close"
-  ]
+    "JumpProcessesLean.Proofs.direct_float_iid_stop_close",
+    "JumpProcessesLean.Proofs.nrm_float_iid_masked_close",
+    "JumpProcessesLean.Proofs.rssa_float_iid_stop_close"
+  ],
+  "float_direct_trajectory_approximation": "proved all selection and clock steps and native absorption, then complete native simulation probability bounds",
+  "float_trajectory_theorems": [
+    "JumpProcessesLean.Proofs.direct_float_trajectory_close_stop",
+    "JumpProcessesLean.Proofs.nrm_float_masked_trajectory_close",
+    "JumpProcessesLean.Proofs.rssa_float_trajectory_close_stop"
+  ],
+  "float_positive_rate_special_case": {
+    "theorems": [
+      "JumpProcessesLean.Proofs.direct_float_iid_law_bounds",
+      "JumpProcessesLean.Proofs.nrm_float_iid_law_bounds",
+      "JumpProcessesLean.Proofs.rssa_float_iid_law_bounds"
+    ],
+    "comparison": "JumpProcessesLean.Proofs.iid_float_stop_failure_le"
+  }
 }

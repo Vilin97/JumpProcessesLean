@@ -39,3 +39,8 @@ import JumpProcessesLean.Proofs.NRMIID
 import JumpProcessesLean.Proofs.RSSAIID
 import JumpProcessesLean.Proofs.FloatIID
 import JumpProcessesLean.Proofs.IIDEndToEnd
+import JumpProcessesLean.Proofs.FloatScheduleAbsorb
+import JumpProcessesLean.Proofs.FloatStopCertificates
+import JumpProcessesLean.Proofs.NRMFloatMasked
+import JumpProcessesLean.Proofs.FloatIIDStop
+import JumpProcessesLean.Proofs.FloatEndToEnd

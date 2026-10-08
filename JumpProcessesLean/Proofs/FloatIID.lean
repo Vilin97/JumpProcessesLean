@@ -11,6 +11,9 @@ is `-log (V i)`. Nothing depends on the reaction word. On an explicit event, def
 by the numerical input certificates along the realized real word, the actual public
 float simulator stays trace-close to the actual public real simulator. The failure
 event's outer probability bounds the distance to the exact target law.
+
+These certificates require positive rates at every step. `FloatIIDStop.lean` extends
+them to absorbing states and to inactive NRM channels.
 -/
 
 namespace JumpProcessesLean.Proofs

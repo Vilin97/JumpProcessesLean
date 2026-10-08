@@ -7,10 +7,14 @@ permissions:
   contents: read
 jobs:
   lean:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 90
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Check recorded source hashes
+        run: |
+          python3 scripts/source_hashes.py
+          git diff --exit-code results/source-sha256.json
       - name: Install Elan
         run: |
           curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
@@ -28,10 +32,10 @@ jobs:
           lake env lean Tests/Trust.lean > trust.log
           python3 scripts/audit.py trust.log
   upstream-fixtures:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Install pinned Julia
         run: |
           curl -fsSL https://julialang-s3.julialang.org/bin/linux/x64/1.11/julia-1.11.7-linux-x86_64.tar.gz -o julia.tar.gz

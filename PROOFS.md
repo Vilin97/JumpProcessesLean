@@ -2,7 +2,7 @@
 
 Import `JumpProcessesLean` to expose the executable implementation and every checked
 result. The real proof root is `Proofs/IIDEndToEnd.lean`; the FloatLib proof root is
-`Proofs/FloatIID.lean`.
+`Proofs/FloatEndToEnd.lean`.
 
 ## Random input
 
@@ -99,7 +99,7 @@ good = rssaCapGood …  -- realized word ∩ every first-success block uses ≤ 
 identifies its law with the first-success stopping measure `rssaStoppingInputs`, and
 `iidStreams_all_rejected` gives the rejection-run probabilities `(1-A/B)^N`.
 
-## FloatLib approximation (`FloatIID.lean`)
+## FloatLib approximation (`FloatIIDStop.lean`, `FloatEndToEnd.lean`)
 
 The hypotheses are:
 
@@ -111,21 +111,52 @@ The hypotheses are:
 
 | Algorithm | Certificate event | Pathwise theorem | Law theorem |
 | --- | --- | --- | --- |
-| Direct | `directFloatGood` (`DirectTrajectoryConditions`) | `direct_float_iid_close` | `direct_float_iid_law_bounds` |
-| NRM | `nrmFloatGood` (`NRMTrajectoryConditions`) | `nrm_float_iid_close` | `nrm_float_iid_law_bounds` |
-| Capped RSSA | `rssaFloatGood` (`RSSATrajectoryConditions`, cap, reader support) | `rssa_float_iid_close` | `rssa_float_iid_law_bounds` |
+| Direct | `directFloatStopGood` (`DirectStopConditions`) | `direct_float_iid_stop_close` | `direct_float_iid_stop_law_bounds` |
+| NRM | `nrmFloatMaskedGood` (`NRMMaskedConditions`) | `nrm_float_iid_masked_close` | `nrm_float_iid_masked_law_bounds` |
+| Capped RSSA | `rssaFloatStopGood` (`RSSAStopConditions`, cap, reader support) | `rssa_float_iid_stop_close` | `rssa_float_iid_stop_law_bounds` |
 
 Each certificate is evaluated on the primitive blocks parsed along the realized real
 word. It constrains primitive inputs, rounded draws, evaluated arithmetic
 expressions, numerical budgets and branch/horizon margins. It contains no assumed
 sampler law and no output agreement.
 
-The pathwise theorems return the realized word and prove two facts. First, the real
-public run equals the deterministic replay of the parsed transcript. Second, the
-FloatLib public run on `floatStreamTape` is `TraceClose δ` to that real run.
+**Stop index.** Every certificate carries `m ≤ fuel+1`. Steps `k < m` carry the
+one-event certificate. If `m ≤ fuel`, step `m` is an absorbing state:
 
-The law theorems state, for any observables with
-`TraceClose δ f r → |Tf f - T r| ≤ ε ∧ If f = I r`:
+* Direct: valid rates whose finite float total is not positive (`direct_float_absorbing`);
+* RSSA: valid bounds and no active float rate (`rssa_float_absorbing`);
+* NRM: every float rate inactive, so every masked cache entry is `none` and the native
+  race reports absorption (`nrm_float_absorbing_cache`).
+
+The Direct and RSSA events also require the real total rate to be zero at `m`; the
+NRM event derives it. `scheduled_concrete_run_absorb` and
+`simulate_float_schedule_close_absorb` run the public driver through a schedule that
+ends in an absorbing state. `direct_float_trajectory_close_stop` and
+`rssa_float_trajectory_close_stop` instantiate them for any unread tape suffix.
+
+**Masked NRM cache.** `nrmFloatCacheM` stores `none` for each inactive channel, as the
+native cache does, and inactive channels consume no draw.
+
+* `nrm_float_initialize_masked`: native initialization reads one rounded exponential
+  per active channel (`nrmFloatInitTape`).
+* `nrm_float_winner_masked`: the native race over the active clocks selects the
+  certified winner.
+* `nrm_float_masked_cache_errors`: the clock error recurrence for active channels is
+  proved by induction from the update certificates.
+* `nrm_float_masked_trajectory_close`: these combine into the trajectory theorem,
+  with the stop index, through the public driver.
+
+On the real side, `nrm_real_clocksM_raw_schedule` identifies the masked real clocks
+with the persistent cache of the primitive probability proof for every active
+channel.
+
+**Pathwise theorems.** They return the realized word and prove two facts. First, the
+real public run equals the deterministic replay of the parsed transcript, stopped at
+`m` (`packet_real_replay_stop_eq_holdings`, `nrm_masked_real_replay_eq_holdings`).
+Second, the FloatLib public run on `floatStreamTape` is `TraceClose δ` to that real run.
+
+**Law theorems.** For any observables with
+`TraceClose δ f r → |Tf f - T r| ≤ ε ∧ If f = I r`, they state:
 
 ```text
 target (jointTail (t+ε) i) ≤ iidStreams {t < Tf(F) ∧ If(F) = i} + β
@@ -133,22 +164,30 @@ iidStreams {t < Tf(F) ∧ If(F) = i} ≤ target (jointTail (t-ε) i) + β
 ```
 
 Here `β = iidStreams (good)ᶜ` and `target` is the real target law with the decoded
-binary64 rates; by `iid_direct_nrm_same_law` it is also the law of the real Direct and
-NRM simulators on the same streams. Outer measures are used for FloatLib events, so
-no measurability of FloatLib outputs is assumed. The generic comparison is
-`word_coupling_tail_bounds`.
+binary64 rates. Outer measures are used for FloatLib events, so no measurability of
+FloatLib outputs is assumed. The generic comparison is `word_coupling_tail_bounds`.
+`iid_float_direct_approximates_real` and `iid_float_nrm_approximates_real` replace
+`target` by the law of the public real simulator on the same streams, using
+`direct_iid_simulation_law` and `nrm_iid_simulation_law`.
 
 `recorded_trace_observables_close` instantiates the observable condition with `ε = δ`,
 for any recorded timestamp together with the terminal state/count/error outcome.
 
-**Scope.** The float certificates require:
+**Positive-rate special case.** `FloatIID.lean` keeps the earlier events
+`directFloatGood`, `nrmFloatGood` and `rssaFloatGood`, with theorems
+`*_float_iid_close` and `*_float_iid_law_bounds`. These events require positive rates at
+every step, and every NRM channel active. `directFloatGood_subset_stop`,
+`rssaFloatGood_subset_stop` and `nrmFloatGood_subset_masked` embed them in the new
+events. `iid_float_stop_failure_le` therefore bounds each new `β` by the old one.
 
-* NRM: positive decoded rates along the certified word (no inactive channels);
-* Direct: a positive total rate at every certified step;
-* RSSA: an accepted proposal at every certified step.
+**Scope.** Within the certificates:
 
-Words that reach an absorbing state within the event budget are counted in `β`. No
-theorem bounds `β` numerically for a specific model.
+* all three algorithms may reach an absorbing state within the event budget;
+* NRM channels may be inactive, deactivated or reactivated along the word;
+* Direct needs a positive total rate at every certified step before the stop;
+* RSSA needs an accepted proposal at every certified step before the stop.
+
+No theorem bounds `β` numerically for a specific model.
 
 ## Rounding and execution lemmas
 
@@ -166,7 +205,7 @@ bash scripts/verify.sh
 ```
 
 This builds the proofs, runs the native FloatLib test suite, audits the dependencies
-of the 148 results listed in `Tests/Trust.lean`, and runs the original pinned Julia
+of the 176 results listed in `Tests/Trust.lean`, and runs the original pinned Julia
 method fixtures. The audit permits only Lean's standard `propext`, `Classical.choice`
 and `Quot.sound`, and rejects `sorry`, `admit`, `axiom`, `unsafe` and `native_decide`
 in project sources.
