@@ -1,18 +1,63 @@
 # JumpProcessesLean
 
-Lean translations of JumpProcesses.jl's Direct, NRM, and RSSA using FloatLib binary64 arithmetic and a shared real interpretation.
+Lean translations of JumpProcesses.jl's Direct, NRM, and RSSA. The same
+arithmetic-parameterized code runs with FloatLib binary64 arithmetic and has a real
+interpretation used by the proofs.
 
-**Checked:** the real proof runs from IID primitive uniforms through the actual samplers, persistent NRM updates and public `simulate` driver to equality of complete stopped trace laws. It includes inactive, activated, deactivated and absorbing channels. The FloatLib proof propagates local rounding/source errors through complete trajectories and derives probability bounds against the common real law under positive-rate numerical certificates.
+**Checked (real, end to end).** The public `simulate` driver runs on the
+public `tapeSource`, with a tape read from two independent IID Uniform(0,1) streams.
+One stream supplies the uniform draws. The other supplies the uniforms `V` behind the
+exponential draws `-log V`. Under this input, for every measurable observable of the
+complete stopped trace:
 
-The main theorems are `direct_nrm_rssa_simulations_same_law` in [EndToEnd.lean](JumpProcessesLean/Proofs/EndToEnd.lean) and `float_simulations_approximate_same_real_law` in [FullFloatLaw.lean](JumpProcessesLean/Proofs/FullFloatLaw.lean). See [PROOFS.md](PROOFS.md) for their precise hypotheses.
+* Direct and NRM have exactly the target stopped CTMC path law, hence the same law.
+  NRM includes the persistent absolute clock cache, inactive, activated, deactivated
+  and absorbing channels.
+* Fixed-cap RSSA differs from that law only on an explicit event. On that event some
+  first-success block needs more proposals than the cap. Its probability tends to
+  zero, and RSSA event probabilities converge to the target as the cap grows.
+
+No reaction-word decomposition is assumed. The word events are read off the streams
+using a regeneration (strong Markov) lemma for stopping readers, and they are proved
+to partition the probability space.
+
+**Checked (FloatLib).** The FloatLib simulator reads the *same* streams through fixed
+rounding maps `ρu`, `ρe`. Each algorithm has an explicit certificate event, defined by
+input-only numerical conditions along the realized real reaction word. On it, the
+public FloatLib simulator stays trace-close to the public real simulator. Joint tails
+of any observable lie within `β` of the exact target law, where `β` is the outer
+probability that the certificate fails.
+
+| Statement | Theorem | File |
+| --- | --- | --- |
+| Direct = NRM = target law on IID streams; probability measure | `iid_direct_nrm_same_law` | [IIDEndToEnd.lean](JumpProcessesLean/Proofs/IIDEndToEnd.lean) |
+| Capped RSSA probabilities converge to the target | `iid_rssa_tendsto_target` | [IIDEndToEnd.lean](JumpProcessesLean/Proofs/IIDEndToEnd.lean) |
+| Direct law on IID streams | `direct_iid_simulation_law` | [DirectIID.lean](JumpProcessesLean/Proofs/DirectIID.lean) |
+| NRM law on IID streams | `nrm_iid_simulation_law` | [NRMIID.lean](JumpProcessesLean/Proofs/NRMIID.lean) |
+| Capped RSSA sandwich and defect limit | `rssa_iid_capped_simulation_law`, `rssaCapDefect_tendsto_zero` | [RSSAIID.lean](JumpProcessesLean/Proofs/RSSAIID.lean) |
+| Float trace closeness on the certificate event | `direct_float_iid_close`, `nrm_float_iid_close`, `rssa_float_iid_close` | [FloatIID.lean](JumpProcessesLean/Proofs/FloatIID.lean) |
+| Float joint-tail bounds against the target | `direct_float_iid_law_bounds`, `nrm_float_iid_law_bounds`, `rssa_float_iid_law_bounds` | [FloatIID.lean](JumpProcessesLean/Proofs/FloatIID.lean) |
+
+[PROOFS.md](PROOFS.md) states the hypotheses precisely and maps the proof architecture.
 
 ## Build and test
 
-Install Elan and Julia 1.11 or later, then run `bash scripts/verify.sh`. It runs `lake build`, `lake test`, the Lean theorem dependency audit, and the original Julia fixtures, writing logs to `results/`. The first native build compiles FloatLib's C dependencies. Toolchain and dependency revisions are pinned.
+Install Elan and Julia 1.11 or later, then run `bash scripts/verify.sh`. It runs:
+
+1. `lake build` for all proofs;
+2. `lake test` for the native FloatLib executables;
+3. the theorem dependency audit of `Tests/Trust.lean` (148 results);
+4. the original Julia fixtures.
+
+Logs are written to `results/`. The first native build compiles FloatLib's C
+dependencies. Toolchain and dependency revisions are pinned, and CI runs the same
+steps on every push.
 
 ## Translation scope
 
-Models are finite homogeneous pure jump systems. Rates can depend on the state and remain constant between jumps. Models supply rates, indexed transitions, and enclosing bounds. Population brackets and mass-action helpers are included.
+Models are finite homogeneous pure-jump systems. Rates can depend on the state and
+stay constant between jumps. Models supply rates, indexed transitions, and enclosing
+bounds. Population brackets and mass-action helpers are included.
 
 | Algorithm | Preserved mechanism | Implementation choice |
 | --- | --- | --- |
@@ -20,99 +65,160 @@ Models are finite homogeneous pure jump systems. Rates can depend on the state a
 | NRM | Persistent clocks, fresh fired/reactivated clocks, residual rescaling | Linear argmin; simulation uses the complete dependency graph |
 | RSSA | Upper-rate proposals, lower acceptance shortcut, accumulated Exp(1) clocks | Bounds checked per event; proposal exhaustion reports an error |
 
-Inactive NRM clocks use `none` and do not consume initial exponential draws. Seeded trajectories need not match Julia, which uses a different RNG and infinity representation. Duplicate dependencies consume no extra samples. Full-graph NRM updates traverse channels recursively in index order; partial graphs use the indexed loop. Every rescaling uses the old state.
+Inactive NRM clocks are `none` and consume no exponential draw. Seeded trajectories
+need not match Julia, which uses a different RNG and infinity representation.
+Duplicate dependencies consume no extra samples. Every rescaling uses the old state.
 
-The scope excludes the SciML integrator/callback framework, ODE/SDE coupling, variable-rate jumps, GPU support, heap optimization, and cached RSSA species/dependency bracket updates.
+The scope excludes the SciML integrator/callback framework, ODE/SDE coupling,
+variable-rate jumps, GPU support, heap optimization, and cached RSSA
+species/dependency bracket updates.
 
-All default simulation arithmetic and logarithms use FloatLib. SplitMix64 is a reproducible executable source; there is no theorem claiming it is an IID continuous source. The optional certified source propagates logarithm certification failure.
+All default simulation arithmetic and logarithms use FloatLib. SplitMix64 is a
+reproducible executable source. No theorem claims that it is an IID continuous
+source; the theorems quantify over IID streams and over arbitrary rounding maps.
 
-## Executable real laws
+## How the real proof works
 
-For rates `a_i`, total `A = ∑ i, a_i > 0`, and `t ≥ 0`, the target is
+1. **IID streams.** `iidStreams` is the infinite product of Uniform(0,1) over two
+   streams. `iidStreams_split` proves that a finite prefix is independent of the
+   remaining streams, which are again IID.
+2. **Regeneration.** A *stopping reader* consumes a data-dependent number of draws,
+   determined by what it reads. `StreamReader.regenerate` proves that the value read is
+   independent of the unread streams, which are again IID. `readerParse_law` composes
+   readers: the blocks read are independent with the readers' laws.
+3. **Algorithm readers.**
+   * A Direct event reads one uniform and one exponential source.
+   * An NRM row reads the exponential sources its native update actually consumes
+     (`freshPattern`). Its other coordinates come from the otherwise unused uniform
+     stream, so every row is exactly IID.
+   * An RSSA event reads selection/acceptance/exponential proposals until the first
+     acceptance. `rssaReader_law` proves its law is the first-success stopping measure.
+4. **Word events.** Along a reaction word, each reader uses the rates of the state
+   reached so far. The event that the streams realize the word is a branch of the
+   parsed blocks. Distinct words give disjoint events, by the uniqueness of each
+   native choice (CDF selection, strict NRM race, first acceptance). Total mass one
+   follows from `path_word_weights_normalize`.
+5. **Driver execution.** On each word event, almost surely, the public `simulate` on
+   the stream tape executes exactly the parsed transcript, followed by an arbitrary
+   unread suffix. This covers the persistent absolute NRM cache, absorbing states,
+   horizon stopping, recording, event-budget errors and the RSSA cap.
+6. **Per-word laws.** The parsed blocks restricted to a word event have the primitive
+   word measure. Earlier modules prove that its holding times have the
+   marked-exponential law (`direct_packet_clock_law`, `masked_cached_word_law` /
+   `nrm_raw_holding_times_law`, `rssa_packet_clock_law`).
 
-```text
-P(T > t, I = i) = (a_i / A) exp(-A t).
-```
+`iid_word_decomposition` assembles these into the law of the actual driver. The
+earlier word-branch construction `nativeSimulationLaw` is thereby identified with the
+law of the public driver on IID input.
 
-Independent uniforms on `(0,1)` are transformed by `-log(u)/rate`. Lean derives the actual CDF selector, actual NRM initialization/minimum, and actual RSSA first-success recursion. The main equality covers every Borel time set and reaction index.
+### Earlier one-event and word-level results (still used)
 
 | Checked result | Main theorem / module |
 | --- | --- |
 | Actual Direct marked exponential law, allowing zero channels | `direct_real_clock_law`, `RealSamplerLaws.lean` |
 | Actual positive-rate NRM initialization/minimum law | `nrm_uniform_clock_law`, `RealSamplerLaws.lean` |
-| Actual RSSA selection/acceptance probability | `proposalMark_probability`, `RSSABranches.lean` |
-| First-success recursion consumes the tape and accumulates the correct clock | `rssa_first_success_executes`, `rssa_uniform_branch_executes` |
+| RSSA selection/acceptance probability and first-success recursion | `proposalMark_probability`, `rssa_first_success_executes` |
 | Exponential sums have Erlang laws, derived by convolution | `sum_exponentials_erlang`, `ExponentialSum.lean` |
-| Infinite sum of actual validated RSSA branch laws equals the target | `rssa_validated_executable_law`, `RSSABranches.lean` |
-| Equality of all three executable marked time laws | `operational_samplers_same_marked_time_law`, `RealSamplerLaws.lean` |
+| Infinite sum of RSSA branch laws equals the target | `rssa_validated_executable_law`, `RSSABranches.lean` |
 | Actual capped RSSA failure probability `(1-A/B)^N` | `rssa_cap_failure_probability`, `RSSABranches.lean` |
-| Public full-graph NRM update executes fresh/rescaled/disabled clocks, including zero rates | `nrmUpdate_uniform_executes`, `NRMUpdate.lean` |
-| Actual positive-rate NRM update has independent exponential residual tails | `nrm_operational_update_invariant`, `NRMUpdate.lean` |
-| Full joint law of winner time and the actual updated residual vector | `nrm_actual_transition_full_law`, `NRMTransitionLaw.lean` |
-
-The cache invariant is derived at a random winning time from the primitive product measure, including the fired channel's independent fresh draw. Independence is not supplied as a hypothesis. A finite-vector measure extension theorem turns joint-tail identities into all-Borel residual laws.
-
-`MaskedTransition.lean` extends the full joint cache law to inactive, activated and deactivated channels. Inactive coordinates are unused independent ghost variables: the implementation stores `none`, draws no inactive initialization clock, and excludes them from the race. `masked_history_step_factorization` proves independence of the entire sampled past. `masked_cached_word_law` iterates the actual returned cache. `finite_masked_word_laws_equal` proves equality of all finite reaction-word measures with state-dependent nonnegative rates and positive total rates. These are cylinder laws. `NRMRawSupport.lean` proves that the primitive uniform history satisfies the actual strict winner branches almost everywhere. `NRMCompletedExecution.lean` constructs the native absolute cache and tape, including stopping at absorbing states. `NRMSimulationLaw.lean`, `DirectSimulationLaw.lean` and `RSSASimulationLaw.lean` compose primitive inputs with the public `simulate` function. `PathNormalization.lean` and `RSSAStoppingProbability.lean` prove total probability one, without normalizing successful branches by hand.
-
-`EndToEnd.lean` sums every reaction word with state-dependent rates. `native_simulation_law_eq_target` identifies each native simulator with the marked-exponential path pushforward. `direct_nrm_rssa_simulations_same_law` equates every measurable observable of their complete stopped traces, including terminal states/counts, recording choices, horizon stopping, absorbing states and event-limit outcomes. `native_simulation_probability` proves the common law is a probability measure. These results quantify over every finite event budget.
-
-RSSA equality uses the **unbounded first-success law**, expressed as a sum of successful-branch measures. Capped RSSA has a `proposalLimit` outcome. For valid bounds and `0 < A ≤ B`, its exact real failure mass after `N` proposals is `(1-A/B)^N`; this mass is not discarded or normalized away.
+| Full-graph NRM update executes fresh/rescaled/disabled clocks | `nrmUpdate_uniform_executes`, `NRMUpdate.lean` |
+| Joint law of winner time and updated residual vector, incl. inactive channels | `masked_transition_full_law`, `MaskedTransition.lean` |
+| Independence of the cache from the whole sampled past | `masked_history_step_factorization`, `MaskedCache.lean` |
+| Iterated cache law along every reaction word | `masked_cached_word_law`, `MaskedCache.lean` |
 
 ## FloatLib approximation
 
-`FloatApproximation.lean` proves actual binary64 half-ULP bounds for add, subtract, multiply, and divide, including subnormals under its finite-input/output conditions. It proves left-fold, clock-expression, and Gibson–Bruck rescaling budgets. Certified logarithm success gives its rounding bound; the ordinary logarithm has an a-posteriori bound against a successful certificate.
+`FloatApproximation.lean` proves binary64 half-ULP bounds for add, subtract, multiply
+and divide, including subnormals, under finite-input/output conditions. It also proves
+left-fold, clock-expression and Gibson–Bruck rescaling budgets. Certified logarithm
+success gives its rounding bound.
 
-Certificates constrain inputs, finite intermediates, numerical budgets, and branch margins. They do **not** assume output agreement.
+**Coupling.** `floatStreamTape ρu ρe a b ω` fills the FloatLib tape with `ρu (U i)`
+and `ρe (V i)`; the real tape holds `U i` and `-log (V i)`. The rounding maps are
+arbitrary functions `ℝ → Binary64`; their source error enters the certificates.
+Nothing depends on the reaction word.
 
-* `direct_float_certificate_refines` proves the complete float Direct call preserves the real mark and bounds the time error, including rounded propensity summation.
-* `direct_float_joint_tail_approx` proves actual float Direct joint-tail bounds under a coupling certified outside a bad set of mass `β`, with time error `δ` and `t ≥ δ`:
+**Certificate events.** Each event requires numerical conditions along the realized
+real word:
 
-  ```text
-  (a_i/A) exp(-A(t+δ)) ≤ P(T_f > t, I_f = i) + β
-  P(T_f > t, I_f = i) ≤ (a_i/A) exp(-A(t-δ)) + β.
-  ```
+* `directFloatGood` uses `DirectTrajectoryConditions` (propensity folds, source error,
+  CDF margins, finite clocks, accumulated budget, horizon margins).
+* `nrmFloatGood` uses `NRMTrajectoryConditions` (initial clocks, update rounding and
+  source budgets, finite caches, race gaps, horizon margins). The cache error
+  recurrence is proved by induction (`nrm_float_cache_errors`), not assumed.
+* `rssaFloatGood` uses `RSSATrajectoryConditions` (bound checks, every rejected and
+  accepted proposal comparison, clock folds, horizon margins). It also requires the
+  realized first-success blocks to fit in the cap.
 
-  The real target rates are the exact decoded binary64 inputs. Source error is included in the certificate; `β` is the probability of certificate failure.
-* `nrm_float_certificate_refines` proves actual float initialization/minimum preserve a winner when its clock gap exceeds twice the numerical budget, and bounds its time error. Source exponential errors are included.
-* `nrm_float_joint_tail_approx` gives the corresponding marked-time distribution envelopes for actual FloatLib NRM initialization and minimum selection.
-* `rssa_float_certificate_refines` proves a complete FloatLib RSSA call through every rejected proposal to the accepted event, on any suffix tape. Its bound includes rounded clock and upper-rate sums, source error, and selection/acceptance margins.
-* `chooseAux_float_margin`, `nrm_float_winner_approx`, and `rssa_float_accept_stable` prove stability of the actual CDF, minimum, and acceptance decisions.
-* `rssa_float_joint_tail_approx` completes the one-event RSSA distribution bound from its primitive first-success stopping input.
-* `NRMFloatTrajectory.lean` derives initialization and each subsequent cache error by induction. `NRMUpdateConditions` does not assume the preceding cache error; the proof supplies it to the one-step certificate.
-* `DirectFloatTrajectory.lean` and `RSSAFloatTrajectory.lean` accumulate local clock budgets through the actual public driver.
-* `FloatTrace.lean` covers all recorded timestamps, terminal states/counts, and matching error outcomes, with explicit horizon margins.
-* `FloatTrajectoryDistribution.lean` derives the three complete reaction-word distribution bounds from primitive inputs.
-* `float_simulations_approximate_same_real_law` sums every reaction word and compares any of the three native FloatLib simulators to any of the three real native simulators. `float_full_bad_mass_le_one` proves the total bad mass is at most one.
-* `recorded_trace_observables_close` supplies concrete observables: any recorded timestamp, together with terminal state/count/error outcomes.
+The certificates constrain inputs and evaluated expressions only. They contain no
+assumed sampler law and no output agreement.
 
-For a timestamp error budget `δ`, an observable error `ε`, and total certificate-failure mass `β`, the complete simulation theorem gives
+**Results.** On the certificate event, `*_float_iid_close` proves `TraceClose δ`
+between the two public simulators: same terminal state, event count and error
+outcome, every recorded state, and every timestamp within `δ`. If an observable
+changes by at most `ε` between `δ`-close traces, `*_float_iid_law_bounds` gives
 
 ```text
-P_real(T > t+ε, I=i) ≤ P_float(T > t, I=i) + β
-P_float(T > t, I=i) ≤ P_real(T > t-ε, I=i) + β.
+P_target(T > t+ε, I=i) ≤ P_float(T > t, I=i) + β
+P_float(T > t, I=i) ≤ P_target(T > t-ε, I=i) + β
 ```
 
-For any chosen recorded timestamp and the terminal state/count/error outcome, `ε = δ` is supplied by `recorded_trace_observables_close`. Direct and RSSA accumulate an initial error plus the local clock budgets. NRM uses the proved cache-error recurrence.
+Here `β` is the outer probability that the certificate fails, and `P_float` is the
+outer probability of the FloatLib event; no measurability of FloatLib outputs is
+needed. `P_target` is the law of the real Direct and NRM simulators on the same
+streams, with the decoded binary64 rates. `recorded_trace_observables_close` supplies
+concrete observables with `ε = δ`: any recorded timestamp, with the terminal
+state/count/error outcome.
 
 ## Theorem scope
 
-* The real end-to-end theorem assumes a fixed nonempty finite channel set, nonnegative state-dependent propensities, enclosing bounds and total indexed transitions matching the model. Rates remain constant between jumps. Inactive and absorbing states are included. Start is strictly before the horizon; equal endpoints are handled by the executable wrapper.
-* Exact RSSA equivalence uses unbounded first-success sampling. A sufficient finite transcript cap connects that law to the actual public driver. The fixed-cap executable can return `proposalLimit`; its one-event real error mass is exactly `(1-A/B)^N`. The float approximation retains capped branches in `β`.
-* The combined whole-trajectory float theorem assumes positive decoded propensities, finite checked intermediates, source-error budgets, and strict CDF/race/acceptance/horizon margins outside the stated bad set. The real reference rates are the exact decoded binary64 input propensities. One-step NRM update refinements also cover activated/deactivated/inactive clocks.
-* This is a certified coupling approximation. It does not assert that every model has a small `β`, or that SplitMix64 implements independent continuous uniforms. The implementation accepts explicit random sources and tapes; source approximation enters the numerical certificates.
-* The full end-to-end claim covers the finite public simulation API, universally in its event budget. No nonexplosion or infinite-time CTMC extension is claimed.
+* **Real.** A fixed nonempty finite channel set; nonnegative state-dependent
+  propensities; nonnegative enclosing bounds; total indexed transitions matching the
+  model. Inactive and absorbing states are included, as is every finite event budget.
+  `start < horizon`; the executable wrapper handles equal endpoints. Tapes must hold
+  enough draws:
+  * Direct: `a, b ≥ fuel+1`;
+  * NRM: `b ≥ (n+1)(fuel+1)`;
+  * RSSA with cap `N`: `a ≥ 2N(fuel+1)`, `b ≥ N(fuel+1)`.
+* **RSSA cap.** With a fixed cap the law is exact only off the cap-defect event, and the
+  public driver can return `proposalLimit`. The defect tends to zero
+  (`rssaCapDefect_tendsto_zero`). The one-event failure mass is `(1-A/B)^N`
+  (`rssa_cap_failure_probability`).
+* **FloatLib.** These are certified coupling bounds. Their quality depends on `β`, and
+  no theorem bounds `β` for a particular model. The certificates impose these scope
+  limits:
+  * NRM: all decoded rates positive along the certified word, so inactive channels are
+    not covered.
+  * Direct: a positive total rate at every certified step.
+  * RSSA: an accepted proposal at every certified step.
 
-There are no project proof placeholders, extra axioms, `native_decide`, or unsafe code. `Tests/Trust.lean` audits 114 principal results; the script permits only standard Lean `propext`, `Classical.choice`, and `Quot.sound`.
+  Words that reach an absorbing state within the event budget therefore count toward
+  `β`. The real reference rates are the exactly decoded binary64 propensities.
+* No nonexplosion or infinite-time CTMC extension is claimed.
+
+There are no project proof placeholders, extra axioms, `native_decide`, or unsafe
+code. `Tests/Trust.lean` audits 148 principal results. `scripts/audit.py` rejects
+forbidden tokens in all project sources and accepts only Lean's standard `propext`,
+`Classical.choice` and `Quot.sound`.
 
 ## Test evidence
 
 The successful logs are in `results/`.
 
-* Deterministic FloatLib fixtures cover zero rates, NRM fresh/rescaled/activated/disabled clocks, ties, duplicate dependencies, RSSA rejection-clock accumulation, malformed bounds, proposal exhaustion, mass action, and brackets.
+* Deterministic FloatLib fixtures cover:
+  * zero rates;
+  * NRM fresh/rescaled/activated/disabled clocks;
+  * ties and duplicate dependencies;
+  * RSSA rejection-clock accumulation;
+  * malformed bounds and proposal exhaustion;
+  * mass action and brackets.
 * 20,000 event samples per algorithm test the explicit `[1,3]` joint clock/mark law.
-* 8,000 trajectories per algorithm reproduce the upstream linear A→B scenario: 16 channels, A=100, rates 0.1 through 1.6, horizon 0.1, original tolerance 1.
-* Conservation, extinction, terminal horizon, and chronological traces are checked.
-* A Julia harness executes the pinned original algorithm bodies with 8 deterministic assertions. Integrator/random-tape/heap interfaces are stubbed; the full SciML suite was not run. Vendored sources retain the upstream MIT license.
+* 8,000 trajectories per algorithm reproduce the upstream linear A→B scenario:
+  16 channels, A=100, rates 0.1 through 1.6, horizon 0.1, original tolerance 1.
+* Conservation, extinction, terminal horizon and chronological traces are checked.
+* A Julia harness executes the pinned original algorithm bodies with 8 deterministic
+  assertions. Integrator, random-tape and heap interfaces are stubbed, and the full
+  SciML suite was not run. Vendored sources keep the upstream MIT license.
 
 | Algorithm | Mean (target 0.25) | Variance (target 0.0625) | P(channel 1), zero-based (target 0.75) | A→B mean (target 25.666078) |
 | --- | ---: | ---: | ---: | ---: |
@@ -127,4 +233,5 @@ The successful logs are in `results/`.
 * Mathlib: `5ed2965256430c3649e86755f9576b54eca72435`
 * Lean 4.34.0; Julia fixture runtime 1.11.7.
 
-The project is MIT licensed. Original upstream licensing is in `vendor/JumpProcesses.jl/LICENSE.md`.
+The project is MIT licensed. Upstream licensing is in
+`vendor/JumpProcesses.jl/LICENSE.md`.
