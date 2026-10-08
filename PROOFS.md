@@ -189,6 +189,61 @@ events. `iid_float_stop_failure_le` therefore bounds each new `β` by the old on
 
 No theorem bounds `β` numerically for a specific model.
 
+## Tree-RSSA (`TreeRSSA.lean`, `TreeRSSA/Gen*.lean`, `Proofs/TreeRSSA*.lean`)
+
+Tree-RSSA is RSSA on mass-action networks with JumpProcesses.jl's species population
+brackets and a binary sum tree over the upper propensity bounds. A species below its
+maximal reactant stoichiometry `maxStoich` gets the exact bracket `[n, n]`, so the upper
+total is positive exactly when some reaction is enabled. The specification
+`TreeRSSA.simulate op src net …` is generic in the arithmetic and the random source. It
+selects a candidate by descending the segment tree (`segSum`, `segDescend`), thins it
+with the lower and exact propensities, and accumulates one exponential per proposal.
+
+**In the reals.** For networks with in-range species and nonnegative rate constants
+(`ValidNetwork`) and an initial state whose brackets hold (`Bracketed`):
+
+* `segDescend_eq_weightedIndex`: the tree descent returns the index of the linear
+  cumulative search used by the public driver;
+* `treeRSSA_simulate_eq`: `TreeRSSA.simulate realArithmetic src` is the public
+  `simulate … .rssa` on the bracket model, for every random source `src`;
+* `bracketModel_consistency`: that model satisfies the driver's consistency conditions
+  (nonnegative rates, `lower ≤ rate ≤ upper`, enabled exactly when the upper bound is
+  positive), so all RSSA results above apply;
+* `tree_rssa_iid_capped_law`: on the IID streams, with proposal cap `N`, every event
+  probability is within the cap defect `δ_N` of the target stopped-path law;
+* `tree_rssa_tendsto_direct`: as `N → ∞`, every event probability converges to that
+  of the public Direct simulator (Gillespie's SSA) on the same streams.
+
+**On host floats.** `hostArithmetic` is Lean's `Float` and `hostSource` draws from
+xoshiro256++ (`HostFloat.lean`). Generation `K` is an optimized implementation in
+`TreeRSSA/GenK.lean`. `genK_simulate_eq` proves that, for every network whose reactant
+species are in range (`ReactantsInRange`) and every input, `GenK.simulate` returns
+exactly `TreeRSSA.simulate hostArithmetic hostSource` with the same arguments. These
+proofs reason about Lean's logical model of `Float` and use no floating-point identity:
+
+* the flat tree: `TreeOK` (leaves, and every internal node the sum of its children)
+  is established by `buildTree_ok` and preserved by `TreeOK.update`, `fixPath_spec`,
+  `fixUntil_spec` and `setBounds_spec`. `TreeOK.descend` shows the array descent is the
+  specification's `segDescend`; `treeOK_unique` shows the tree is determined by its
+  leaves and its unused slot `0`;
+* generations 1 to 3 maintain the cache invariant `CacheOK`: the lower bounds and the
+  tree of upper bounds of the specification state (`refresh_ok`, `gen2_refresh_ok`,
+  `gen3_refresh_ok`);
+* generation 4 reorganizes the control flow (`run_eq`, `start_eq`, no invariant);
+* generation 5's refresh returns exactly generation 3's cache (`gen5_refresh_eq`). A
+  skipped bound has an unchanged integer factor, and `evalAt_set` reads the old factor
+  from the updated arrays;
+* generations 6 to 10 are proved equal to their predecessors (`gen6_eq_gen5`,
+  `gen7_eq_gen6`, `gen8_eq_gen7`, `gen9_eq_gen8`, `gen10_eq_gen9`). Generation 7 uses
+  `isFinite_eq_lt`: a float is finite exactly when it lies strictly between the two
+  infinities, by the same case analysis in Lean's model of `compare` and `isFinite`.
+
+The trust base for executable Tree-RSSA is Lean's: compiled code runs the C
+implementations of the `@[extern]` float operations (including `log` from the C
+library) for the logical `Float` model. xoshiro256++ is a pseudo-random generator, and no
+theorem claims that its outputs are independent uniforms. The laws above are proved for
+ideal IID streams in the reals.
+
 ## Rounding and execution lemmas
 
 `binary64_add_eq_spec` and `binary64_div_eq_spec` identify the executable operations
@@ -205,7 +260,7 @@ bash scripts/verify.sh
 ```
 
 This builds the proofs, runs the native FloatLib test suite, audits the dependencies
-of the 176 results listed in `Tests/Trust.lean`, and runs the original pinned Julia
+of the 248 results listed in `Tests/Trust.lean`, and runs the original pinned Julia
 method fixtures. The audit permits only Lean's standard `propext`, `Classical.choice`
 and `Quot.sound`, and rejects `sorry`, `admit`, `axiom`, `unsafe` and `native_decide`
 in project sources.

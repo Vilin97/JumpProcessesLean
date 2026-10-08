@@ -21,7 +21,7 @@
   },
   "lean_proof_build": "passed",
   "proof_dependency_audits": {
-    "count": 176,
+    "count": 248,
     "result": "passed; only propext, Classical.choice, Quot.sound"
   },
   "executable_real_one_event_laws": "proved equal for all marked Borel time sets; NRM rates strictly positive; RSSA unbounded first-success law",
@@ -75,5 +75,13 @@
       "JumpProcessesLean.Proofs.rssa_float_iid_law_bounds"
     ],
     "comparison": "JumpProcessesLean.Proofs.iid_float_stop_failure_le"
+  },
+  "tree_rssa": {
+    "specification": "TreeRSSA.simulate: RSSA with population brackets and a binary sum tree over the upper bounds, generic in arithmetic and random source",
+    "real_correctness": "proved: treeRSSA_simulate_eq (equal to the public simulate .rssa on the bracket model), bracketModel_consistency, tree_rssa_iid_capped_law, tree_rssa_tendsto_direct",
+    "optimized_generations": "proved: gen1_simulate_eq ... gen10_simulate_eq, each generation equal bit for bit to TreeRSSA.simulate hostArithmetic hostSource on every network with in-range reactant species and every input",
+    "host_float_lemma": "proved: isFinite_eq_lt in Lean's logical Float model",
+    "trust": "compiled code trusts Lean's C implementations of the Float externs (including the C library log); xoshiro256++ outputs are not claimed IID",
+    "benchmark": "bench/results: julia.json (9 JumpProcesses.jl 9.33.1 aggregators), lean.json, generations.json, history.svg, generations.svg, summary.md"
   }
 }

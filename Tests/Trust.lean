@@ -246,3 +246,6 @@ import JumpProcessesLean
 #print axioms JumpProcessesLean.Proofs.gen9_run_eq
 #print axioms JumpProcessesLean.Proofs.gen9_eq_gen8
 #print axioms JumpProcessesLean.Proofs.gen9_simulate_eq
+#print axioms JumpProcessesLean.Proofs.gen10_run_eq
+#print axioms JumpProcessesLean.Proofs.gen10_eq_gen9
+#print axioms JumpProcessesLean.Proofs.gen10_simulate_eq
