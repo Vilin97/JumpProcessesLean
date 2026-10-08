@@ -95,6 +95,7 @@
     "lean-toolchain": "8733782dc070a99b312039cda424f601b80f3be6f6f512627da5ba25adc27632",
     "scripts/audit.py": "ede6a420cc22f3d6b5c0f1bcdbb1d1a8b756490db481698c6613faac2816a0d9",
     "scripts/bootstrap_dependencies.py": "5f5282ec6252cb6210cbafe7a5d9c73f7cd13b59c765f3a8e90aa63c9cfd04d0",
+    "scripts/source_hashes.py": "d895123955d2f955b69441248a973e50038d43642846c67a4cf7136dae395e99",
     "scripts/upstream_fixtures.jl": "39333b8cb5ffef94f86d5b4e7d057ac08d32635b812d08dd691f41ff83bfcb76",
     "scripts/verify.sh": "6da7a619e847b63b9fb04e86b2c6722fc7635a0721d148064310eda80a2dc58d",
     "vendor/JumpProcesses.jl/LICENSE.md": "940577a6068fc42a6a4cc9f637d27e863c6bb1011ebec0952c3205e647274451",
