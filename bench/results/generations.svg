@@ -12,14 +12,14 @@
 <line x1="80" x2="700" y1="60.0" y2="60.0"/>
 </g>
 <g font-size="12.5" fill="#555" font-family="Menlo, Consolas, monospace">
-<text x="72" y="474.0" text-anchor="end">1e1</text>
-<text x="72" y="415.4" text-anchor="end">1e2</text>
-<text x="72" y="356.9" text-anchor="end">1e3</text>
-<text x="72" y="298.3" text-anchor="end">1e4</text>
-<text x="72" y="239.7" text-anchor="end">1e5</text>
-<text x="72" y="181.1" text-anchor="end">1e6</text>
-<text x="72" y="122.6" text-anchor="end">1e7</text>
-<text x="72" y="64.0" text-anchor="end">1e8</text>
+<text x="72" y="474.0" text-anchor="end">10</text>
+<text x="72" y="415.4" text-anchor="end">100</text>
+<text x="72" y="356.9" text-anchor="end">1k</text>
+<text x="72" y="298.3" text-anchor="end">10k</text>
+<text x="72" y="239.7" text-anchor="end">100k</text>
+<text x="72" y="181.1" text-anchor="end">1M</text>
+<text x="72" y="122.6" text-anchor="end">10M</text>
+<text x="72" y="64.0" text-anchor="end">100M</text>
 <text x="80.0" y="488" text-anchor="middle">0</text>
 <text x="142.0" y="488" text-anchor="middle">1</text>
 <text x="204.0" y="488" text-anchor="middle">2</text>

@@ -96,7 +96,7 @@ def history(rates, meta):
     X0, X1, Y0, Y1 = 86, 690, 92, 584
     values = [v for row in rates.values() for v in row.values() if v > 0]
     lo = math.floor(math.log10(min(values)))
-    hi = math.ceil(math.log10(max(values)))
+    hi = math.ceil(math.log10(max(values))) + 1  # an empty top decade holds the caption
     xs = lambda n: X0 + (math.log10(n) - 1) / 4 * (X1 - X0)
     ys = lambda v: Y1 - (math.log10(v) - lo) / (hi - lo) * (Y1 - Y0)
     out = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" '
@@ -209,8 +209,8 @@ def history(rates, meta):
 
     def versus(r):
         if r >= 0.1:
-            return f"{r:.2f}× the speed of the fastest JumpProcesses.jl aggregator"
-        return f"1/{1 / r:,.0f} of the speed of the fastest JumpProcesses.jl aggregator"
+            return f"{r:.2f}× the speed of the fastest Julia aggregator"
+        return f"1/{1 / r:,.0f} of the speed of the fastest Julia aggregator"
 
     for k, (key, title) in enumerate(gens):
         ratio = geomean(rates[m]["lean:" + key] / best_julia[m] for m, _ in MODELS)
@@ -220,10 +220,10 @@ def history(rates, meta):
         out.append(f'<g opacity="0"><animate attributeName="opacity" values="{opac}" '
                    f'keyTimes="{key_times}" dur="{dur:.1f}s" repeatCount="indefinite" '
                    f'calcMode="discrete"/>'
-                   f'<text x="{X0 + 12}" y="{Y0 + 22}" font-size="15" font-weight="bold" '
+                   f'<text x="{X0 + 12}" y="{Y0 + 18}" font-size="15" font-weight="bold" '
                    f'fill="{TREE}">Tree-RSSA generation {k}</text>'
-                   f'<text x="{X0 + 12}" y="{Y0 + 40}" font-size="12.5" fill="#333">{title}</text>'
-                   f'<text x="{X0 + 12}" y="{Y0 + 57}" font-size="12.5" fill="#333">'
+                   f'<text x="{X0 + 12}" y="{Y0 + 34}" font-size="12" fill="#333">{title}</text>'
+                   f'<text x="{X0 + 12}" y="{Y0 + 49}" font-size="12" fill="#333">'
                    f'{versus(ratio) + (f"; {gain:,.0f}× generation 0" if k else "")}'
                    f' (geometric mean{"s" if k else ""})</text></g>')
     # legend
@@ -292,8 +292,11 @@ def generations_svg(rates):
         out.append(f'<line x1="{X0}" x2="{X1}" y1="{ys(10 ** d):.1f}" y2="{ys(10 ** d):.1f}"/>')
     out.append("</g>")
     out.append('<g font-size="12.5" fill="#555" font-family="Menlo, Consolas, monospace">')
+    names = {0: "1", 1: "10", 2: "100", 3: "1k", 4: "10k", 5: "100k", 6: "1M", 7: "10M",
+             8: "100M", 9: "1G"}
     for d in range(lo, hi + 1):
-        out.append(f'<text x="{X0 - 8}" y="{ys(10 ** d) + 4:.1f}" text-anchor="end">1e{d}</text>')
+        out.append(f'<text x="{X0 - 8}" y="{ys(10 ** d) + 4:.1f}" text-anchor="end">'
+                   f'{names.get(d, f"1e{d}")}</text>')
     for i in range(len(gens)):
         out.append(f'<text x="{xs(i):.1f}" y="{Y1 + 18}" text-anchor="middle">{i}</text>')
     out.append("</g>")
@@ -392,11 +395,9 @@ def head_to_head_svg(rows):
                    f'<text x="{X0 + i * gw + gw / 2:.1f}" y="{Y1 + 36}" text-anchor="middle" '
                    f'font-size="11" fill="#777">vs {r["best_julia"].split(":")[1]} '
                    f'{r["julia"]:.3g}/s</text>')
-    LX = X0
-    for key, label, color in series:
+    for (key, label, color), LX in zip(series, [X0, X0 + 330, X0 + 600]):
         out.append(f'<rect x="{LX}" y="{H - 34}" width="14" height="14" fill="{color}"/>'
                    f'<text x="{LX + 20}" y="{H - 22}" font-size="12.5" fill="#222">{label}</text>')
-        LX += 270
     out.append("</svg>")
     return "\n".join(out) + "\n"
 

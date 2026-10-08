@@ -30,6 +30,6 @@
 <rect x="800.1" y="308.0" width="30.8" height="72.0" fill="#999999"/><text x="815.5" y="303.0" text-anchor="middle" font-size="11" fill="#333">0.35</text>
 <text x="783.0" y="400" text-anchor="middle" font-size="13" fill="#222">fcεRI γ2</text><text x="783.0" y="416" text-anchor="middle" font-size="11" fill="#777">vs RSSACR 1.77e+06/s</text>
 <rect x="90" y="436" width="14" height="14" fill="#c0392b"/><text x="110" y="448" font-size="12.5" fill="#222">Lean Tree-RSSA, generation 10 (proved)</text>
-<rect x="360" y="436" width="14" height="14" fill="#444444"/><text x="380" y="448" font-size="12.5" fill="#222">same algorithm in C (unverified)</text>
-<rect x="630" y="436" width="14" height="14" fill="#999999"/><text x="650" y="448" font-size="12.5" fill="#222">Lean port of RSSACR</text>
+<rect x="420" y="436" width="14" height="14" fill="#444444"/><text x="440" y="448" font-size="12.5" fill="#222">same algorithm in C (unverified)</text>
+<rect x="690" y="436" width="14" height="14" fill="#999999"/><text x="710" y="448" font-size="12.5" fill="#222">Lean port of RSSACR</text>
 </svg>
