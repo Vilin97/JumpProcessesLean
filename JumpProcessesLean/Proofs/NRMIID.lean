@@ -511,6 +511,185 @@ lemma nrmParse_init_tape {n : ℕ} (rr : ℕ → Fin (n + 1) → ℝ) (marks : �
   simp only [zero_add] at h
   exact h
 
+/-! ### NRM reaction-word branches of the IID streams -/
+
+section NRMWords
+
+variable {σ : Type} {n : ℕ} (transition : σ → Fin (n + 1) → σ)
+  (rates : σ → Fin (n + 1) → ℝ) (initial : σ)
+
+/-- Primitive NRM rows read along a reaction word. -/
+noncomputable def nrmWordParse {K : ℕ} (w : Fin K → Fin (n + 1)) : Streams → NRMRawInput n K :=
+  nrmParse (fun l => rates (stateAlongWord transition initial (extendMarks w) l)) (extendMarks w) K
+
+/-- The streams realize reaction word `w` under the native strict NRM race. -/
+noncomputable def nrmWordEvent {K : ℕ} (w : Fin K → Fin (n + 1)) : Set Streams :=
+  nrmWordParse transition rates initial w ⁻¹'
+    {p | NRMRawGood (fun l => completedRates (rates (stateAlongWord transition initial (extendMarks w) l)))
+      (extendMarks w) K p}
+
+lemma measurableSet_nrmWordEvent {K : ℕ} (w : Fin K → Fin (n + 1)) :
+    MeasurableSet (nrmWordEvent transition rates initial w) :=
+  measurable_nrmParse _ _ K (measurable_NRMRawGood _ _ K)
+
+lemma nrmWordEvent_branch {K : ℕ} (w : Fin K → Fin (n + 1)) :
+    (iidStreams.restrict (nrmWordEvent transition rates initial w)).map
+      (nrmWordParse transition rates initial w) =
+      nrmRawPathLaw (fun l => completedRates (rates (stateAlongWord transition initial (extendMarks w) l)))
+        (extendMarks w) K := by
+  unfold nrmWordEvent nrmWordParse
+  rw [← Measure.restrict_map (measurable_nrmParse _ _ K) (measurable_NRMRawGood _ _ K), nrmParse_law,
+    nrmRawPathLaw_eq_restrict]
+
+lemma nrmWord_holding_law (hr : ∀ x j, 0 ≤ rates x j) {K : ℕ} (w : Fin K → Fin (n + 1)) :
+    (nrmRawPathLaw (fun l => completedRates (rates (stateAlongWord transition initial (extendMarks w) l)))
+        (extendMarks w) K).map (fun p => (nrmRawHistory
+          (fun l => completedRates (rates (stateAlongWord transition initial (extendMarks w) l)))
+          (extendMarks w) K p).1) =
+      targetWordLaw (fun l => completedRates (rates (stateAlongWord transition initial (extendMarks w) l)))
+        (extendMarks w) K :=
+  nrm_raw_holding_times_law _ (fun l => completedRates_nonnegative _ (fun j => hr _ j)) _ K
+
+lemma nrmWordEvent_mass (hr : ∀ x j, 0 ≤ rates x j) {K : ℕ} (w : Fin K → Fin (n + 1)) :
+    iidStreams (nrmWordEvent transition rates initial w) = pathWordWeight transition rates initial w := by
+  have hmhist := (measurable_nrmRawHistory
+    (fun l => completedRates (rates (stateAlongWord transition initial (extendMarks w) l)))
+    (extendMarks w) K).fst
+  have h1 : iidStreams (nrmWordEvent transition rates initial w) =
+      ((iidStreams.restrict (nrmWordEvent transition rates initial w)).map
+        (nrmWordParse transition rates initial w)) univ := by
+    rw [Measure.map_apply (f := nrmWordParse transition rates initial w) (measurable_nrmParse _ _ K)
+      MeasurableSet.univ, preimage_univ, Measure.restrict_apply_univ]
+  rw [h1, nrmWordEvent_branch, ← preimage_univ (f := fun p => (nrmRawHistory
+      (fun l => completedRates (rates (stateAlongWord transition initial (extendMarks w) l)))
+      (extendMarks w) K p).1),
+    ← Measure.map_apply hmhist MeasurableSet.univ, nrmWord_holding_law _ _ _ hr,
+    target_word_mass _ (fun l => completedRates_positive_total _)]
+  unfold pathWordWeight
+  apply Finset.prod_congr rfl
+  intro q _
+  simp only [extendMarks, q.isLt, dite_true]
+
+lemma nrmWordEvent_total (hr : ∀ x j, 0 ≤ rates x j) (K : ℕ) :
+    ∑ w : Fin K → Fin (n + 1), iidStreams (nrmWordEvent transition rates initial w) = 1 := by
+  simp_rw [nrmWordEvent_mass _ _ _ hr]
+  exact path_word_weights_normalize transition rates hr K initial
+
+lemma nrmWordEvent_disjoint (K : ℕ) :
+    Pairwise (Function.onFun Disjoint
+      (fun w : Fin K → Fin (n + 1) => nrmWordEvent transition rates initial w)) := by
+  intro w w' hww
+  rw [Function.onFun, Set.disjoint_left]
+  intro ω hω hω'
+  apply hww
+  apply words_eq_of_sequential_choice
+  intro l hl hprev
+  let rr := fun (v : Fin K → Fin (n + 1)) l => rates (stateAlongWord transition initial (extendMarks v) l)
+  let cr := fun (v : Fin K → Fin (n + 1)) l => completedRates (rr v l)
+  let parse := fun (v : Fin K → Fin (n + 1)) => nrmWordParse transition rates initial v ω
+  have hmarks : ∀ j, j < l → extendMarks w j = extendMarks w' j :=
+    extendMarks_agree w w' l (fun j hj hjK => hprev j hj)
+  have hstates : ∀ m, m ≤ l → stateAlongWord transition initial (extendMarks w) m =
+      stateAlongWord transition initial (extendMarks w') m := fun m hm =>
+    stateAlongWord_congr transition initial _ _ m (fun j hj => hmarks j (by omega))
+  have hrr : ∀ m, m ≤ l → rr w m = rr w' m := fun m hm => by
+    simp only [rr, hstates m hm]
+  have hcr' : ∀ m, m ≤ l → cr w m = cr w' m := fun m hm => by
+    simp only [cr, hrr m hm]
+  have hreaders : ∀ m, m < l → nrmStepReaders (rr w) (extendMarks w) m =
+      nrmStepReaders (rr w') (extendMarks w') m := by
+    intro m hm
+    simp only [nrmStepReaders, hrr m (by omega), hrr (m + 1) (by omega), hmarks m hm]
+  have hinit : (parse w).1 = (parse w').1 := by
+    simp only [parse, nrmWordParse, nrmParse]
+    rw [show rates (stateAlongWord transition initial (extendMarks w) 0) =
+      rates (stateAlongWord transition initial (extendMarks w') 0) from hrr 0 (Nat.zero_le _)]
+  have hrows : ∀ m, m < l → nrmRawFresh (parse w) m = nrmRawFresh (parse w') m := by
+    intro m hm
+    have hmK : m < K := by omega
+    have hsum : ∑ i ∈ Finset.range m, nrmStepCount (rr w) (extendMarks w) i =
+        ∑ i ∈ Finset.range m, nrmStepCount (rr w') (extendMarks w') i := by
+      apply Finset.sum_congr rfl
+      intro i hi
+      simp only [Finset.mem_range] at hi
+      simp only [nrmStepCount]
+      rw [hrr i (by omega), hrr (i + 1) (by omega), hmarks i (by omega)]
+    have h0 : rr w 0 = rr w' 0 := hrr 0 (Nat.zero_le _)
+    simp only [parse, nrmWordParse]
+    rw [nrmParse_fresh _ _ K ω m hmK, nrmParse_fresh _ _ K ω m hmK]
+    change (nrmStepReaders (rr w) (extendMarks w) m).read
+        (streamsDrop (∑ i ∈ Finset.range m, (n + 1)) (∑ i ∈ Finset.range m, nrmStepCount (rr w) (extendMarks w) i)
+          ((nrmInitReader (rr w 0)).rest ω)) =
+      (nrmStepReaders (rr w') (extendMarks w') m).read
+        (streamsDrop (∑ i ∈ Finset.range m, (n + 1)) (∑ i ∈ Finset.range m, nrmStepCount (rr w') (extendMarks w') i)
+          ((nrmInitReader (rr w' 0)).rest ω))
+    rw [hreaders m hm, hsum, h0]
+  have hcache : nrmScheduleCache (cr w) (extendMarks w) (parse w).1 (nrmRawFresh (parse w)) l =
+      nrmScheduleCache (cr w') (extendMarks w') (parse w').1 (nrmRawFresh (parse w')) l := by
+    rw [hinit]
+    exact nrmScheduleCache_congr _ _ _ _ _ _ _ l hcr' hmarks hrows
+  have h1 := nrm_raw_schedule_winners (cr w) (extendMarks w) (parse w) hω l hl
+  have h2 := nrm_raw_schedule_winners (cr w') (extendMarks w') (parse w') hω' l hl
+  rw [hcache, hcr' l (le_refl l)] at h1
+  have hmw : extendMarks w l = w ⟨l, hl⟩ := by simp [extendMarks, hl]
+  have hmw' : extendMarks w' l = w' ⟨l, hl⟩ := by simp [extendMarks, hl]
+  rw [hmw] at h1
+  rw [hmw'] at h2
+  by_contra hne
+  have hlt1 := h1.2.2 (w' ⟨l, hl⟩) (Ne.symm hne) h2.1
+  have hlt2 := h2.2.2 (w ⟨l, hl⟩) hne h1.1
+  linarith
+
+end NRMWords
+
+/-- On every realized NRM word, the public driver executes the stream transcript. -/
+theorem nrm_stream_driver_executes {σ : Type} {n : Nat}
+    (model : Model ℝ σ) (transition : σ → Fin (n + 1) → σ)
+    (rates lower upper : σ → Fin (n + 1) → ℝ)
+    (C : ModelConsistency model transition rates lower upper)
+    (initial : σ) (start horizon : ℝ) (hstart : start < horizon)
+    (fuel cap : Nat) (saveEvents : Bool) (a b : Nat) (hb : (n + 1) * (fuel + 1) ≤ b)
+    (w : Fin (fuel + 1) → Fin (n + 1)) (ω : Streams)
+    (hE : ω ∈ nrmWordEvent transition rates initial w) :
+    observeRun (simulate realArithmetic (tapeSource ℝ) model .nrm initial start horizon
+      (streamTape a b ω) fuel saveEvents cap) =
+    holdingSimulationObservation model (stateAlongWord transition initial (extendMarks w))
+      (fun l => rates (stateAlongWord transition initial (extendMarks w) l)) (extendMarks w) start horizon
+      fuel saveEvents ((nrmRawHistory
+        (fun l => completedRates (rates (stateAlongWord transition initial (extendMarks w) l)))
+        (extendMarks w) (fuel + 1) (nrmWordParse transition rates initial w ω)).1) := by
+  let states := stateAlongWord transition initial (extendMarks w)
+  let rr := fun l => rates (states l)
+  let parse := nrmWordParse transition rates initial w ω
+  let c0 := freshCount (n + 1) (freshPattern (fun _ => 0) (rr 0) 0 0)
+  let S := ∑ i ∈ Finset.range fuel, nrmStepCount rr (extendMarks w) i
+  have hc0 : c0 ≤ n + 1 := freshCount_le _ _
+  have hS : S ≤ (n + 1) * fuel := by
+    calc S ≤ ∑ i ∈ Finset.range fuel, (n + 1) :=
+          Finset.sum_le_sum (fun i _ => freshCount_le _ _)
+      _ = (n + 1) * fuel := by simp [mul_comm]
+  have hMb : c0 + S ≤ b := by nlinarith
+  obtain ⟨rest, hrest⟩ := Nat.exists_eq_add_of_le hMb
+  have hω0 : (nrmInitReader (rr 0)).rest ω = streamsDrop (n + 1) c0 ω := rfl
+  have hsched := nrmParse_schedule_tape rr (extendMarks w) (fuel + 1) ω c0 hω0 fuel 0 (by omega)
+  simp only [Finset.range_zero, Finset.sum_empty, add_zero, zero_add] at hsched
+  have htape : streamTape a b ω =
+      ⟨List.ofFn (fun i : Fin a => ω (.inl i)),
+        nrmFreshExponentials (fun _ => 0) (rr 0) parse.1 0 0 ++
+          (nrmScheduleTape rr (extendMarks w) (nrmRawFresh parse) 0 fuel ++
+            (List.range rest).map (fun r => -log (ω (.inr (c0 + S + r)))))⟩ := by
+    simp only [streamTape, parse, nrmWordParse]
+    congr 1
+    rw [nrmParse_init_tape, hsched, ofFn_eq_range_map b (fun i => -log (ω (.inr i))), hrest,
+      List.range_add, List.range_add, List.map_append, List.map_append, List.map_map,
+      List.map_map, List.append_assoc]
+    rfl
+  have hinit : initial = states 0 := rfl
+  rw [htape, hinit, nrm_completed_driver_executes_from model states rr (extendMarks w)
+    (fun l j => C.nonnegative _ j) (fun l => C.rates_eq _) (fun l => C.transition_eq _ _)
+    start horizon hstart fuel cap saveEvents parse hE]
+  rfl
+
 /-- The actual NRM simulation on IID streams, with persistent absolute clocks,
 inactive channels and fresh/rescaled updates, has the target stopped law. -/
 theorem nrm_iid_simulation_law {σ X : Type} [MeasurableSpace X] {n : Nat}
@@ -528,139 +707,38 @@ theorem nrm_iid_simulation_law {σ X : Type} [MeasurableSpace X] {n : Nat}
     iidStreams.map (fun ω => observable (observeRun (simulate realArithmetic (tapeSource ℝ)
       model .nrm initial start horizon (streamTape a b ω) fuel saveEvents cap))) =
     targetSimulationLaw model transition rates initial start horizon fuel saveEvents observable := by
-  set K := fuel + 1 with hK
-  let states : (Fin K → Fin (n + 1)) → Nat → σ := fun w =>
-    stateAlongWord transition initial (extendMarks w)
-  let rr : (Fin K → Fin (n + 1)) → Nat → Fin (n + 1) → ℝ := fun w l => rates (states w l)
-  let cr : (Fin K → Fin (n + 1)) → Nat → Fin (n + 1) → ℝ := fun w l => completedRates (rr w l)
-  let parse : (Fin K → Fin (n + 1)) → Streams → NRMRawInput n K := fun w =>
-    nrmParse (rr w) (extendMarks w) K
-  have hparse : ∀ w, Measurable (parse w) := fun w => measurable_nrmParse _ _ K
-  let E : (Fin K → Fin (n + 1)) → Set Streams := fun w =>
-    parse w ⁻¹' {p | NRMRawGood (cr w) (extendMarks w) K p}
-  have hE : ∀ w, MeasurableSet (E w) := fun w =>
-    hparse w (measurable_NRMRawGood _ _ K)
-  have hbranch : ∀ w, (iidStreams.restrict (E w)).map (parse w) =
-      nrmRawPathLaw (cr w) (extendMarks w) K := by
-    intro w
-    rw [← Measure.restrict_map (hparse w) (measurable_NRMRawGood _ _ K), nrmParse_law,
-      nrmRawPathLaw_eq_restrict]
-  have hcr : ∀ w l j, 0 ≤ cr w l j := fun w l =>
-    completedRates_nonnegative _ (fun j => C.nonnegative _ j)
-  have hholding : ∀ w, (nrmRawPathLaw (cr w) (extendMarks w) K).map
-      (fun p => (nrmRawHistory (cr w) (extendMarks w) K p).1) =
-      targetWordLaw (cr w) (extendMarks w) K := fun w =>
-    nrm_raw_holding_times_law (cr w) (hcr w) (extendMarks w) K
-  have hmhist : ∀ w, Measurable (fun p => (nrmRawHistory (cr w) (extendMarks w) K p).1) :=
-    fun w => (measurable_nrmRawHistory _ _ K).fst
-  -- The words partition the probability space.
-  have hmass : ∑ w, iidStreams (E w) = 1 := by
-    have hw : ∀ w, iidStreams (E w) = pathWordWeight transition rates initial w := by
-      intro w
-      have h1 : iidStreams (E w) = ((iidStreams.restrict (E w)).map (parse w)) univ := by
-        rw [Measure.map_apply (hparse w) MeasurableSet.univ, preimage_univ,
-          Measure.restrict_apply_univ]
-      rw [h1, hbranch, ← preimage_univ (f := fun p => (nrmRawHistory (cr w) (extendMarks w) K p).1),
-        ← Measure.map_apply (hmhist w) MeasurableSet.univ, hholding,
-        target_word_mass _ (fun l => completedRates_positive_total _)]
-      unfold pathWordWeight
-      apply Finset.prod_congr rfl
-      intro q _
-      simp only [extendMarks, q.isLt, dite_true, cr, rr, states]
-    simp_rw [hw]
-    exact path_word_weights_normalize transition rates C.nonnegative K initial
-  have hdisj : Pairwise (Function.onFun Disjoint E) := by
-    intro w w' hww
-    rw [Function.onFun, Set.disjoint_left]
-    intro ω hω hω'
-    apply hww
-    apply words_eq_of_sequential_choice
-    intro l hl hprev
-    have hmarks : ∀ j, j < l → extendMarks w j = extendMarks w' j :=
-      extendMarks_agree w w' l (fun j hj hjK => hprev j hj)
-    have hstates : ∀ m, m ≤ l → states w m = states w' m := fun m hm =>
-      stateAlongWord_congr transition initial _ _ m (fun j hj => hmarks j (by omega))
-    have hrr : ∀ m, m ≤ l → rr w m = rr w' m := fun m hm => by
-      simp only [rr, hstates m hm]
-    have hcr' : ∀ m, m ≤ l → cr w m = cr w' m := fun m hm => by
-      simp only [cr, hrr m hm]
-    have hreaders : ∀ m, m < l → nrmStepReaders (rr w) (extendMarks w) m =
-        nrmStepReaders (rr w') (extendMarks w') m := by
-      intro m hm
-      simp only [nrmStepReaders, hrr m (by omega), hrr (m + 1) (by omega), hmarks m hm]
-    have hinit : (parse w ω).1 = (parse w' ω).1 := by
-      simp only [parse, nrmParse, hrr 0 (Nat.zero_le _)]
-    have hrows : ∀ m, m < l → nrmRawFresh (parse w ω) m = nrmRawFresh (parse w' ω) m := by
-      intro m hm
-      have hmK : m < K := by omega
-      simp only [parse]
-      rw [nrmParse_fresh _ _ K ω m hmK, nrmParse_fresh _ _ K ω m hmK, hreaders m hm,
-        hrr 0 (Nat.zero_le _)]
-      congr 2
-      apply Finset.sum_congr rfl
-      intro i hi
-      simp only [nrmStepCount, Finset.mem_range] at hi ⊢
-      rw [hrr i (by omega), hrr (i + 1) (by omega), hmarks i (by omega)]
-    have hcache : nrmScheduleCache (cr w) (extendMarks w) (parse w ω).1 (nrmRawFresh (parse w ω)) l =
-        nrmScheduleCache (cr w') (extendMarks w') (parse w' ω).1 (nrmRawFresh (parse w' ω)) l := by
-      rw [hinit]
-      exact nrmScheduleCache_congr _ _ _ _ _ _ _ l hcr' hmarks hrows
-    have h1 := nrm_raw_schedule_winners (cr w) (extendMarks w) (parse w ω) hω l hl
-    have h2 := nrm_raw_schedule_winners (cr w') (extendMarks w') (parse w' ω) hω' l hl
-    rw [hcache, hcr' l (le_refl l)] at h1
-    have hmw : extendMarks w l = w ⟨l, hl⟩ := by simp [extendMarks, hl]
-    have hmw' : extendMarks w' l = w' ⟨l, hl⟩ := by simp [extendMarks, hl]
-    rw [hmw] at h1
-    rw [hmw'] at h2
-    by_contra hne
-    have hlt1 := h1.2.2 (w' ⟨l, hl⟩) (Ne.symm hne) h2.1
-    have hlt2 := h2.2.2 (w ⟨l, hl⟩) hne h1.1
-    linarith
-  -- Pointwise execution of the public driver on each word branch.
-  let G : (Fin K → Fin (n + 1)) → Streams → X := fun w ω =>
-    observable (holdingSimulationObservation model (states w) (rr w) (extendMarks w) start horizon
-      fuel saveEvents ((nrmRawHistory (cr w) (extendMarks w) K (parse w ω)).1))
-  have hG : ∀ w, Measurable (G w) := fun w => (hobs w).comp ((hmhist w).comp (hparse w))
+  let E := fun w : Fin (fuel + 1) → Fin (n + 1) => nrmWordEvent transition rates initial w
+  let hist := fun (w : Fin (fuel + 1) → Fin (n + 1)) (p : NRMRawInput n (fuel + 1)) =>
+    (nrmRawHistory (fun l => completedRates (rates (stateAlongWord transition initial (extendMarks w) l)))
+      (extendMarks w) (fuel + 1) p).1
+  have hmhist : ∀ w, Measurable (hist w) := fun w => (measurable_nrmRawHistory _ _ _).fst
+  let G := fun (w : Fin (fuel + 1) → Fin (n + 1)) (ω : Streams) =>
+    observable (holdingSimulationObservation model (stateAlongWord transition initial (extendMarks w))
+      (fun l => rates (stateAlongWord transition initial (extendMarks w) l)) (extendMarks w) start horizon
+      fuel saveEvents (hist w (nrmWordParse transition rates initial w ω)))
+  have hparse : ∀ w : Fin (fuel + 1) → Fin (n + 1),
+      Measurable (nrmWordParse transition rates initial w) := fun w =>
+    measurable_nrmParse (fun l => rates (stateAlongWord transition initial (extendMarks w) l))
+      (extendMarks w) (fuel + 1)
+  have hG : ∀ w, Measurable (G w) := fun w =>
+    (hobs w).comp ((hmhist w).comp (hparse w))
   have hFG : ∀ w, ∀ᵐ ω ∂iidStreams, ω ∈ E w →
       observable (observeRun (simulate realArithmetic (tapeSource ℝ) model .nrm initial start
         horizon (streamTape a b ω) fuel saveEvents cap)) = G w ω := by
     intro w
-    refine Filter.Eventually.of_forall (fun ω hEw => ?_)
-    let c0 := freshCount (n + 1) (freshPattern (fun _ => 0) (rr w 0) 0 0)
-    let S := ∑ i ∈ Finset.range fuel, nrmStepCount (rr w) (extendMarks w) i
-    have hc0 : c0 ≤ n + 1 := freshCount_le _ _
-    have hS : S ≤ (n + 1) * fuel := by
-      calc S ≤ ∑ i ∈ Finset.range fuel, (n + 1) :=
-            Finset.sum_le_sum (fun i _ => freshCount_le _ _)
-        _ = (n + 1) * fuel := by simp [mul_comm]
-    have hMb : c0 + S ≤ b := by nlinarith
-    obtain ⟨rest, hrest⟩ := Nat.exists_eq_add_of_le hMb
-    have hω0 : (nrmInitReader (rr w 0)).rest ω = streamsDrop (n + 1) c0 ω := rfl
-    have hsched := nrmParse_schedule_tape (rr w) (extendMarks w) K ω c0 hω0 fuel 0 (by omega)
-    simp only [Finset.range_zero, Finset.sum_empty, add_zero, zero_add] at hsched
-    have htape : streamTape a b ω =
-        ⟨List.ofFn (fun i : Fin a => ω (.inl i)),
-          nrmFreshExponentials (fun _ => 0) (rr w 0) (parse w ω).1 0 0 ++
-            (nrmScheduleTape (rr w) (extendMarks w) (nrmRawFresh (parse w ω)) 0 fuel ++
-              (List.range rest).map (fun r => -log (ω (.inr (c0 + S + r)))))⟩ := by
-      simp only [streamTape, parse]
-      congr 1
-      rw [nrmParse_init_tape, hsched, ofFn_eq_range_map b (fun i => -log (ω (.inr i))), hrest,
-        List.range_add, List.range_add, List.map_append, List.map_append, List.map_map,
-        List.map_map, List.append_assoc]
-      rfl
-    have hinit : initial = states w 0 := rfl
-    simp only [G]
-    rw [htape, hinit, nrm_completed_driver_executes_from model (states w) (rr w) (extendMarks w)
-      (fun l j => C.nonnegative _ j) (fun l => C.rates_eq _) (fun l => C.transition_eq _ _)
-      start horizon hstart fuel cap saveEvents (parse w ω) hEw]
-  rw [iid_word_decomposition E hE hdisj hmass _ G hG hFG]
+    exact Filter.Eventually.of_forall (fun ω hE => congrArg observable
+      (nrm_stream_driver_executes model transition rates lower upper C initial start horizon hstart
+        fuel cap saveEvents a b hb w ω hE))
+  rw [iid_word_decomposition E (fun w => measurableSet_nrmWordEvent _ _ _ w)
+    (nrmWordEvent_disjoint _ _ _ (fuel + 1)) (nrmWordEvent_total _ _ _ C.nonnegative (fuel + 1))
+    _ G hG hFG]
   unfold targetSimulationLaw
   congr 1
   funext w
-  have h1 := Measure.map_map (μ := iidStreams.restrict (E w)) (hobs w) ((hmhist w).comp (hparse w))
+  have h1 := Measure.map_map (μ := iidStreams.restrict (E w)) (hobs w)
+    ((hmhist w).comp (hparse w))
   have h2 := Measure.map_map (μ := iidStreams.restrict (E w)) (hmhist w) (hparse w)
-  rw [← h2, hbranch, hholding] at h1
+  rw [← h2, nrmWordEvent_branch, nrmWord_holding_law _ _ _ C.nonnegative] at h1
   exact h1.symm
 
 end JumpProcessesLean.Proofs

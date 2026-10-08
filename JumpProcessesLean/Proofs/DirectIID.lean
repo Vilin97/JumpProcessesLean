@@ -94,6 +94,178 @@ lemma directPacketTape_eq {n : Nat} {σ : Type} (model : Model ℝ σ) (states :
       List.cons_append, List.nil_append]
     simp only [Nat.add_assoc, Nat.add_comm 1]
 
+/-! ### Direct reaction-word branches of the IID streams -/
+
+section DirectWords
+
+variable {σ : Type} {n : ℕ} (transition : σ → Fin (n + 1) → σ)
+  (rates : σ → Fin (n + 1) → ℝ) (initial : σ)
+
+/-- Direct primitive packets read from the streams, most recent first. -/
+noncomputable def directParse (K : ℕ) (ω : Streams) : Fin K → ℝ × ℝ :=
+  (readerParse (fun _ => directReader) K ω).1
+
+lemma measurable_directParse (K : ℕ) : Measurable (directParse K) :=
+  (measurable_readerParse _ K).fst
+
+lemma directParse_law (K : ℕ) :
+    iidStreams.map (directParse K) = rawWordLaw (fun _ => unitUniform.prod unitUniform) K := by
+  have h := congrArg (fun μ => μ.map Prod.fst) (readerParse_law (fun _ => directReader) K)
+  simp only [Measure.map_map measurable_fst (measurable_readerParse _ K)] at h
+  rw [Measure.map_fst_prod, measure_univ, one_smul] at h
+  have hp : directParse K = Prod.fst ∘ readerParse (fun _ => directReader) K := rfl
+  rw [hp, h]
+  simp only [directReader_law]
+
+/-- The selection uniform of step `l` chooses the `l`th reaction of `w`. -/
+noncomputable def directBranchSet {K : ℕ} (w : Fin K → Fin (n + 1)) (l : ℕ) : Set (ℝ × ℝ) :=
+  {x | selection (List.ofFn (completedRates (rates (stateAlongWord transition initial (extendMarks w) l))))
+    x.2 = some (extendMarks w l).val}
+
+lemma measurableSet_directBranchSet {K : ℕ} (w : Fin K → Fin (n + 1)) (l : ℕ) :
+    MeasurableSet (directBranchSet transition rates initial w l) :=
+  ((measurable_chooseAux _ _ _).comp (measurable_snd.mul_const _)) (measurableSet_singleton _)
+
+/-- The streams realize reaction word `w` under the Direct method. -/
+noncomputable def directWordEvent {K : ℕ} (w : Fin K → Fin (n + 1)) : Set Streams :=
+  directParse K ⁻¹' (Set.univ.pi (fun q : Fin K => directBranchSet transition rates initial w (K - 1 - q)))
+
+lemma measurableSet_directWordEvent {K : ℕ} (w : Fin K → Fin (n + 1)) :
+    MeasurableSet (directWordEvent transition rates initial w) :=
+  measurable_directParse K (MeasurableSet.univ_pi (fun q => measurableSet_directBranchSet _ _ _ w _))
+
+lemma directWordEvent_branch {K : ℕ} (w : Fin K → Fin (n + 1)) :
+    (iidStreams.restrict (directWordEvent transition rates initial w)).map (directParse K) =
+      rawWordLaw (fun l => directPacketInputs (rates (stateAlongWord transition initial (extendMarks w) l))
+        (extendMarks w l)) K := by
+  unfold directWordEvent
+  rw [← Measure.restrict_map (measurable_directParse K)
+    (MeasurableSet.univ_pi (fun q => measurableSet_directBranchSet _ _ _ w _)), directParse_law,
+    ← rawWordLaw_restrict _ (fun _ => inferInstance) _ (measurableSet_directBranchSet _ _ _ w)]
+  rfl
+
+/-- Direct real clock of a primitive packet at the state of step `l`. -/
+noncomputable def directWordClock {K : ℕ} (w : Fin K → Fin (n + 1)) (l : ℕ) (p : ℝ × ℝ) : ℝ :=
+  exponentialClock (∑ j, completedRates (rates (stateAlongWord transition initial (extendMarks w) l)) j) p.1
+
+lemma measurable_directWordClock {K : ℕ} (w : Fin K → Fin (n + 1)) (l : ℕ) :
+    Measurable (directWordClock transition rates initial w l) :=
+  (measurable_exponentialClock _).comp measurable_fst
+
+lemma directWord_holding_law (hr : ∀ x j, 0 ≤ rates x j) {K : ℕ} (w : Fin K → Fin (n + 1)) :
+    (rawWordLaw (fun l => directPacketInputs (rates (stateAlongWord transition initial (extendMarks w) l))
+        (extendMarks w l)) K).map (rawWordHoldings (directWordClock transition rates initial w) K) =
+      targetWordLaw (fun l => completedRates (rates (stateAlongWord transition initial (extendMarks w) l)))
+        (extendMarks w) K := by
+  rw [raw_word_holding_law _ (fun l => by unfold directPacketInputs; infer_instance) _
+    (measurable_directWordClock _ _ _ w)]
+  have h (k : Nat) : independentWordLaw (fun l =>
+      (directPacketInputs (rates (stateAlongWord transition initial (extendMarks w) l))
+        (extendMarks w l)).map (directWordClock transition rates initial w l)) k =
+      targetWordLaw (fun l => completedRates (rates (stateAlongWord transition initial (extendMarks w) l)))
+        (extendMarks w) k := by
+    induction k with
+    | zero => rfl
+    | succ k ih =>
+      have hc : (directPacketInputs (rates (stateAlongWord transition initial (extendMarks w) k))
+          (extendMarks w k)).map (directWordClock transition rates initial w k) =
+          ENNReal.ofReal (completedRates (rates (stateAlongWord transition initial (extendMarks w) k))
+            (extendMarks w k) / (∑ j, completedRates
+              (rates (stateAlongWord transition initial (extendMarks w) k)) j)) •
+            expMeasure (∑ j, completedRates (rates (stateAlongWord transition initial (extendMarks w) k)) j) :=
+        direct_packet_clock_law _ (fun j => hr _ j) _
+      rw [independentWordLaw, targetWordLaw, ih, hc]
+  exact h K
+
+lemma directWordEvent_mass (hr : ∀ x j, 0 ≤ rates x j) {K : ℕ} (w : Fin K → Fin (n + 1)) :
+    iidStreams (directWordEvent transition rates initial w) = pathWordWeight transition rates initial w := by
+  have h1 : iidStreams (directWordEvent transition rates initial w) =
+      ((iidStreams.restrict (directWordEvent transition rates initial w)).map (directParse K)) univ := by
+    rw [Measure.map_apply (measurable_directParse K) MeasurableSet.univ, preimage_univ,
+      Measure.restrict_apply_univ]
+  rw [h1, directWordEvent_branch, ← preimage_univ (f := rawWordHoldings _ K),
+    ← Measure.map_apply (measurable_rawWordHoldings _ (measurable_directWordClock _ _ _ w) K)
+      MeasurableSet.univ, directWord_holding_law _ _ _ hr,
+    target_word_mass _ (fun l => completedRates_positive_total _)]
+  unfold pathWordWeight
+  apply Finset.prod_congr rfl
+  intro q _
+  simp only [extendMarks, q.isLt, dite_true]
+
+lemma directWordEvent_total (hr : ∀ x j, 0 ≤ rates x j) (K : ℕ) :
+    ∑ w : Fin K → Fin (n + 1), iidStreams (directWordEvent transition rates initial w) = 1 := by
+  simp_rw [directWordEvent_mass _ _ _ hr]
+  exact path_word_weights_normalize transition rates hr K initial
+
+lemma directWordEvent_disjoint (K : ℕ) :
+    Pairwise (Function.onFun Disjoint
+      (fun w : Fin K → Fin (n + 1) => directWordEvent transition rates initial w)) := by
+  intro w w' hww
+  rw [Function.onFun, Set.disjoint_left]
+  intro ω hω hω'
+  apply hww
+  apply words_eq_of_sequential_choice
+  intro l hl hprev
+  have hq : K - 1 - (⟨K - 1 - l, by omega⟩ : Fin K).val = l := by simp only; omega
+  have h1 := (Set.mem_univ_pi.mp hω) ⟨K - 1 - l, by omega⟩
+  have h2 := (Set.mem_univ_pi.mp hω') ⟨K - 1 - l, by omega⟩
+  simp only [hq, directBranchSet, mem_ofPred_eq] at h1 h2
+  have hstates : stateAlongWord transition initial (extendMarks w) l =
+      stateAlongWord transition initial (extendMarks w') l :=
+    stateAlongWord_congr transition initial _ _ l (extendMarks_agree w w' l (fun j hj hjK =>
+      hprev j hj))
+  have hmw : (extendMarks w l) = w ⟨l, hl⟩ := by simp [extendMarks, hl]
+  have hmw' : (extendMarks w' l) = w' ⟨l, hl⟩ := by simp [extendMarks, hl]
+  rw [hstates] at h1
+  rw [h1, hmw, hmw'] at h2
+  exact Fin.ext (Option.some_injective _ h2)
+
+end DirectWords
+
+/-- On every realized Direct word, the public driver executes the stream transcript. -/
+theorem direct_stream_driver_executes {σ : Type} {n : Nat}
+    (model : Model ℝ σ) (transition : σ → Fin (n + 1) → σ)
+    (rates lower upper : σ → Fin (n + 1) → ℝ)
+    (C : ModelConsistency model transition rates lower upper)
+    (initial : σ) (start horizon : ℝ) (hstart : start < horizon)
+    (fuel cap : Nat) (saveEvents : Bool) (c d : Nat)
+    (w : Fin (fuel + 1) → Fin (n + 1)) (ω : Streams) (hω : ∀ x, ω x ∈ Ioo (0 : ℝ) 1)
+    (hE : ω ∈ directWordEvent transition rates initial w) :
+    observeRun (simulate realArithmetic (tapeSource ℝ) model .direct initial start horizon
+      (streamTape (fuel + 1 + c) (fuel + 1 + d) ω) fuel saveEvents cap) =
+    holdingSimulationObservation model (stateAlongWord transition initial (extendMarks w))
+      (fun l => rates (stateAlongWord transition initial (extendMarks w) l)) (extendMarks w) start horizon
+      fuel saveEvents (rawWordHoldings (directWordClock transition rates initial w) (fuel + 1)
+        (directParse (fuel + 1) ω)) := by
+  let states := stateAlongWord transition initial (extendMarks w)
+  let rr := fun l => rates (states l)
+  let P := directPacketSpecification model states rr (extendMarks w)
+    (fun l j => C.nonnegative _ j) (fun l => C.rates_eq _)
+  have hgood : RawWordGood P.good (fuel + 1) (directParse (fuel + 1) ω) := by
+    apply rawWordGood_of_index
+    intro q
+    have hb := (Set.mem_univ_pi.mp hE) q
+    have hpq : directParse (fuel + 1) ω q =
+        (ω (.inr (fuel + 1 - 1 - q.val)), ω (.inl (fuel + 1 - 1 - q.val))) := by
+      simp only [directParse, directParse_eq]
+    rw [hpq] at hb ⊢
+    exact ⟨hω _, hω _, hb⟩
+  have htape : streamTape (fuel + 1 + c) (fuel + 1 + d) ω =
+      packetTapeFrom P.uniforms P.exponentials (rawChronological (1 / 2, 1 / 2) (directParse (fuel + 1) ω))
+        (streamTape c d (streamsDrop (fuel + 1) (fuel + 1) ω)) 0 (fuel + 1) := by
+    rw [directPacketTape_eq, streamTape_split]
+    have hsrc : ∀ i : Fin (fuel + 1), rawChronological (1 / 2, 1 / 2) (directParse (fuel + 1) ω) (0 + i.val) =
+        (ω (.inr i), ω (.inl i)) := by
+      intro i
+      rw [zero_add]
+      exact directParse_chronological (fuel + 1) ω i i.isLt
+    simp only [hsrc]
+  have hinit : initial = states 0 := rfl
+  rw [htape, hinit, packet_driver_executes_from model .direct states rr (extendMarks w) P
+    (1 / 2, 1 / 2) (fun l => C.transition_eq _ _) start horizon hstart fuel cap saveEvents
+    (directParse (fuel + 1) ω) hgood (fun _ _ => Nat.zero_le _)]
+  rfl
+
 /-- The actual Direct simulation on IID streams has the target stopped-trajectory
 law. The tape contains at least as many uniforms and exponentials as the event
 budget can consume. -/
@@ -114,136 +286,34 @@ theorem direct_iid_simulation_law {σ X : Type} [MeasurableSpace X] {n : Nat}
     targetSimulationLaw model transition rates initial start horizon fuel saveEvents observable := by
   obtain ⟨c, rfl⟩ := Nat.exists_eq_add_of_le ha
   obtain ⟨d, rfl⟩ := Nat.exists_eq_add_of_le hb
-  set K := fuel + 1 with hK
-  let parse : Streams → Fin K → ℝ × ℝ := fun ω => (readerParse (fun _ => directReader) K ω).1
-  have hparse : Measurable parse := (measurable_readerParse _ K).fst
-  have hparse_law : iidStreams.map parse = rawWordLaw (fun _ => unitUniform.prod unitUniform) K := by
-    have h := congrArg (fun μ => μ.map Prod.fst) (readerParse_law (fun _ => directReader) K)
-    simp only [Measure.map_map measurable_fst (measurable_readerParse _ K)] at h
-    rw [Measure.map_fst_prod, measure_univ, one_smul] at h
-    have hp : parse = Prod.fst ∘ readerParse (fun _ => directReader) K := rfl
-    rw [hp, h]
-    simp only [directReader_law]
-  -- Word-specific data.
-  let states : (Fin K → Fin (n + 1)) → Nat → σ := fun w =>
-    stateAlongWord transition initial (extendMarks w)
-  let rr : (Fin K → Fin (n + 1)) → Nat → Fin (n + 1) → ℝ := fun w l => rates (states w l)
-  let B : (Fin K → Fin (n + 1)) → Nat → Set (ℝ × ℝ) := fun w l =>
-    {x | selection (List.ofFn (completedRates (rr w l))) x.2 = some (extendMarks w l).val}
-  have hB : ∀ w l, MeasurableSet (B w l) := fun w l =>
-    ((measurable_chooseAux _ _ _).comp (measurable_snd.mul_const _)) (measurableSet_singleton _)
-  let E : (Fin K → Fin (n + 1)) → Set Streams := fun w =>
-    parse ⁻¹' (Set.univ.pi (fun q : Fin K => B w (K - 1 - q)))
-  have hE : ∀ w, MeasurableSet (E w) := fun w =>
-    hparse (MeasurableSet.univ_pi (fun q => hB w _))
-  let P := fun w => directPacketSpecification model (states w) (rr w) (extendMarks w)
-    (fun l j => C.nonnegative _ j) (fun l => C.rates_eq _)
-  -- The word branch law of the parsed primitive inputs.
-  have hbranch : ∀ w, (iidStreams.restrict (E w)).map parse =
-      rawWordLaw (fun l => directPacketInputs (rr w l) (extendMarks w l)) K := by
-    intro w
-    rw [← Measure.restrict_map hparse (MeasurableSet.univ_pi (fun q => hB w _)), hparse_law,
-      ← rawWordLaw_restrict _ (fun _ => inferInstance) (B w) (hB w)]
-    rfl
-  have hclock : ∀ w l, (directPacketInputs (rr w l) (extendMarks w l)).map ((P w).clock l) =
-      ENNReal.ofReal (completedRates (rr w l) (extendMarks w l) / (∑ j, completedRates (rr w l) j)) •
-        expMeasure (∑ j, completedRates (rr w l) j) := fun w l =>
-    direct_packet_clock_law (rr w l) (fun j => C.nonnegative _ j) (extendMarks w l)
-  have hfin : ∀ w l, IsFiniteMeasure (directPacketInputs (rr w l) (extendMarks w l)) := by
-    intro w l
-    unfold directPacketInputs
-    infer_instance
-  have hmclock : ∀ w l, Measurable ((P w).clock l) := fun w l =>
-    (measurable_exponentialClock _).comp measurable_fst
-  have hholding : ∀ w, (rawWordLaw (fun l => directPacketInputs (rr w l) (extendMarks w l)) K).map
-      (rawWordHoldings (P w).clock K) =
-      targetWordLaw (fun l => completedRates (rr w l)) (extendMarks w) K := by
-    intro w
-    rw [raw_word_holding_law _ (hfin w) _ (hmclock w)]
-    have h (k : Nat) : independentWordLaw (fun l =>
-        (directPacketInputs (rr w l) (extendMarks w l)).map ((P w).clock l)) k =
-        targetWordLaw (fun l => completedRates (rr w l)) (extendMarks w) k := by
-      induction k with
-      | zero => rfl
-      | succ k ih => rw [independentWordLaw, targetWordLaw, ih, hclock w k]
-    exact h K
-  -- The words partition the probability space.
-  have hmass : ∑ w, iidStreams (E w) = 1 := by
-    have hw : ∀ w, iidStreams (E w) = pathWordWeight transition rates initial w := by
-      intro w
-      have h1 : iidStreams (E w) = ((iidStreams.restrict (E w)).map parse) univ := by
-        rw [Measure.map_apply hparse MeasurableSet.univ, preimage_univ, Measure.restrict_apply_univ]
-      rw [h1, hbranch, ← preimage_univ (f := rawWordHoldings (P w).clock K),
-        ← Measure.map_apply (measurable_rawWordHoldings _ (hmclock w) K) MeasurableSet.univ,
-        hholding, target_word_mass _ (fun l => completedRates_positive_total _)]
-      unfold pathWordWeight
-      apply Finset.prod_congr rfl
-      intro q _
-      simp only [extendMarks, q.isLt, dite_true, rr, states]
-    simp_rw [hw]
-    exact path_word_weights_normalize transition rates C.nonnegative K initial
-  have hdisj : Pairwise (Function.onFun Disjoint E) := by
-    intro w w' hww
-    rw [Function.onFun, Set.disjoint_left]
-    intro ω hω hω'
-    apply hww
-    apply words_eq_of_sequential_choice
-    intro l hl hprev
-    have hq : K - 1 - (⟨K - 1 - l, by omega⟩ : Fin K).val = l := by simp only; omega
-    have h1 := (Set.mem_univ_pi.mp hω) ⟨K - 1 - l, by omega⟩
-    have h2 := (Set.mem_univ_pi.mp hω') ⟨K - 1 - l, by omega⟩
-    simp only [hq, B, mem_ofPred_eq] at h1 h2
-    have hstates : states w l = states w' l :=
-      stateAlongWord_congr transition initial _ _ l (extendMarks_agree w w' l (fun j hj hjK =>
-        hprev j hj))
-    have hmw : (extendMarks w l) = w ⟨l, hl⟩ := by simp [extendMarks, hl]
-    have hmw' : (extendMarks w' l) = w' ⟨l, hl⟩ := by simp [extendMarks, hl]
-    simp only [rr, hstates] at h1
-    rw [h1, hmw, hmw'] at h2
-    exact Fin.ext (Option.some_injective _ h2)
-  -- Pointwise execution of the public driver on each word branch.
-  let G : (Fin K → Fin (n + 1)) → Streams → X := fun w ω =>
-    observable (holdingSimulationObservation model (states w) (rr w) (extendMarks w) start horizon
-      fuel saveEvents (rawWordHoldings (P w).clock K (parse ω)))
+  let E := fun w : Fin (fuel + 1) → Fin (n + 1) => directWordEvent transition rates initial w
+  let G := fun (w : Fin (fuel + 1) → Fin (n + 1)) (ω : Streams) =>
+    observable (holdingSimulationObservation model (stateAlongWord transition initial (extendMarks w))
+      (fun l => rates (stateAlongWord transition initial (extendMarks w) l)) (extendMarks w) start horizon
+      fuel saveEvents (rawWordHoldings (directWordClock transition rates initial w) (fuel + 1)
+        (directParse (fuel + 1) ω)))
+  have hmh : ∀ w : Fin (fuel + 1) → Fin (n + 1),
+      Measurable (rawWordHoldings (directWordClock transition rates initial w) (fuel + 1)) := fun w =>
+    measurable_rawWordHoldings _ (measurable_directWordClock _ _ _ w) _
   have hG : ∀ w, Measurable (G w) := fun w =>
-    (hobs w).comp ((measurable_rawWordHoldings _ (hmclock w) K).comp hparse)
+    (hobs w).comp ((hmh w).comp (measurable_directParse _))
   have hFG : ∀ w, ∀ᵐ ω ∂iidStreams, ω ∈ E w →
       observable (observeRun (simulate realArithmetic (tapeSource ℝ) model .direct initial start
-        horizon (streamTape (K + c) (K + d) ω) fuel saveEvents cap)) = G w ω := by
+        horizon (streamTape (fuel + 1 + c) (fuel + 1 + d) ω) fuel saveEvents cap)) = G w ω := by
     intro w
     filter_upwards [iidStreams_ae_mem_Ioo] with ω hω hE
-    have hgood : RawWordGood (P w).good K (parse ω) := by
-      apply rawWordGood_of_index
-      intro q
-      have hb := (Set.mem_univ_pi.mp hE) q
-      have hpq : parse ω q = (ω (.inr (K - 1 - q.val)), ω (.inl (K - 1 - q.val))) := by
-        simp only [parse, directParse_eq]
-      rw [hpq] at hb ⊢
-      exact ⟨hω _, hω _, hb⟩
-    have htape : streamTape (K + c) (K + d) ω =
-        packetTapeFrom (P w).uniforms (P w).exponentials (rawChronological (1 / 2, 1 / 2) (parse ω))
-          (streamTape c d (streamsDrop K K ω)) 0 K := by
-      rw [directPacketTape_eq, streamTape_split]
-      have hsrc : ∀ i : Fin K, rawChronological (1 / 2, 1 / 2) (parse ω) (0 + i.val) =
-          (ω (.inr i), ω (.inl i)) := by
-        intro i
-        rw [zero_add]
-        exact directParse_chronological K ω i i.isLt
-      simp only [hsrc]
-    have hinit : initial = states w 0 := rfl
-    simp only [G]
-    rw [htape, hinit, packet_driver_executes_from model .direct (states w) (rr w) (extendMarks w) (P w)
-      (1 / 2, 1 / 2) (fun l => C.transition_eq _ _) start horizon hstart fuel cap saveEvents
-      (parse ω) hgood (fun _ _ => Nat.zero_le _)]
-  rw [iid_word_decomposition E hE hdisj hmass _ G hG hFG]
+    exact congrArg observable (direct_stream_driver_executes model transition rates lower upper C initial
+      start horizon hstart fuel cap saveEvents c d w ω hω hE)
+  rw [iid_word_decomposition E (fun w => measurableSet_directWordEvent _ _ _ w)
+    (directWordEvent_disjoint _ _ _ (fuel + 1)) (directWordEvent_total _ _ _ C.nonnegative (fuel + 1))
+    _ G hG hFG]
   unfold targetSimulationLaw
   congr 1
   funext w
   have h1 := Measure.map_map (μ := iidStreams.restrict (E w)) (hobs w)
-    ((measurable_rawWordHoldings _ (hmclock w) K).comp hparse)
-  have h2 := Measure.map_map (μ := iidStreams.restrict (E w))
-    (measurable_rawWordHoldings _ (hmclock w) K) hparse
-  rw [← h2, hbranch, hholding] at h1
+    ((hmh w).comp (measurable_directParse (fuel + 1)))
+  have h2 := Measure.map_map (μ := iidStreams.restrict (E w)) (hmh w) (measurable_directParse (fuel + 1))
+  rw [← h2, directWordEvent_branch, directWord_holding_law _ _ _ C.nonnegative] at h1
   exact h1.symm
 
 end JumpProcessesLean.Proofs
