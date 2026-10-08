@@ -203,9 +203,19 @@ def history(rates, meta):
     # captions: generation title and geometric-mean ratio to the fastest Julia aggregator
     best_julia = {m: max([v for k, v in rates[m].items() if k.startswith("julia:")] or [1])
                   for m, _ in MODELS}
+    def geomean(xs):
+        xs = list(xs)
+        return math.exp(sum(math.log(x) for x in xs) / len(xs))
+
+    def versus(r):
+        if r >= 0.1:
+            return f"{r:.2f}× the speed of the fastest JumpProcesses.jl aggregator"
+        return f"1/{1 / r:,.0f} of the speed of the fastest JumpProcesses.jl aggregator"
+
     for k, (key, title) in enumerate(gens):
-        ratio = math.exp(sum(math.log(rates[m]["lean:" + key] / best_julia[m])
-                             for m, _ in MODELS) / len(MODELS))
+        ratio = geomean(rates[m]["lean:" + key] / best_julia[m] for m, _ in MODELS)
+        gain = geomean(rates[m]["lean:" + key] / rates[m]["lean:" + gens[0][0]]
+                       for m, _ in MODELS)
         opac = ";".join("1" if f == k else "0" for f in frames)
         out.append(f'<g opacity="0"><animate attributeName="opacity" values="{opac}" '
                    f'keyTimes="{key_times}" dur="{dur:.1f}s" repeatCount="indefinite" '
@@ -214,8 +224,8 @@ def history(rates, meta):
                    f'fill="{TREE}">Tree-RSSA generation {k}</text>'
                    f'<text x="{X0 + 12}" y="{Y0 + 40}" font-size="12.5" fill="#333">{title}</text>'
                    f'<text x="{X0 + 12}" y="{Y0 + 57}" font-size="12.5" fill="#333">'
-                   f'{ratio:.2f}× the fastest JumpProcesses.jl aggregator (geometric mean)</text>'
-                   f'</g>')
+                   f'{versus(ratio) + (f"; {gain:,.0f}× generation 0" if k else "")}'
+                   f' (geometric mean{"s" if k else ""})</text></g>')
     # legend
     LX, LY = X1 + 22, Y0 + 6
     out.append(f'<g font-size="12.5" fill="#222">')

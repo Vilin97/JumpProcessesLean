@@ -70,7 +70,7 @@ theorem gen2_foldl_updateBounds (net : Network Float) (lo hi : Array Nat) (ks : 
         have hb : b = tree.get! (2 ^ treeDepth net.reactions.size + k) :=
           float_toBits_inj (by simpa using hbits)
         have hleaf := hT.2.1 k (by omega)
-        rw [floatArray_get!_eq, hleaf, leafOf_eq, if_pos (by omega)] at hb
+        rw [floatArray_get!_eq, hleaf, leafOf_eq, ite_eq_left (by omega)] at hb
         rw [hb, array_set_self U k (by omega)]
         exact hT
       · exact hT.update k (by omega) (by omega) b

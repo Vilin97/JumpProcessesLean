@@ -1,0 +1,411 @@
+{
+ "results": {
+  "multistate": {
+   "treerssa-g2": {
+    "T": 10000.0,
+    "events": 12803391,
+    "best_seconds": 1.45878,
+    "events_per_second": 8776779.911981246,
+    "digest": "777933517080524721"
+   },
+   "treerssa-g3": {
+    "T": 10000.0,
+    "events": 12803391,
+    "best_seconds": 1.323818,
+    "events_per_second": 9671564.369120227,
+    "digest": "777933517080524721"
+   },
+   "treerssa-g4": {
+    "T": 10000.0,
+    "events": 12803391,
+    "best_seconds": 1.019997,
+    "events_per_second": 12552381.036414813,
+    "digest": "777933517080524721"
+   },
+   "treerssa-g5": {
+    "T": 10000.0,
+    "events": 12803391,
+    "best_seconds": 0.977212,
+    "events_per_second": 13101958.428672591,
+    "digest": "777933517080524721"
+   },
+   "treerssa-g6": {
+    "T": 10000.0,
+    "events": 12803391,
+    "best_seconds": 1.05131,
+    "events_per_second": 12178511.57127774,
+    "digest": "777933517080524721"
+   },
+   "treerssa-g7": {
+    "T": 10000.0,
+    "events": 12803391,
+    "best_seconds": 0.873603,
+    "events_per_second": 14655845.962067438,
+    "digest": "777933517080524721"
+   },
+   "treerssa-g8": {
+    "T": 10000.0,
+    "events": 12803391,
+    "best_seconds": 0.820142,
+    "events_per_second": 15611188.06255502,
+    "digest": "777933517080524721"
+   },
+   "treerssa-g9": {
+    "T": 10000.0,
+    "events": 12803391,
+    "best_seconds": 0.802694,
+    "events_per_second": 15950525.355864128,
+    "digest": "777933517080524721"
+   },
+   "rssacr-port": {
+    "T": 10000.0,
+    "events": 12797942,
+    "best_seconds": 2.272263,
+    "events_per_second": 5632245.035015753,
+    "digest": "4425912983905601432"
+   },
+   "min_idle": 0.4790494058786742,
+   "treerssa-g10": {
+    "T": 10000.0,
+    "events": 12803391,
+    "best_seconds": 0.789304,
+    "events_per_second": 16221115.05832987,
+    "digest": "777933517080524721"
+   },
+   "c-reference": {
+    "T": 10000.0,
+    "events": 12803391,
+    "best_seconds": 0.52405,
+    "events_per_second": 24431621.02852781,
+    "digest": "777933517080524721"
+   }
+  },
+  "multisite2": {
+   "treerssa-g2": {
+    "T": 300.0,
+    "events": 7014104,
+    "best_seconds": 1.397716,
+    "events_per_second": 5018261.220448217,
+    "digest": "7642513437582160195"
+   },
+   "treerssa-g3": {
+    "T": 300.0,
+    "events": 7014104,
+    "best_seconds": 1.09183,
+    "events_per_second": 6424172.261249461,
+    "digest": "7642513437582160195"
+   },
+   "treerssa-g4": {
+    "T": 300.0,
+    "events": 7014104,
+    "best_seconds": 0.937727,
+    "events_per_second": 7479899.800261697,
+    "digest": "7642513437582160195"
+   },
+   "treerssa-g5": {
+    "T": 300.0,
+    "events": 7014104,
+    "best_seconds": 1.066709,
+    "events_per_second": 6575461.536370276,
+    "digest": "7642513437582160195"
+   },
+   "treerssa-g6": {
+    "T": 300.0,
+    "events": 7014104,
+    "best_seconds": 0.977874,
+    "events_per_second": 7172809.584874943,
+    "digest": "7642513437582160195"
+   },
+   "treerssa-g7": {
+    "T": 300.0,
+    "events": 7014104,
+    "best_seconds": 0.874325,
+    "events_per_second": 8022307.494352786,
+    "digest": "7642513437582160195"
+   },
+   "treerssa-g8": {
+    "T": 300.0,
+    "events": 7014104,
+    "best_seconds": 0.884485,
+    "events_per_second": 7930155.966466362,
+    "digest": "7642513437582160195"
+   },
+   "treerssa-g9": {
+    "T": 300.0,
+    "events": 7014104,
+    "best_seconds": 0.797279,
+    "events_per_second": 8797552.67603938,
+    "digest": "7642513437582160195"
+   },
+   "rssacr-port": {
+    "T": 300.0,
+    "events": 6998428,
+    "best_seconds": 1.566101,
+    "events_per_second": 4468695.186325787,
+    "digest": "13205973358065741621"
+   },
+   "min_idle": 0.4678326046221112,
+   "treerssa-g10": {
+    "T": 300.0,
+    "events": 7014104,
+    "best_seconds": 0.64773,
+    "events_per_second": 10828746.54562858,
+    "digest": "7642513437582160195"
+   },
+   "c-reference": {
+    "T": 300.0,
+    "events": 7014104,
+    "best_seconds": 0.538744,
+    "events_per_second": 13019363.556717105,
+    "digest": "7642513437582160195"
+   }
+  },
+  "egfr_net": {
+   "treerssa-g2": {
+    "T": 30.0,
+    "events": 7997495,
+    "best_seconds": 0.851128,
+    "events_per_second": 9396348.140350217,
+    "digest": "3443841343783452607"
+   },
+   "treerssa-g3": {
+    "T": 30.0,
+    "events": 7997495,
+    "best_seconds": 0.918242,
+    "events_per_second": 8709572.204277303,
+    "digest": "3443841343783452607"
+   },
+   "treerssa-g4": {
+    "T": 30.0,
+    "events": 7997495,
+    "best_seconds": 0.711612,
+    "events_per_second": 11238561.182217276,
+    "digest": "3443841343783452607"
+   },
+   "treerssa-g5": {
+    "T": 30.0,
+    "events": 7997495,
+    "best_seconds": 0.745963,
+    "events_per_second": 10721034.421278266,
+    "digest": "3443841343783452607"
+   },
+   "treerssa-g6": {
+    "T": 30.0,
+    "events": 7997495,
+    "best_seconds": 0.697949,
+    "events_per_second": 11458566.45686146,
+    "digest": "3443841343783452607"
+   },
+   "treerssa-g7": {
+    "T": 30.0,
+    "events": 7997495,
+    "best_seconds": 0.633034,
+    "events_per_second": 12633594.720030837,
+    "digest": "3443841343783452607"
+   },
+   "treerssa-g8": {
+    "T": 30.0,
+    "events": 7997495,
+    "best_seconds": 0.613829,
+    "events_per_second": 13028864.716394957,
+    "digest": "3443841343783452607"
+   },
+   "treerssa-g9": {
+    "T": 30.0,
+    "events": 7997495,
+    "best_seconds": 0.511766,
+    "events_per_second": 15627249.563276965,
+    "digest": "3443841343783452607"
+   },
+   "rssacr-port": {
+    "T": 30.0,
+    "events": 7992843,
+    "best_seconds": 1.340681,
+    "events_per_second": 5961778.379793553,
+    "digest": "17468801909957310907"
+   },
+   "min_idle": 0.4655388471177945,
+   "treerssa-g10": {
+    "T": 30.0,
+    "events": 7997495,
+    "best_seconds": 0.616436,
+    "events_per_second": 12973763.69971903,
+    "digest": "3443841343783452607"
+   },
+   "c-reference": {
+    "T": 30.0,
+    "events": 7997495,
+    "best_seconds": 0.424512,
+    "events_per_second": 18839267.205638476,
+    "digest": "3443841343783452607"
+   }
+  },
+  "BCR": {
+   "treerssa-g2": {
+    "T": 10.0,
+    "events": 31025280,
+    "best_seconds": 4.125634,
+    "events_per_second": 7520124.179701835,
+    "digest": "2364335003938637891"
+   },
+   "treerssa-g3": {
+    "T": 10.0,
+    "events": 31025280,
+    "best_seconds": 3.635458,
+    "events_per_second": 8534077.411979454,
+    "digest": "2364335003938637891"
+   },
+   "treerssa-g4": {
+    "T": 10.0,
+    "events": 31025280,
+    "best_seconds": 2.921192,
+    "events_per_second": 10620760.292373799,
+    "digest": "2364335003938637891"
+   },
+   "treerssa-g5": {
+    "T": 10.0,
+    "events": 31025280,
+    "best_seconds": 2.902587,
+    "events_per_second": 10688837.233819349,
+    "digest": "2364335003938637891"
+   },
+   "treerssa-g6": {
+    "T": 10.0,
+    "events": 31025280,
+    "best_seconds": 2.695041,
+    "events_per_second": 11511988.12930861,
+    "digest": "2364335003938637891"
+   },
+   "treerssa-g7": {
+    "T": 10.0,
+    "events": 31025280,
+    "best_seconds": 2.343789,
+    "events_per_second": 13237232.53245066,
+    "digest": "2364335003938637891"
+   },
+   "treerssa-g8": {
+    "T": 10.0,
+    "events": 31025280,
+    "best_seconds": 2.100627,
+    "events_per_second": 14769533.09654689,
+    "digest": "2364335003938637891"
+   },
+   "treerssa-g9": {
+    "T": 10.0,
+    "events": 31025280,
+    "best_seconds": 2.133485,
+    "events_per_second": 14542066.14998465,
+    "digest": "2364335003938637891"
+   },
+   "rssacr-port": {
+    "T": 10.0,
+    "events": 31030494,
+    "best_seconds": 4.091117,
+    "events_per_second": 7584846.387918019,
+    "digest": "6263041887301049180"
+   },
+   "min_idle": 0.469630557294928,
+   "treerssa-g10": {
+    "T": 10.0,
+    "events": 31025280,
+    "best_seconds": 1.971671,
+    "events_per_second": 15735525.85598713,
+    "digest": "2364335003938637891"
+   },
+   "c-reference": {
+    "T": 10.0,
+    "events": 31025280,
+    "best_seconds": 1.112378,
+    "events_per_second": 27890950.737968568,
+    "digest": "2364335003938637891"
+   }
+  },
+  "fceri_gamma2": {
+   "treerssa-g2": {
+    "T": 300.0,
+    "events": 1130733,
+    "best_seconds": 1.974452,
+    "events_per_second": 572681.9390899348,
+    "digest": "7913060682707487122"
+   },
+   "treerssa-g3": {
+    "T": 300.0,
+    "events": 1130733,
+    "best_seconds": 0.924907,
+    "events_per_second": 1222536.968581706,
+    "digest": "7913060682707487122"
+   },
+   "treerssa-g4": {
+    "T": 300.0,
+    "events": 1130733,
+    "best_seconds": 1.05736,
+    "events_per_second": 1069392.6382688961,
+    "digest": "7913060682707487122"
+   },
+   "treerssa-g5": {
+    "T": 300.0,
+    "events": 1130733,
+    "best_seconds": 1.070744,
+    "events_per_second": 1056025.5299119118,
+    "digest": "7913060682707487122"
+   },
+   "treerssa-g6": {
+    "T": 300.0,
+    "events": 1130733,
+    "best_seconds": 1.082708,
+    "events_per_second": 1044356.3730941307,
+    "digest": "7913060682707487122"
+   },
+   "treerssa-g7": {
+    "T": 300.0,
+    "events": 1130733,
+    "best_seconds": 0.960387,
+    "events_per_second": 1177372.2468130034,
+    "digest": "7913060682707487122"
+   },
+   "treerssa-g8": {
+    "T": 300.0,
+    "events": 1130733,
+    "best_seconds": 0.903163,
+    "events_per_second": 1251970.0209153828,
+    "digest": "7913060682707487122"
+   },
+   "treerssa-g9": {
+    "T": 300.0,
+    "events": 1130733,
+    "best_seconds": 0.886829,
+    "events_per_second": 1275029.3461309904,
+    "digest": "7913060682707487122"
+   },
+   "rssacr-port": {
+    "T": 300.0,
+    "events": 1124767,
+    "best_seconds": 1.715966,
+    "events_per_second": 655471.6119083944,
+    "digest": "1273462290641096784"
+   },
+   "min_idle": 0.473253618628068,
+   "treerssa-g10": {
+    "T": 300.0,
+    "events": 1130733,
+    "best_seconds": 0.872394,
+    "events_per_second": 1296126.5208151364,
+    "digest": "7913060682707487122"
+   },
+   "c-reference": {
+    "T": 300.0,
+    "events": 1130733,
+    "best_seconds": 0.715595,
+    "events_per_second": 1580129.8220362077,
+    "digest": "7913060682707487122"
+   }
+  }
+ },
+ "machine": {
+  "cpu": "AMD Ryzen 9 9955HX 16-Core Processor",
+  "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.43",
+  "commit": "ece8fde274b65ff130f42358ae4b7327dc99c0db",
+  "date": "2026-10-08T20:10:51+00:00"
+ },
+ "rounds": 5
+}

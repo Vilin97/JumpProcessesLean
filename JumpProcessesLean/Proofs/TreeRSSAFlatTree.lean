@@ -196,7 +196,7 @@ lemma fill_spec (P : Nat) : ∀ n (tree : FloatArray), n ≤ P → tree.data.siz
         · simp only [hkn, show ¬(2 * k = n) by omega, show ¬(2 * k + 1 = n) by omega, ite_false]
           exact hH k (by omega) hkP)
       refine ⟨r1, fun i hi => ?_, r3⟩
-      rw [r2 i hi, ht'd, getElem!_set!_eq_ite _ _ _ _ hns, if_neg (by omega)]
+      rw [r2 i hi, ht'd, getElem!_set!_eq_ite _ _ _ _ hns, ite_eq_right (by omega)]
 
 theorem buildTree_ok (upper : Array Float) (d : Nat) : TreeOK (buildTree upper d) upper d := by
   obtain ⟨hs, hl⟩ := leafArray_spec upper d
@@ -268,7 +268,7 @@ lemma fixPath_spec (P : Nat) : ∀ n (tree : FloatArray) c, tree.data.size = 2 *
         exact hH k hk hkP (fun ha => (strictAnc_iff c k).mp ha |>.elim hkc hanc)
     obtain ⟨r1, r2, r3⟩ := ih t' (c / 2) hs' (by omega) hH'
     refine ⟨r1, fun i hi => ?_, ?_⟩
-    · rw [r2 i hi, ht'd, getElem!_set!_eq_ite _ _ _ _ hcs, if_neg (by omega)]
+    · rw [r2 i hi, ht'd, getElem!_set!_eq_ite _ _ _ _ hcs, ite_eq_right (by omega)]
     · rwa [Nat.div_div_eq_div_mul, ← pow_succ'] at r3
 
 lemma leafOf_set (w : Array Float) (j i : Nat) (hj : j < w.size) (v : Float) :
@@ -276,8 +276,8 @@ lemma leafOf_set (w : Array Float) (j i : Nat) (hj : j < w.size) (v : Float) :
   rw [leafOf_eq, leafOf_eq, Array.size_set!]
   by_cases hij : i = j
   · subst hij
-    rw [if_pos hj, Array.getElem!_set!_self _ _ _ hj, if_pos rfl]
-  · rw [if_neg hij, Array.getElem!_set!_ne _ _ _ _ (Ne.symm hij)]
+    rw [ite_eq_left hj, Array.getElem!_set!_self _ _ _ hj, ite_eq_left rfl]
+  · rw [ite_eq_right hij, Array.getElem!_set!_ne _ _ _ _ (Ne.symm hij)]
 
 /-- Setting leaf `j` and re-adding its root path gives the tree of the updated leaves. -/
 theorem TreeOK.update {tree : FloatArray} {w : Array Float} {d : Nat} (h : TreeOK tree w d)
@@ -293,7 +293,7 @@ theorem TreeOK.update {tree : FloatArray} {w : Array Float} {d : Nat} (h : TreeO
     have h2k : ¬(2 * k = 2 ^ d + j) := fun h => hanc ⟨1, by omega, by omega⟩
     have h2k1 : ¬(2 * k + 1 = 2 ^ d + j) := fun h => hanc ⟨1, by omega, by omega⟩
     rw [ht0d, getElem!_set!_eq_ite _ _ _ _ hc, getElem!_set!_eq_ite _ _ _ _ hc,
-      getElem!_set!_eq_ite _ _ _ _ hc, if_neg (by omega), if_neg h2k, if_neg h2k1]
+      getElem!_set!_eq_ite _ _ _ _ hc, ite_eq_right (by omega), ite_eq_right h2k, ite_eq_right h2k1]
     exact hH k hk hkP
   obtain ⟨r1, r2, r3⟩ := fixPath_spec (2 ^ d) d t0 (2 ^ d + j) hs0 (by omega) hH0
   have hroot : (2 ^ d + j) / 2 ^ d = 1 := Nat.div_eq_of_lt_le (by omega) (by omega)
@@ -302,6 +302,6 @@ theorem TreeOK.update {tree : FloatArray} {w : Array Float} {d : Nat} (h : TreeO
   rw [r2 _ (by omega), ht0d, getElem!_set!_eq_ite _ _ _ _ hc, leafOf_set w j i hj v, hl i hi]
   by_cases hij : i = j
   · subst hij; simp
-  · simp [hij, show ¬(2 ^ d + i = 2 ^ d + j) by omega]
+  · simp [hij]
 
 end JumpProcessesLean.Proofs

@@ -38,10 +38,9 @@ lemma sum_leafOf_eq_take (w : Array ℝ) (i : Nat) :
   | succ i ih =>
     rw [sum_range_succ, ih]
     by_cases hi : i < w.size
-    · rw [List.take_succ, List.sum_append]
+    · rw [List.take_add_one, List.sum_append]
       congr 1
-      have hi' : i < w.toList.length := by rw [Array.length_toList]; exact hi
-      simp [leafOf, hi, List.getElem?_eq_getElem hi']
+      simp [leafOf, hi]
     · have hle : w.toList.length ≤ i := by rw [Array.length_toList]; exact not_lt.mp hi
       rw [List.take_of_length_le hle, List.take_of_length_le (by omega)]
       simp [leafOf, hi, realArithmetic]
@@ -68,7 +67,7 @@ lemma segSum_succ_real (w : Array ℝ) (d lo : Nat) :
       segSum realArithmetic w d lo + segSum realArithmetic w d (lo + 2 ^ d) := rfl
 
 /-- The descent lands in the cumulative interval of a positive leaf. -/
-lemma segDescend_interval (w : Array ℝ) (hw : ∀ x ∈ w.toList, 0 ≤ x) : ∀ d lo x,
+lemma segDescend_interval (w : Array ℝ) (_hw : ∀ x ∈ w.toList, 0 ≤ x) : ∀ d lo x,
     0 ≤ x → x < segSum realArithmetic w d lo →
       ∃ i, segDescend realArithmetic w d lo x = lo + i ∧ i < 2 ^ d ∧
         ∑ k ∈ range i, leafOf realArithmetic w (lo + k) ≤ x ∧
@@ -86,7 +85,7 @@ lemma segDescend_interval (w : Array ℝ) (hw : ∀ x ∈ w.toList, 0 ≤ x) : �
     by_cases hleft : x < segSum realArithmetic w d lo
     · obtain ⟨i, hi, hid, hl, hu⟩ := ih lo x hx hleft
       refine ⟨i, ?_, by rw [pow_succ]; omega, hl, hu⟩
-      rw [segDescend, realArithmetic_lt, decide_eq_true hleft, if_pos rfl]
+      rw [segDescend, realArithmetic_lt, decide_eq_true hleft, ite_eq_left rfl]
       exact hi
     · have hge : segSum realArithmetic w d lo ≤ x := not_lt.mp hleft
       have hx' : 0 ≤ x - segSum realArithmetic w d lo := by linarith
@@ -102,7 +101,7 @@ lemma segDescend_interval (w : Array ℝ) (hw : ∀ x ∈ w.toList, 0 ≤ x) : �
         intro k _
         rw [Nat.add_assoc]
       refine ⟨2 ^ d + i, ?_, by rw [pow_succ]; omega, ?_, ?_⟩
-      · rw [segDescend, realArithmetic_lt, decide_eq_false hleft, if_neg (by simp),
+      · rw [segDescend, realArithmetic_lt, decide_eq_false hleft, ite_eq_right (by simp),
           realArithmetic_sub, hi]
         omega
       · rw [sum_range_add, ← hleftSum, ← hshift]

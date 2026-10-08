@@ -36,15 +36,15 @@ lemma addDependent_get (j : Nat) (deps : Array (Array Nat)) (p : Nat × Nat) (t 
   · rename_i hp
     by_cases ht : t = p.1
     · subst ht
-      rw [if_pos ⟨rfl, hp⟩, arr_getElem!_pos _ _ (by simpa using hp), Array.getElem_modify,
-        if_pos rfl, arr_getElem!_pos _ _ hp]
-    · rw [if_neg (fun h => ht h.1)]
+      rw [ite_eq_left ⟨rfl, hp⟩, arr_getElem!_pos _ _ (by simpa using hp), Array.getElem_modify,
+        ite_eq_left rfl, arr_getElem!_pos _ _ hp]
+    · rw [ite_eq_right (fun h => ht h.1)]
       by_cases hts : t < deps.size
-      · rw [arr_getElem!_pos _ _ (by simpa using hts), Array.getElem_modify, if_neg (Ne.symm ht),
+      · rw [arr_getElem!_pos _ _ (by simpa using hts), Array.getElem_modify, ite_eq_right (Ne.symm ht),
           arr_getElem!_pos _ _ hts]
       · rw [arr_getElem!_neg _ _ (by simpa using hts), arr_getElem!_neg _ _ hts]
   · rename_i hp
-    rw [if_neg (fun h => hp h.2)]
+    rw [ite_eq_right (fun h => hp h.2)]
 
 /-- Every listed dependent is the reaction being recorded or was listed before. -/
 lemma addDependent_mem (j : Nat) (deps : Array (Array Nat)) (p : Nat × Nat) (t x : Nat) :
@@ -169,15 +169,15 @@ lemma foldl_set_get (f : Nat → Float) (ks : List Nat) (L : Array Float) (j : N
     by_cases hj : j < L.size
     · by_cases hk : j = k
       · subst hk
-        simp [hj, Array.getElem!_set!_self _ _ _ hj]
+        simp [hj]
       · by_cases hmem : j ∈ ks
         · simp [hmem, hj]
         · have h1 : ¬(j ∈ ks ∧ j < L.size) := fun h => hmem h.1
           have h2 : ¬(j ∈ k :: ks ∧ j < L.size) := by simp [hmem, hk]
-          rw [if_neg h1, if_neg h2, Array.getElem!_set!_ne _ _ _ _ (Ne.symm hk)]
+          rw [ite_eq_right h1, ite_eq_right h2, Array.getElem!_set!_ne _ _ _ _ (Ne.symm hk)]
     · have hn : (L.set! k (f k))[j]! = L[j]! := by
         rw [arr_getElem!_neg _ _ (by simpa using hj), arr_getElem!_neg _ _ hj]
-      simp [hj, hn]
+      simp [hj]
 
 lemma combinations_congr (rs : Array (Nat × Nat)) (pop pop' : Array Nat)
     (h : ∀ p ∈ rs.toList, pop[p.1]! = pop'[p.1]!) :
