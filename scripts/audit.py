@@ -11,6 +11,7 @@ for path in (root / "JumpProcessesLean").rglob("*.lean"):
         raise SystemExit(f"Forbidden proof/trust token in {path.name}: {forbidden[0]}")
 trust = pathlib.Path(sys.argv[1]).read_text()
 results = re.findall(r"depends on axioms: \[([^\]]*)\]", trust)
+results += [""] * len(re.findall(r"does not depend on any axioms", trust))
 expected = len(re.findall(r"^#print axioms ", (root / "Tests/Trust.lean").read_text(), re.MULTILINE))
 if len(results) != expected:
     raise SystemExit(f"Expected {expected} theorem audits; found {len(results)}")

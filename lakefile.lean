@@ -17,3 +17,5 @@ lean_lib Tests
 lean_exe jumpTests where
   root := `Tests.Main
 
+lean_exe jumpBench where
+  root := `JumpBench
