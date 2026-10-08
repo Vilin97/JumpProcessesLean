@@ -59,7 +59,7 @@ def run_julia(model, method, T, reps, scratch, timeout=None):
 
 
 def run_lean(model, method, T, reps, timeout=None, max_events=10**12):
-    binary = ROOT / ".lake/build/bin/jumpBench"
+    binary = os.environ.get("JUMPBENCH", str(ROOT / ".lake/build/bin/jumpBench"))
     proc = subprocess.run([str(binary), str(rn(model)), method, f"{T:.6f}", str(reps),
                            str(max_events)], check=True, capture_output=True, text=True,
                           timeout=timeout)
@@ -73,12 +73,38 @@ def run_lean(model, method, T, reps, timeout=None, max_events=10**12):
 
 
 STARTUP = 120.0  # allowance for process start, model loading and compilation
+IDLE = float(os.environ.get("BENCH_IDLE", "0"))  # wait for this idle CPU fraction before runs
+
+
+def idle_fraction(dt=0.5):
+    """Fraction of CPU time idle over `dt` seconds, from /proc/stat (1.0 where unavailable)."""
+    def snap():
+        fields = list(map(int, open("/proc/stat").readline().split()[1:]))
+        return sum(fields), fields[3] + fields[4]
+    try:
+        t0, i0 = snap()
+        time.sleep(dt)
+        t1, i1 = snap()
+    except OSError:
+        return 1.0
+    return (i1 - i0) / max(t1 - t0, 1)
+
+
+def wait_idle(timeout=3600.0):
+    """On a shared machine, wait (bounded) until other load drops; return the idle fraction."""
+    start = time.time()
+    idle = idle_fraction()
+    while idle < IDLE and time.time() - start < timeout:
+        time.sleep(5)
+        idle = idle_fraction()
+    return idle
 
 
 def rate_on(runner, model, method, span, budget):
     """Throughput of one run on `(0, span)`; a run over budget is retried on a 10x shorter span."""
     while True:
         try:
+            wait_idle()
             probe = runner(model, method, span, 1, timeout=budget + STARTUP)
             return span, max(sum(probe["events"]), 1) / max(sum(probe["times"]), 1e-9)
         except subprocess.TimeoutExpired:
@@ -99,12 +125,13 @@ def measure(runner, model, method, T, budget, min_reps, probe_events):
         span, reps = max(T * budget / (projected * min_reps), span / 10), min_reps
     while True:
         try:
+            idle = wait_idle()
             result = runner(model, method, span, reps, timeout=3 * budget + STARTUP)
             break
         except subprocess.TimeoutExpired:
             span /= 4
     events, seconds = sum(result["events"]), sum(result["times"])
-    result.update({"T": span, "reps": reps, "events_per_second": events / seconds,
+    result.update({"T": span, "reps": reps, "events_per_second": events / seconds, "idle": idle,
                    "mean_events": events / reps, "median_time": sorted(result["times"])[reps // 2],
                    "full_span": span == T})
     return result
