@@ -82,6 +82,7 @@
     "optimized_generations": "proved: gen1_simulate_eq ... gen10_simulate_eq, each generation equal bit for bit to TreeRSSA.simulate hostArithmetic hostSource on every network with in-range reactant species and every input",
     "host_float_lemma": "proved: isFinite_eq_lt in Lean's logical Float model",
     "trust": "compiled code trusts Lean's C implementations of the Float externs (including the C library log); xoshiro256++ outputs are not claimed IID",
-    "benchmark": "bench/results: julia.json (9 JumpProcesses.jl 9.33.1 aggregators), lean.json, generations.json, history.svg, generations.svg, summary.md"
+    "benchmark": "bench/results: julia.json (9 JumpProcesses.jl 9.33.1 aggregators), lean.json (generations 0-1, RSSACR port, FloatLib drivers), generations.json (generations 2-10, port, C cross-check, alternating rounds), headtohead.json (same-window comparison with RSSA, RSSACR, SortingDirect), history.svg (animated), generations.svg, headtohead.svg, summary.md",
+    "head_to_head": "generation 10 / fastest Julia aggregator, same window: multistate 0.91, multisite2 0.77, egfr_net 0.96, BCR 0.76, fceri_gamma2 0.62; geometric-mean speedup over generation 0: 5456x"
   }
 }
