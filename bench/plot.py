@@ -36,7 +36,14 @@ GENERATIONS = [
     ("treerssa-g8", "no reference counting on the proposal path"),
     ("treerssa-g9", "inlined staleness test on firing"),
     ("treerssa-g10", "single-comparison tests: no joins on the proposal path"),
+    ("treerssa-g11", "word-indexed descent, its bound carried by the loop"),
+    ("treerssa-g12", "tree paths on machine words, each sum carried in a register"),
+    ("treerssa-g13", "dependents' factors as integer codes in flat arrays"),
+    ("treerssa-g14", "tree size tested once per proposal: no join after the descent"),
+    ("treerssa-g15", "firing on machine words; refresh fold only when a bracket is left"),
+    ("treerssa-g16", "refreshes on machine words: products only for changed bounds"),
 ]
+FINAL = GENERATIONS[-1][0]
 TREE = "#c0392b"
 
 
@@ -261,7 +268,8 @@ def history(rates, meta):
     out.append(f'<text x="{W / 2}" y="{H - 26}" text-anchor="middle" font-size="9.5" '
                f'fill="#777">{m.get("cpu", "")} · Julia 1.11.7, SSAStepper, scale_rates=false · '
                f'Lean 4.34.0 · best repetition per measurement, spans in bench/run.py · '
-               f'lean @ {m.get("commit", "")[:8]} · {m.get("date", "")[:10]}</text>')
+               f'lean @ {m.get("commit", "")[:8]}{"-dirty" if m.get("dirty") else ""} · '
+               f'{m.get("date", "")[:10]}</text>')
     out.append(f'<text x="{W / 2}" y="{H - 12}" text-anchor="middle" font-size="9.5" '
                f'fill="#777">every Tree-RSSA generation returns bit-for-bit the same trajectory as '
                f'the specification (Lean theorems genK_simulate_eq); its law is proved in the reals'
@@ -345,7 +353,7 @@ def head_to_head():
             continue
         best = max(julia, key=julia.get)
         rows[model] = {"best_julia": best, "julia": julia[best],
-                       "lean": rec.get("treerssa-g10", {}).get("events_per_second", 0),
+                       "lean": rec.get(FINAL, {}).get("events_per_second", 0),
                        "c": rec.get("c-reference", {}).get("events_per_second", 0),
                        "port": rec.get("rssacr-port", {}).get("events_per_second", 0)}
     return rows
@@ -354,9 +362,11 @@ def head_to_head():
 def head_to_head_svg(rows):
     W, H = 900, 470
     X0, X1, Y0, Y1 = 90, 860, 70, 380
-    series = [("lean", "Lean Tree-RSSA, generation 10 (proved)", TREE),
+    series = [("lean", f"Lean Tree-RSSA, generation {len(GENERATIONS) - 1} (proved)", TREE),
               ("c", "same algorithm in C (unverified)", "#444444"),
               ("port", "Lean port of RSSACR", "#999999")]
+    # a method left out of the head-to-head run gets no bars and no legend entry
+    series = [sr for sr in series if any(r[sr[0]] > 0 for r in rows.values())]
     ratios = [r[k] / r["julia"] for r in rows.values() for k, _, _ in series if r[k] > 0]
     top = max(1.5, math.ceil(max(ratios + [1]) * 4) / 4)
     ys = lambda v: Y1 - v / top * (Y1 - Y0)
@@ -421,13 +431,16 @@ def summary(rates, meta):
         lines.append(f"| {label} | " + " | ".join(cells) + " |")
     rows = head_to_head()
     if rows:
+        extra = [(k, h) for k, h in [("c", "C ev/s"), ("port", "Lean RSSACR port ev/s")]
+                 if any(r[k] > 0 for r in rows.values())]
         lines += ["", "## Head to head (same window, alternating rounds, best time)", "",
-                  "| network | fastest Julia | Julia ev/s | Lean G10 ev/s | ratio | C ev/s | "
-                  "Lean RSSACR port ev/s |", "|---|---|---:|---:|---:|---:|---:|"]
+                  f"| network | fastest Julia | Julia ev/s | Lean G{len(GENERATIONS) - 1} ev/s | ratio |"
+                  + "".join(f" {h} |" for _, h in extra),
+                  "|---|---|---:|---:|---:|" + "---:|" * len(extra)]
         for model, r in rows.items():
             lines.append(f"| {LABEL[model]} | {r['best_julia'].split(':')[1]} | {r['julia']:.3g} | "
-                         f"{r['lean']:.3g} | {r['lean'] / r['julia']:.2f} | {r['c']:.3g} | "
-                         f"{r['port']:.3g} |")
+                         f"{r['lean']:.3g} | {r['lean'] / r['julia']:.2f} |"
+                         + "".join(f" {r[k]:.3g} |" for k, _ in extra))
     lines += ["", "Machine: " + json.dumps(meta)]
     return "\n".join(lines) + "\n"
 

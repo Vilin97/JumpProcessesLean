@@ -1,4 +1,4 @@
-⚠ [3930/4081] Replayed JumpProcessesLean.Proofs.OperationalDirect
+⚠ [3931/4232] Replayed JumpProcessesLean.Proofs.OperationalDirect
 warning: JumpProcessesLean/Proofs/OperationalDirect.lean:71:46: This simp argument is unused:
   ← Bool.decide_and
 
@@ -30,7 +30,7 @@ Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus fa
 warning: JumpProcessesLean/Proofs/OperationalDirect.lean:178:135: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
 
 Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
-⚠ [3931/4081] Replayed JumpProcessesLean.Proofs.OperationalRace
+⚠ [3932/4232] Replayed JumpProcessesLean.Proofs.OperationalRace
 warning: JumpProcessesLean/Proofs/OperationalRace.lean:106:33: Unused tactic linter: `ring` does nothing
 
 Note: This linter can be disabled with `set_option linter.unusedTactic false`
@@ -39,7 +39,7 @@ warning: JumpProcessesLean/Proofs/OperationalRace.lean:106:33: this tactic is ne
 Note: This linter can be disabled with `set_option linter.unreachableTactic false`
 warning: JumpProcessesLean/Proofs/OperationalRace.lean:158:22: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
 warning: JumpProcessesLean/Proofs/OperationalRace.lean:194:22: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
-⚠ [3932/4081] Replayed JumpProcessesLean.Proofs.OperationalNRM
+⚠ [3933/4232] Replayed JumpProcessesLean.Proofs.OperationalNRM
 warning: JumpProcessesLean/Proofs/OperationalNRM.lean:31:34: This simp argument is unused:
   exponentialClock
 
@@ -65,7 +65,7 @@ Hint: Omit it from the simp argument list.
   [apply] simp only [hex, Except.ok.injEq, Prod.mk.injEq, mem_preimage]
 
 Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-⚠ [3933/4081] Replayed JumpProcessesLean.Proofs.ExponentialSum
+⚠ [3934/4232] Replayed JumpProcessesLean.Proofs.ExponentialSum
 warning: JumpProcessesLean/Proofs/ExponentialSum.lean:68:8: Unused tactic linter: `ring` does nothing
 
 Note: This linter can be disabled with `set_option linter.unusedTactic false`
@@ -79,7 +79,7 @@ Hint: Omit it from the simp argument list.
   [apply] simp only [sumExponentialLaw, Measure.conv_dirac, add_zero]
 
 Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-⚠ [3934/4081] Replayed JumpProcessesLean.Proofs.OperationalRSSA
+⚠ [3935/4232] Replayed JumpProcessesLean.Proofs.OperationalRSSA
 warning: JumpProcessesLean/Proofs/OperationalRSSA.lean:9:42: Variable name `hp0` is not explicitly referenced.
 
 Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
@@ -113,7 +113,7 @@ Hint: The binding can be removed (if unused) or named `_` (if used implicitly). 
   [apply] _hp
 
 Note: This linter can be disabled with `set_option linter.unusedVariables false`
-⚠ [3942/4081] Replayed JumpProcessesLean.Proofs.FloatApproximation
+⚠ [3943/4232] Replayed JumpProcessesLean.Proofs.FloatApproximation
 warning: JumpProcessesLean/Proofs/FloatApproximation.lean:132:60: Variable name `hη` is not explicitly referenced.
 
 Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
@@ -132,7 +132,7 @@ Hint: The binding can be removed (if unused) or named `_` (if used implicitly). 
   [apply] _hδ
 
 Note: This linter can be disabled with `set_option linter.unusedVariables false`
-⚠ [3943/4081] Replayed JumpProcessesLean.Proofs.RSSABranches
+⚠ [3944/4232] Replayed JumpProcessesLean.Proofs.RSSABranches
 warning: JumpProcessesLean/Proofs/RSSABranches.lean:37:62: This simp argument is unused:
   Bool.true_and
 
@@ -187,10 +187,10 @@ Hint: Omit it from the simp argument list.
   [apply] simp [hm]
 
 Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-⚠ [3944/4081] Replayed JumpProcessesLean.Proofs.RealSamplerLaws
+⚠ [3945/4232] Replayed JumpProcessesLean.Proofs.RealSamplerLaws
 warning: JumpProcessesLean/Proofs/RealSamplerLaws.lean:76:76: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
 warning: JumpProcessesLean/Proofs/RealSamplerLaws.lean:88:76: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
-⚠ [3945/4081] Replayed JumpProcessesLean.Proofs.OperationalFloat
+⚠ [3946/4232] Replayed JumpProcessesLean.Proofs.OperationalFloat
 warning: JumpProcessesLean/Proofs/OperationalFloat.lean:93:6: try 'simp' instead of 'simpa'
 
 Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
@@ -206,7 +206,7 @@ Hint: The binding can be removed (if unused) or named `_` (if used implicitly). 
   [apply] _hj
 
 Note: This linter can be disabled with `set_option linter.unusedVariables false`
-⚠ [3946/4081] Replayed JumpProcessesLean.Proofs.DirectFloatLaw
+⚠ [3947/4232] Replayed JumpProcessesLean.Proofs.DirectFloatLaw
 warning: JumpProcessesLean/Proofs/DirectFloatLaw.lean:60:13: This simp argument is unused:
   Except.bind
 
@@ -244,7 +244,7 @@ Note: This linter can be disabled with `set_option linter.unusedTactic false`
 warning: JumpProcessesLean/Proofs/DirectFloatLaw.lean:73:4: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
 
 Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
-⚠ [3947/4081] Replayed JumpProcessesLean.Proofs.NRMUpdate
+⚠ [3948/4232] Replayed JumpProcessesLean.Proofs.NRMUpdate
 warning: JumpProcessesLean/Proofs/NRMUpdate.lean:43:17: This simp argument is unused:
   Nat.add_assoc
 
@@ -310,7 +310,7 @@ Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
 warning: JumpProcessesLean/Proofs/NRMUpdate.lean:171:4: Unused tactic linter: `change (_ ∧ _ ∧ _) ↔ (_ ∧ _ ∧ _)` does nothing
 
 Note: This linter can be disabled with `set_option linter.unusedTactic false`
-⚠ [3948/4081] Replayed JumpProcessesLean.Proofs.NRMTransitionLaw
+⚠ [3949/4232] Replayed JumpProcessesLean.Proofs.NRMTransitionLaw
 warning: JumpProcessesLean/Proofs/NRMTransitionLaw.lean:37:17: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
 warning: JumpProcessesLean/Proofs/NRMTransitionLaw.lean:37:17: This simp argument is unused:
   mem_setOf_eq
@@ -319,7 +319,7 @@ Hint: Omit it from the simp argument list.
   [apply] simp only [max_lt_iff]
 
 Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-⚠ [3949/4081] Replayed JumpProcessesLean.Proofs.NRMFloatLaw
+⚠ [3950/4232] Replayed JumpProcessesLean.Proofs.NRMFloatLaw
 warning: JumpProcessesLean/Proofs/NRMFloatLaw.lean:111:35: This simp argument is unused:
   Except.bind
 
@@ -327,7 +327,7 @@ Hint: Omit it from the simp argument list.
   [apply] simp only [binary64Arithmetic, Pure.pure, Except.pure, List.toArray_ofFn]
 
 Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-⚠ [3950/4081] Replayed JumpProcessesLean.Proofs.NRMFloatDistribution
+⚠ [3951/4232] Replayed JumpProcessesLean.Proofs.NRMFloatDistribution
 warning: JumpProcessesLean/Proofs/NRMFloatDistribution.lean:30:13: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
 warning: JumpProcessesLean/Proofs/NRMFloatDistribution.lean:37:47: This simp argument is unused:
   exists_eq_right
@@ -343,7 +343,7 @@ Hint: Omit it from the simp argument list.
   [apply] simp only [Except.ok.injEq, Prod.mk.injEq, exists_eq_right]
 
 Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-⚠ [3953/4081] Replayed JumpProcessesLean.Proofs.MaskedRace
+⚠ [3954/4232] Replayed JumpProcessesLean.Proofs.MaskedRace
 warning: JumpProcessesLean/Proofs/MaskedRace.lean:19:70: `if_pos` has been deprecated: Use `ite_eq_left` instead
 warning: JumpProcessesLean/Proofs/MaskedRace.lean:54:41: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
 warning: JumpProcessesLean/Proofs/MaskedRace.lean:76:12: This simp argument is unused:
@@ -359,7 +359,7 @@ Note: This linter can be disabled with `set_option linter.unusedTactic false`
 warning: JumpProcessesLean/Proofs/MaskedRace.lean:114:33: this tactic is never executed
 
 Note: This linter can be disabled with `set_option linter.unreachableTactic false`
-⚠ [3954/4081] Replayed JumpProcessesLean.Proofs.MaskedNRM
+⚠ [3955/4232] Replayed JumpProcessesLean.Proofs.MaskedNRM
 warning: JumpProcessesLean/Proofs/MaskedNRM.lean:28:45: This simp argument is unused:
   Except.bind
 
@@ -381,13 +381,13 @@ Hint: Omit it from the simp argument list.
   [apply] simp_all
 
 Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-⚠ [3955/4081] Replayed JumpProcessesLean.Proofs.MaskedTransition
+⚠ [3956/4232] Replayed JumpProcessesLean.Proofs.MaskedTransition
 warning: JumpProcessesLean/Proofs/MaskedTransition.lean:77:15: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
 warning: JumpProcessesLean/Proofs/MaskedTransition.lean:114:10: `if_neg` has been deprecated: Use `ite_eq_right` instead
 warning: JumpProcessesLean/Proofs/MaskedTransition.lean:114:21: `if_neg` has been deprecated: Use `ite_eq_right` instead
 warning: JumpProcessesLean/Proofs/MaskedTransition.lean:128:10: `if_pos` has been deprecated: Use `ite_eq_left` instead
 warning: JumpProcessesLean/Proofs/MaskedTransition.lean:204:46: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
-⚠ [3958/4081] Replayed JumpProcessesLean.Proofs.DriverRefinement
+⚠ [3959/4232] Replayed JumpProcessesLean.Proofs.DriverRefinement
 warning: JumpProcessesLean/Proofs/DriverRefinement.lean:77:28: This simp argument is unused:
   observeSolution
 
@@ -505,14 +505,14 @@ Hint: Omit it from the simp argument list.
   [apply] simp only
 
 Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-⚠ [3959/4081] Replayed JumpProcessesLean.Proofs.SimulationLaw
+⚠ [3960/4232] Replayed JumpProcessesLean.Proofs.SimulationLaw
 warning: JumpProcessesLean/Proofs/SimulationLaw.lean:137:5: Variable name `hm` is not explicitly referenced.
 
 Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
   [apply] _hm
 
 Note: This linter can be disabled with `set_option linter.unusedVariables false`
-⚠ [3960/4081] Replayed JumpProcessesLean.Proofs.AbsoluteExecution
+⚠ [3961/4232] Replayed JumpProcessesLean.Proofs.AbsoluteExecution
 warning: JumpProcessesLean/Proofs/AbsoluteExecution.lean:29:47: This simp argument is unused:
   hji
 
@@ -528,7 +528,7 @@ Hint: Omit it from the simp argument list.
   [apply] simp only [Bool.not_true, Bool.false_eq_true, ite_false, hA, decide_true, hd, hu', hj', ht, Bool.true_and]
 
 Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-⚠ [3961/4081] Replayed JumpProcessesLean.Proofs.NRMRawPath
+⚠ [3962/4232] Replayed JumpProcessesLean.Proofs.NRMRawPath
 warning: JumpProcessesLean/Proofs/NRMRawPath.lean:19:41: This simp argument is unused:
   nrmRawExtend
 
@@ -543,7 +543,7 @@ Hint: Omit it from the simp argument list.
   [apply] simp only [maskedResidual]
 
 Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-⚠ [3962/4081] Replayed JumpProcessesLean.Proofs.RSSAFloatExecution
+⚠ [3963/4232] Replayed JumpProcessesLean.Proofs.RSSAFloatExecution
 warning: JumpProcessesLean/Proofs/RSSAFloatExecution.lean:135:13: This simp argument is unused:
   Except.bind
 
@@ -565,7 +565,7 @@ Hint: Omit it from the simp argument list.
   [apply] simp only
 
 Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-⚠ [3964/4081] Replayed JumpProcessesLean.Proofs.NRMDriverExecution
+⚠ [3965/4232] Replayed JumpProcessesLean.Proofs.NRMDriverExecution
 warning: JumpProcessesLean/Proofs/NRMDriverExecution.lean:68:10: `if_pos` has been deprecated: Use `ite_eq_left` instead
 warning: JumpProcessesLean/Proofs/NRMDriverExecution.lean:74:10: `if_neg` has been deprecated: Use `ite_eq_right` instead
 warning: JumpProcessesLean/Proofs/NRMDriverExecution.lean:84:10: `if_pos` has been deprecated: Use `ite_eq_left` instead
@@ -577,14 +577,14 @@ Hint: Omit it from the simp argument list.
   [apply] simp only [he, Bind.bind, Except.bind, Pure.pure, Except.pure]
 
 Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-⚠ [3966/4081] Replayed JumpProcessesLean.Proofs.NRMEndToEnd
+⚠ [3967/4232] Replayed JumpProcessesLean.Proofs.NRMEndToEnd
 warning: JumpProcessesLean/Proofs/NRMEndToEnd.lean:38:6: `dif_pos` has been deprecated: Use `dite_eq_left` instead
-⚠ [3967/4081] Replayed JumpProcessesLean.Proofs.NRMCompletedExecution
+⚠ [3968/4232] Replayed JumpProcessesLean.Proofs.NRMCompletedExecution
 warning: JumpProcessesLean/Proofs/NRMCompletedExecution.lean:43:10: `if_pos` has been deprecated: Use `ite_eq_left` instead
 warning: JumpProcessesLean/Proofs/NRMCompletedExecution.lean:49:10: `if_neg` has been deprecated: Use `ite_eq_right` instead
 warning: JumpProcessesLean/Proofs/NRMCompletedExecution.lean:59:10: `if_pos` has been deprecated: Use `ite_eq_left` instead
 warning: JumpProcessesLean/Proofs/NRMCompletedExecution.lean:85:10: `if_neg` has been deprecated: Use `ite_eq_right` instead
-⚠ [3968/4081] Replayed JumpProcessesLean.Proofs.RSSAFloatDistribution
+⚠ [3969/4232] Replayed JumpProcessesLean.Proofs.RSSAFloatDistribution
 warning: JumpProcessesLean/Proofs/RSSAFloatDistribution.lean:82:53: This simp argument is unused:
   true_and
 
@@ -609,17 +609,17 @@ warning: JumpProcessesLean/Proofs/RSSAFloatDistribution.lean:197:37: try 'simp' 
 
 Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
 warning: JumpProcessesLean/Proofs/RSSAFloatDistribution.lean:201:24: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
-⚠ [3970/4081] Replayed JumpProcessesLean.Proofs.NRMSimulationLaw
+⚠ [3971/4232] Replayed JumpProcessesLean.Proofs.NRMSimulationLaw
 warning: JumpProcessesLean/Proofs/NRMSimulationLaw.lean:65:8: `dif_pos` has been deprecated: Use `dite_eq_left` instead
-⚠ [3972/4081] Replayed JumpProcessesLean.Proofs.PacketSimulation
+⚠ [3973/4232] Replayed JumpProcessesLean.Proofs.PacketSimulation
 warning: JumpProcessesLean/Proofs/PacketSimulation.lean:54:10: `if_pos` has been deprecated: Use `ite_eq_left` instead
 warning: JumpProcessesLean/Proofs/PacketSimulation.lean:58:10: `if_neg` has been deprecated: Use `ite_eq_right` instead
 warning: JumpProcessesLean/Proofs/PacketSimulation.lean:64:10: `if_pos` has been deprecated: Use `ite_eq_left` instead
 warning: JumpProcessesLean/Proofs/PacketSimulation.lean:73:10: `if_neg` has been deprecated: Use `ite_eq_right` instead
-⚠ [3973/4081] Replayed JumpProcessesLean.Proofs.DirectSimulationLaw
+⚠ [3974/4232] Replayed JumpProcessesLean.Proofs.DirectSimulationLaw
 warning: JumpProcessesLean/Proofs/DirectSimulationLaw.lean:28:31: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
 warning: JumpProcessesLean/Proofs/DirectSimulationLaw.lean:56:51: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
-⚠ [3974/4081] Replayed JumpProcessesLean.Proofs.RSSATapeSuffix
+⚠ [3975/4232] Replayed JumpProcessesLean.Proofs.RSSATapeSuffix
 warning: JumpProcessesLean/Proofs/RSSATapeSuffix.lean:51:70: This simp argument is unused:
   List.append_assoc
 
@@ -628,7 +628,7 @@ Hint: Omit it from the simp argument list.
     proposalExponentials, List.map_cons, List.length_cons, List.sum_cons] at hs hi' ⊢
 
 Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-⚠ [3976/4081] Replayed JumpProcessesLean.Proofs.RSSASimulationLaw
+⚠ [3977/4232] Replayed JumpProcessesLean.Proofs.RSSASimulationLaw
 warning: JumpProcessesLean/Proofs/RSSASimulationLaw.lean:96:2: Try this: 
   letI̵
 
@@ -637,7 +637,7 @@ The difference between `let` and `letI` is that `letI` inlines the value.
 But this is not relevant for proofs because of proof irrelevance.
 
 Note: This linter can be disabled with `set_option linter.style.haveILetI false`
-⚠ [3978/4081] Replayed JumpProcessesLean.Proofs.NRMFloatUpdate
+⚠ [3979/4232] Replayed JumpProcessesLean.Proofs.NRMFloatUpdate
 warning: JumpProcessesLean/Proofs/NRMFloatUpdate.lean:52:17: This simp argument is unused:
   Nat.add_assoc
 
@@ -692,10 +692,10 @@ Hint: Omit it from the simp argument list.
   [apply] simp [Pure.pure, Except.pure, List.toArray_ofFn]
 
 Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-⚠ [3979/4081] Replayed JumpProcessesLean.Proofs.NRMFloatPropagation
+⚠ [3980/4232] Replayed JumpProcessesLean.Proofs.NRMFloatPropagation
 warning: JumpProcessesLean/Proofs/NRMFloatPropagation.lean:112:10: `if_pos` has been deprecated: Use `ite_eq_left` instead
 warning: JumpProcessesLean/Proofs/NRMFloatPropagation.lean:128:10: `if_neg` has been deprecated: Use `ite_eq_right` instead
-⚠ [3980/4081] Replayed JumpProcessesLean.Proofs.FloatTrace
+⚠ [3981/4232] Replayed JumpProcessesLean.Proofs.FloatTrace
 warning: JumpProcessesLean/Proofs/FloatTrace.lean:79:27: This simp argument is unused:
   hs
 
@@ -710,7 +710,7 @@ Hint: Omit it from the simp argument list.
   [apply] simp only [Bind.bind, Except.bind]
 
 Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-⚠ [3981/4081] Replayed JumpProcessesLean.Proofs.DirectFloatStep
+⚠ [3982/4232] Replayed JumpProcessesLean.Proofs.DirectFloatStep
 warning: JumpProcessesLean/Proofs/DirectFloatStep.lean:43:13: This simp argument is unused:
   Except.bind
 
@@ -738,7 +738,7 @@ Hint: The binding can be removed (if unused) or named `_` (if used implicitly). 
   [apply] _hu
 
 Note: This linter can be disabled with `set_option linter.unusedVariables false`
-⚠ [3986/4081] Replayed JumpProcessesLean.Proofs.NRMFloatTrajectory
+⚠ [3987/4232] Replayed JumpProcessesLean.Proofs.NRMFloatTrajectory
 warning: JumpProcessesLean/Proofs/NRMFloatTrajectory.lean:43:0: Definition `NRMUpdateConditions.toCertificate` is a proposition; use `theorem` instead of `def`
 
 Note: This linter can be disabled with `set_option linter.defProp false`
@@ -765,7 +765,7 @@ Hint: Omit it from the simp argument list.
     Nat.add_sub_cancel]
 
 Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-⚠ [3987/4081] Replayed JumpProcessesLean.Proofs.PrimitiveReplayLaw
+⚠ [3988/4232] Replayed JumpProcessesLean.Proofs.PrimitiveReplayLaw
 warning: JumpProcessesLean/Proofs/PrimitiveReplayLaw.lean:18:44: `if_pos` has been deprecated: Use `ite_eq_left` instead
 warning: JumpProcessesLean/Proofs/PrimitiveReplayLaw.lean:102:73: This simp argument is unused:
   true_and
@@ -775,7 +775,7 @@ Hint: Omit it from the simp argument list.
     not_false_eq_true, and_self, ite_true]
 
 Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-⚠ [4178/4220] Replayed JumpProcessesLean.Proofs.StreamTape
+⚠ [4178/4232] Replayed JumpProcessesLean.Proofs.StreamTape
 warning: JumpProcessesLean/Proofs/StreamTape.lean:60:10: `if_pos` has been deprecated: Use `ite_eq_left` instead
 warning: JumpProcessesLean/Proofs/StreamTape.lean:64:10: `if_neg` has been deprecated: Use `ite_eq_right` instead
 warning: JumpProcessesLean/Proofs/StreamTape.lean:70:10: `if_pos` has been deprecated: Use `ite_eq_left` instead
@@ -786,14 +786,14 @@ Hint: The binding can be removed (if unused) or named `_` (if used implicitly). 
   [apply] _hj
 
 Note: This linter can be disabled with `set_option linter.unusedVariables false`
-⚠ [4179/4220] Replayed JumpProcessesLean.Proofs.DirectIID
+⚠ [4179/4232] Replayed JumpProcessesLean.Proofs.DirectIID
 warning: JumpProcessesLean/Proofs/DirectIID.lean:135:55: Variable name `q` is not explicitly referenced.
 
 Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
   [apply] _q
 
 Note: This linter can be disabled with `set_option linter.unusedVariables false`
-⚠ [4180/4220] Replayed JumpProcessesLean.Proofs.NRMIID
+⚠ [4180/4232] Replayed JumpProcessesLean.Proofs.NRMIID
 warning: JumpProcessesLean/Proofs/NRMIID.lean:106:13: This simp argument is unused:
   Nat.add_assoc
 
@@ -817,7 +817,7 @@ Hint: The binding can be removed (if unused) or named `_` (if used implicitly). 
   [apply] _l
 
 Note: This linter can be disabled with `set_option linter.unusedVariables false`
-⚠ [4181/4220] Replayed JumpProcessesLean.Proofs.RSSAIID
+⚠ [4181/4232] Replayed JumpProcessesLean.Proofs.RSSAIID
 warning: JumpProcessesLean/Proofs/RSSAIID.lean:287:15: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
 warning: JumpProcessesLean/Proofs/RSSAIID.lean:344:15: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
 warning: JumpProcessesLean/Proofs/RSSAIID.lean:745:11: Variable name `l` is not explicitly referenced.
@@ -869,7 +869,7 @@ Hint: Omit it from the simp argument list.
   [apply] simp only [rssaCapGood, mem_compl_iff, mem_iUnion, mem_inter_iff, not_exists, not_and]
 
 Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-⚠ [4182/4220] Replayed JumpProcessesLean.Proofs.FloatIID
+⚠ [4182/4232] Replayed JumpProcessesLean.Proofs.FloatIID
 warning: JumpProcessesLean/Proofs/FloatIID.lean:138:12: `MeasureTheory.measure_le_inter_add_diff` has been deprecated: Use `MeasureTheory.measure_le_inter_add_sdiff` instead
 warning: JumpProcessesLean/Proofs/FloatIID.lean:156:48: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
 warning: JumpProcessesLean/Proofs/FloatIID.lean:174:48: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
@@ -966,11 +966,11 @@ Hint: The binding can be removed (if unused) or named `_` (if used implicitly). 
   [apply] _l
 
 Note: This linter can be disabled with `set_option linter.unusedVariables false`
-⚠ [4184/4220] Replayed JumpProcessesLean.Proofs.FloatScheduleAbsorb
+⚠ [4184/4232] Replayed JumpProcessesLean.Proofs.FloatScheduleAbsorb
 warning: JumpProcessesLean/Proofs/FloatScheduleAbsorb.lean:191:27: `if_neg` has been deprecated: Use `ite_eq_right` instead
 warning: JumpProcessesLean/Proofs/FloatScheduleAbsorb.lean:197:29: `if_neg` has been deprecated: Use `ite_eq_right` instead
 warning: JumpProcessesLean/Proofs/FloatScheduleAbsorb.lean:200:29: `if_pos` has been deprecated: Use `ite_eq_left` instead
-⚠ [4186/4220] Replayed JumpProcessesLean.Proofs.NRMFloatMasked
+⚠ [4186/4232] Replayed JumpProcessesLean.Proofs.NRMFloatMasked
 warning: JumpProcessesLean/Proofs/NRMFloatMasked.lean:170:56: This simp argument is unused:
   h
 
@@ -993,4 +993,4 @@ Hint: Omit it from the simp argument list.
   [apply] simp only [Pure.pure, Except.pure, List.toArray_ofFn]
 
 Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-Build completed successfully (4220 jobs).
+Build completed successfully (4232 jobs).

@@ -23,7 +23,9 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import run as bench  # noqa: E402
 
 FAST = ["treerssa-g2", "treerssa-g3", "treerssa-g4", "treerssa-g5", "treerssa-g6",
-        "treerssa-g7", "treerssa-g8", "treerssa-g9", "treerssa-g10", "rssacr-port"]
+        "treerssa-g7", "treerssa-g8", "treerssa-g9", "treerssa-g10", "treerssa-g11",
+        "treerssa-g12", "treerssa-g13", "treerssa-g14", "treerssa-g15", "treerssa-g16",
+        "rssacr-port"]
 
 
 def once(model, method, T):
@@ -34,15 +36,17 @@ def once(model, method, T):
         return {"status": "ok", "events": data["events"][0], "seconds": data["times"][0],
                 "digest": None}
     if method == "c-reference":
-        # bench/c/treerssa.c, built with `cc -O3 -march=native -o <CREF> bench/c/treerssa.c -lm`
-        out = subprocess.run([os.environ["CREF"], str(bench.rn(model)), f"{T:.6f}", "1"],
-                             capture_output=True, text=True, check=True).stdout
+        # bench/c/treerssa.c, built with `cc -O3 -march=native -ffp-contract=off -o <CREF> bench/c/treerssa.c -lm`
+        with bench.timed_section():
+            out = subprocess.run([os.environ["CREF"], str(bench.rn(model)), f"{T:.6f}", "1"],
+                                 capture_output=True, text=True, check=True).stdout
         row = json.loads(out)
         row["status"] = "ok"
         return row
     binary = os.environ.get("JUMPBENCH", str(bench.ROOT / ".lake/build/bin/jumpBench"))
-    out = subprocess.run([binary, str(bench.rn(model)), method, f"{T:.6f}", "1"],
-                         capture_output=True, text=True, check=True).stdout
+    with bench.timed_section():
+        out = subprocess.run([binary, str(bench.rn(model)), method, f"{T:.6f}", "1"],
+                             capture_output=True, text=True, check=True).stdout
     row = json.loads([line for line in out.splitlines() if line.startswith("{")][0])
     if row["status"] != "ok":
         raise RuntimeError(f"{method} on {model}: {row['status']}")
@@ -78,7 +82,8 @@ def main():
             entry[method] = {"T": T, "events": rows[method]["events"],
                              "best_seconds": best[method],
                              "events_per_second": rows[method]["events"] / best[method],
-                             "digest": rows[method]["digest"]}
+                             "digest": rows[method]["digest"],
+                             "measured": {k: record["machine"][k] for k in ("commit", "dirty", "date")}}
         digests = {v["digest"] for k, v in entry.items()
                    if isinstance(v, dict) and (k.startswith("treerssa") or k == "c-reference")}
         digests.discard(None)

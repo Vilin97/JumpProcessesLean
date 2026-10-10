@@ -215,7 +215,11 @@ with the lower and exact propensities, and accumulates one exponential per propo
   of the public Direct simulator (Gillespie's SSA) on the same streams.
 
 **On host floats.** `hostArithmetic` is Lean's `Float` and `hostSource` draws from
-xoshiro256++ (`HostFloat.lean`). Generation `K` is an optimized implementation in
+xoshiro256++ (`HostFloat.lean`): uniforms from a word's top 53 bits, exponentials by a
+256-layer ziggurat (Marsaglia and Tsang, the method of Julia's `randexp`) whose rare slow path
+makes one tail or wedge attempt and otherwise returns `-log V` of a fresh uniform. Each branch
+yields an exact `Exp(1)` sample in real arithmetic, so the mixture is `Exp(1)`; the tables are
+binary64 roundings of the exact layer widths. Generation `K` is an optimized implementation in
 `TreeRSSA/GenK.lean`. `genK_simulate_eq` proves that, for every network whose reactant
 species are in range (`ReactantsInRange`) and every input, `GenK.simulate` returns
 exactly `TreeRSSA.simulate hostArithmetic hostSource` with the same arguments. These
@@ -233,13 +237,30 @@ proofs reason about Lean's logical model of `Float` and use no floating-point id
 * generation 5's refresh returns exactly generation 3's cache (`gen5_refresh_eq`). A
   skipped bound has an unchanged integer factor, and `evalAt_set` reads the old factor
   from the updated arrays;
-* generations 6 to 10 are proved equal to their predecessors (`gen6_eq_gen5`,
-  `gen7_eq_gen6`, `gen8_eq_gen7`, `gen9_eq_gen8`, `gen10_eq_gen9`). Generation 7 uses
-  `isFinite_eq_lt`: a float is finite exactly when it lies strictly between the two
-  infinities, by the same case analysis in Lean's model of `compare` and `isFinite`.
+* generations 6 to 16 are proved equal to their predecessors (`gen6_eq_gen5` …
+  `gen16_eq_gen15`). Generation 7 uses `isFinite_eq_lt`: a float is finite exactly when
+  it lies strictly between the two infinities, by the same case analysis in Lean's model of
+  `compare` and `isFinite`;
+* generation 11's machine-word descent visits the nodes of `Gen1.descend`: from node `1` a
+  node of level `i` lies in `[2^i, 2^(i+1))`, so the test `k < P` fails exactly after `depth`
+  levels (`descendW_eq`);
+* generation 12 carries each new node sum up the path and reads only the sibling.
+  `float_add_comm` proves float addition commutative in Lean's model (not-a-number carries
+  no payload; finite values add as integers at the smaller exponent), so the sum is the
+  same whichever child the path comes from (`fixUntilGo_eq`, `fixPathGo_eq`);
+* generation 13 compiles each dependent's factor into an integer code, from which the
+  refreshed species' power and the partner factor are recovered (`code_eval`);
+* generation 14 tests the tree size once per proposal and otherwise runs generation 13's
+  proposal (`gen14_eq_gen13`);
+* generation 15 fires on machine words with carried size facts: its loop computes the fold of
+  the changes (`applyFrom_val`), and the refresh fold is skipped only when every refresh would
+  return the cache it is given (`anyStale_false`, `foldRefresh_id`, `fire15_eq`);
+* generation 16 refreshes on machine words with the refreshed species' powers precomputed;
+  `a p = b p` iff `a = b` or `p = 0`, so its test of a changed bound is generation 13's
+  (`mul_eq_ite`, `setBounds16_eq`).
 
 The trust base for executable Tree-RSSA is Lean's: compiled code runs the C
-implementations of the `@[extern]` float operations (including `log` from the C
+implementations of the `@[extern]` float operations (including `log` and `exp` from the C
 library) for the logical `Float` model. xoshiro256++ is a pseudo-random generator, and no
 theorem claims that its outputs are independent uniforms. The laws above are proved for
 ideal IID streams in the reals.
@@ -260,7 +281,7 @@ bash scripts/verify.sh
 ```
 
 This builds the proofs, runs the native FloatLib test suite, audits the dependencies
-of the 248 results listed in `Tests/Trust.lean`, and runs the original pinned Julia
+of the 275 results listed in `Tests/Trust.lean`, and runs the original pinned Julia
 method fixtures. The audit permits only Lean's standard `propext`, `Classical.choice`
 and `Quot.sound`, and rejects `sorry`, `admit`, `axiom`, `unsafe` and `native_decide`
 in project sources.

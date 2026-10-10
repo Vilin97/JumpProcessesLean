@@ -21,7 +21,7 @@
   },
   "lean_proof_build": "passed",
   "proof_dependency_audits": {
-    "count": 248,
+    "count": 275,
     "result": "passed; only propext, Classical.choice, Quot.sound"
   },
   "executable_real_one_event_laws": "proved equal for all marked Borel time sets; NRM rates strictly positive; RSSA unbounded first-success law",
@@ -79,10 +79,10 @@
   "tree_rssa": {
     "specification": "TreeRSSA.simulate: RSSA with population brackets and a binary sum tree over the upper bounds, generic in arithmetic and random source",
     "real_correctness": "proved: treeRSSA_simulate_eq (equal to the public simulate .rssa on the bracket model), bracketModel_consistency, tree_rssa_iid_capped_law, tree_rssa_tendsto_direct",
-    "optimized_generations": "proved: gen1_simulate_eq ... gen10_simulate_eq, each generation equal bit for bit to TreeRSSA.simulate hostArithmetic hostSource on every network with in-range reactant species and every input",
-    "host_float_lemma": "proved: isFinite_eq_lt in Lean's logical Float model",
-    "trust": "compiled code trusts Lean's C implementations of the Float externs (including the C library log); xoshiro256++ outputs are not claimed IID",
-    "benchmark": "bench/results: julia.json (9 JumpProcesses.jl 9.33.1 aggregators), lean.json (generations 0-1, RSSACR port, FloatLib drivers), generations.json (generations 2-10, port, C cross-check, alternating rounds), headtohead.json (same-window comparison with RSSA, RSSACR, SortingDirect), history.svg (animated), generations.svg, headtohead.svg, summary.md",
-    "head_to_head": "generation 10 / fastest Julia aggregator, same window: multistate 0.91, multisite2 0.77, egfr_net 0.96, BCR 0.76, fceri_gamma2 0.62; geometric-mean speedup over generation 0: 5456x"
+    "optimized_generations": "proved: gen1_simulate_eq ... gen16_simulate_eq, each generation equal bit for bit to TreeRSSA.simulate hostArithmetic hostSource on every network with in-range reactant species and every input",
+    "host_float_lemma": "proved: isFinite_eq_lt and float_add_comm in Lean's logical Float model",
+    "trust": "compiled code trusts Lean's C implementations of the Float externs (including the C library log and exp used by the ziggurat exponential); xoshiro256++ outputs are not claimed IID",
+    "benchmark": "bench/results: julia.json (9 JumpProcesses.jl 9.33.1 aggregators), lean.json (generations 0-1, RSSACR port, FloatLib drivers), generations.json (generations 2-16, port, C cross-check, alternating rounds), headtohead.json (same-window comparison with RSSA, RSSACR, SortingDirect), history.svg (animated), generations.svg, headtohead.svg, summary.md",
+    "head_to_head": "generation 16 / fastest Julia aggregator, same window: multistate 1.08, multisite2 1.09, egfr_net 1.30, BCR 1.09, fceri_gamma2 1.25; geometric-mean speedup over generation 0: 6696x"
   }
 }

@@ -6,4 +6,5 @@ PASS JumpProcessesLean.Algorithm.direct: upstream A→B (8000 simulations), mean
 PASS JumpProcessesLean.Algorithm.nrm: upstream A→B (8000 simulations), mean=25.659750, expected=25.666078
 PASS JumpProcessesLean.Algorithm.rssa: upstream A→B (8000 simulations), mean=25.655750, expected=25.666078
 PASS extinction and trace chronology for all three algorithms
+PASS host ziggurat exponential: mean 1.000181, P(E > 8) 0.000328
 All tests passed.

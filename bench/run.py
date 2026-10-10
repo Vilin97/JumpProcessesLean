@@ -9,7 +9,9 @@ projected run would exceed the time budget is measured on a shorter span `T' < T
 (recorded), since the event rate of the process does not depend on the method.
 """
 import argparse
+import contextlib
 import datetime
+import fcntl
 import json
 import os
 import pathlib
@@ -50,19 +52,39 @@ def julia_cmd():
             str(ROOT / "bench/julia/bench.jl")]
 
 
+@contextlib.contextmanager
+def timed_section():
+    """Hold an exclusive lock on BENCH_LOCK (if set) for the duration of a timed run, so timed
+    runs of cooperating processes on a shared machine never overlap."""
+    path = os.environ.get("BENCH_LOCK")
+    if not path:
+        yield
+        return
+    with open(path, "a") as handle:
+        fcntl.flock(handle, fcntl.LOCK_EX)
+        try:
+            yield
+        finally:
+            fcntl.flock(handle, fcntl.LOCK_UN)
+    # leave the lock to a waiting process before this one asks for it again
+    time.sleep(LOCK_GAP)
+
+
 def run_julia(model, method, T, reps, scratch, timeout=None):
     out = scratch / f"julia_{model}_{method}.json"
-    subprocess.run(julia_cmd() + [str(rn(model)), repr(T), str(reps), str(out), method], check=True,
-                   stdout=subprocess.DEVNULL, timeout=timeout)
+    with timed_section():
+        subprocess.run(julia_cmd() + [str(rn(model)), repr(T), str(reps), str(out), method],
+                       check=True, stdout=subprocess.DEVNULL, timeout=timeout)
     data = json.loads(out.read_text())["results"][method]
     return {"times": data["times"], "events": data["events"]}
 
 
 def run_lean(model, method, T, reps, timeout=None, max_events=10**12):
     binary = os.environ.get("JUMPBENCH", str(ROOT / ".lake/build/bin/jumpBench"))
-    proc = subprocess.run([str(binary), str(rn(model)), method, f"{T:.6f}", str(reps),
-                           str(max_events)], check=True, capture_output=True, text=True,
-                          timeout=timeout)
+    with timed_section():
+        proc = subprocess.run([str(binary), str(rn(model)), method, f"{T:.6f}", str(reps),
+                               str(max_events)], check=True, capture_output=True, text=True,
+                              timeout=timeout)
     rows = [json.loads(line) for line in proc.stdout.splitlines() if line.startswith("{")]
     bad = [r for r in rows if r["status"] not in ("ok", "eventLimit")]
     if bad:
@@ -74,6 +96,8 @@ def run_lean(model, method, T, reps, timeout=None, max_events=10**12):
 
 STARTUP = 120.0  # allowance for process start, model loading and compilation
 IDLE = float(os.environ.get("BENCH_IDLE", "0"))  # wait for this idle CPU fraction before runs
+# BENCH_LOCK: a lock file shared with other benchmarking processes on the machine
+LOCK_GAP = float(os.environ.get("BENCH_LOCK_GAP", "2"))  # seconds without the lock between runs
 
 
 def idle_fraction(dt=0.5):
@@ -148,7 +172,10 @@ def machine():
         pass
     commit = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"], capture_output=True,
                             text=True).stdout.strip()
-    return {"cpu": cpu, "platform": platform.platform(), "commit": commit,
+    # uncommitted changes: the measured code is then not exactly the recorded commit
+    dirty = bool(subprocess.run(["git", "-C", str(ROOT), "status", "--porcelain"],
+                                capture_output=True, text=True).stdout.strip())
+    return {"cpu": cpu, "platform": platform.platform(), "commit": commit, "dirty": dirty,
             "date": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")}
 
 
@@ -166,7 +193,9 @@ def main():
     scratch = pathlib.Path(os.environ.get("BENCH_SCRATCH", "/tmp")) / "jumpbench"
     scratch.mkdir(parents=True, exist_ok=True)
     out = pathlib.Path(args.out)
-    record = json.loads(out.read_text()) if out.exists() else {"machine": machine(), "results": {}}
+    record = json.loads(out.read_text()) if out.exists() else {"results": {}}
+    # the file can merge several runs: the latest run's machine record, and each result's own
+    record["machine"] = machine()
     spans = dict(MODELS)
     for model in args.models:
         T = spans[model]
@@ -188,6 +217,7 @@ def main():
                 if language == "julia" else run_lean
             started = time.time()
             result = measure(runner, model, method, T, args.budget, args.min_reps, probe_events)
+            result["measured"] = {k: record["machine"][k] for k in ("commit", "dirty", "date")}
             record["results"].setdefault(model, {})[f"{language}:{method}"] = result
             print(f"{model:13s} {language}:{method:16s} {result['events_per_second']:12.4g} events/s"
                   f"  T={result['T']:.4g}  reps={result['reps']}  ({time.time() - started:.0f} s)",

@@ -121,6 +121,30 @@ def runOnce (netF : Network Float) (netB : Network Binary64) (method : String) (
     let r := TreeRSSA.Gen10.simulate netF (TreeRSSA.initialState netF netF.initial) 0 T
       (Xoshiro.seed seed) maxEvents
     return describe hostTime stateDigest r maxEvents
+  | "treerssa-g11" =>
+    let r := TreeRSSA.Gen11.simulate netF (TreeRSSA.initialState netF netF.initial) 0 T
+      (Xoshiro.seed seed) maxEvents
+    return describe hostTime stateDigest r maxEvents
+  | "treerssa-g12" =>
+    let r := TreeRSSA.Gen12.simulate netF (TreeRSSA.initialState netF netF.initial) 0 T
+      (Xoshiro.seed seed) maxEvents
+    return describe hostTime stateDigest r maxEvents
+  | "treerssa-g13" =>
+    let r := TreeRSSA.Gen13.simulate netF (TreeRSSA.initialState netF netF.initial) 0 T
+      (Xoshiro.seed seed) maxEvents
+    return describe hostTime stateDigest r maxEvents
+  | "treerssa-g14" =>
+    let r := TreeRSSA.Gen14.simulate netF (TreeRSSA.initialState netF netF.initial) 0 T
+      (Xoshiro.seed seed) maxEvents
+    return describe hostTime stateDigest r maxEvents
+  | "treerssa-g15" =>
+    let r := TreeRSSA.Gen15.simulate netF (TreeRSSA.initialState netF netF.initial) 0 T
+      (Xoshiro.seed seed) maxEvents
+    return describe hostTime stateDigest r maxEvents
+  | "treerssa-g16" =>
+    let r := TreeRSSA.Gen16.simulate netF (TreeRSSA.initialState netF netF.initial) 0 T
+      (Xoshiro.seed seed) maxEvents
+    return describe hostTime stateDigest r maxEvents
   | "treerssa-spec" =>
     let r := TreeRSSA.simulate hostArithmetic hostSource netF
       (TreeRSSA.initialState netF netF.initial) 0 T (Xoshiro.seed seed) maxEvents

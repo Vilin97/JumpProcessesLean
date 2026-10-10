@@ -1,4 +1,5 @@
 import JumpProcessesLean.FloatLibBackend
+import JumpProcessesLean.HostFloat
 import JumpProcessesLean.Simulation
 
 open JumpProcessesLean
@@ -169,6 +170,32 @@ def extinction : IO Unit := do
       previous := t
   IO.println "PASS extinction and trace chronology for all three algorithms"
 
+/-- Moments and tail frequencies of `n` host exponential draws: the sum, the sum of squares,
+the counts above 1, 5 and 8 (beyond the ziggurat's base layer at 7.697), and whether every
+draw was positive and finite. -/
+def hostExpStats : Nat → Xoshiro → Float → Float → Nat → Nat → Nat → Bool →
+    Float × Float × Nat × Nat × Nat × Bool
+  | 0, _, s1, s2, c1, c5, c8, ok => (s1, s2, c1, c5, c8, ok)
+  | n + 1, rng, s1, s2, c1, c5, c8, ok =>
+    let (e, rng) := rng.exponential
+    hostExpStats n rng (s1 + e) (s2 + e * e) (if e > 1 then c1 + 1 else c1)
+      (if e > 5 then c5 + 1 else c5) (if e > 8 then c8 + 1 else c8)
+      (ok && e > 0 && e < 1000)
+
+/-- The host source's ziggurat exponential against `Exp(1)`: tolerances are about six
+standard errors for two million draws. -/
+def hostExponential : IO Unit := do
+  let n := 2000000
+  let (s1, s2, c1, c5, c8, ok) := hostExpStats n (Xoshiro.seed 12345) 0 0 0 0 0 true
+  let size := n.toFloat
+  expect ok "host exponential: a draw was not positive and finite"
+  expect (Float.abs (s1 / size - 1) < 0.004) s!"host exponential mean {s1 / size}"
+  expect (Float.abs (s2 / size - 2) < 0.02) s!"host exponential second moment {s2 / size}"
+  expect (Float.abs (c1.toFloat / size - Float.exp (-1)) < 0.002) "host exponential P(E > 1)"
+  expect (Float.abs (c5.toFloat / size - Float.exp (-5)) < 0.0004) "host exponential P(E > 5)"
+  expect (Float.abs (c8.toFloat / size - Float.exp (-8)) < 0.0001) "host exponential P(E > 8)"
+  IO.println s!"PASS host ziggurat exponential: mean {s1 / size}, P(E > 8) {c8.toFloat / size}"
+
 end Tests
 
 def main : IO Unit := do
@@ -179,4 +206,6 @@ def main : IO Unit := do
   Tests.upstreamLinear
   (← IO.getStdout).flush
   Tests.extinction
+  (← IO.getStdout).flush
+  Tests.hostExponential
   IO.println "All tests passed."
