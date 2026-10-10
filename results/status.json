@@ -82,7 +82,8 @@
     "optimized_generations": "proved: gen1_simulate_eq ... gen16_simulate_eq, each generation equal bit for bit to TreeRSSA.simulate hostArithmetic hostSource on every network with in-range reactant species and every input",
     "host_float_lemma": "proved: isFinite_eq_lt and float_add_comm in Lean's logical Float model",
     "trust": "compiled code trusts Lean's C implementations of the Float externs (including the C library log and exp used by the ziggurat exponential); xoshiro256++ outputs are not claimed IID",
-    "benchmark": "bench/results: julia.json (9 JumpProcesses.jl 9.33.1 aggregators), lean.json (generations 0-1, RSSACR port, FloatLib drivers), generations.json (generations 2-16, port, C cross-check, alternating rounds), headtohead.json (same-window comparison with RSSA, RSSACR, SortingDirect), history.svg (animated), generations.svg, headtohead.svg, summary.md",
-    "head_to_head": "generation 16 / fastest Julia aggregator, same window: multistate 1.08, multisite2 1.09, egfr_net 1.30, BCR 1.09, fceri_gamma2 1.25; geometric-mean speedup over generation 0: 6696x"
+    "benchmark": "bench/results: julia.json (9 JumpProcesses.jl 9.33.1 aggregators), lean.json (generations 0-1, RSSACR port, FloatLib drivers), generations.json (generations 2-16, port, C cross-check, alternating rounds), headtohead.json (same-window comparison with RSSA, RSSACR, SortingDirect), headtohead-repeat.json (a second window), history.svg (animated), generations.svg, headtohead.svg, summary.md",
+    "head_to_head": "generation 16 / fastest Julia aggregator, same window: multistate 1.08, multisite2 1.09, egfr_net 1.30, BCR 1.09, fceri_gamma2 1.25; geometric-mean speedup over generation 0: 6696x",
+    "head_to_head_repeat": "second window, generation 16 / fastest Julia aggregator: multistate 1.08, multisite2 1.11, egfr_net 1.31, BCR 1.07, fceri_gamma2 1.23 (RSSACR only on fceri_gamma2)"
   }
 }

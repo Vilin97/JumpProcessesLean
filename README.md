@@ -135,7 +135,9 @@ runs the nine JumpProcesses.jl 9.33.1 aggregators with `SSAStepper` and
 * **Against JumpProcesses.jl:** generation 16 is 1.08× to 1.30× the fastest aggregator on
   every network, in the same window. RSSACR is the fastest Julia aggregator on four
   networks, SortingDirect on multistate; the other six are slower on every network (table
-  below).
+  below). A second window the same day gave 1.07× to 1.31×
+  ([`headtohead-repeat.json`](bench/results/headtohead-repeat.json); on fcεRI γ2 it left
+  out SortingDirect and RSSA, which are 33× and 130× slower than RSSACR there).
 * **Generation 16 against generation 0:** 6,696× faster (geometric mean over the five
   networks): from 72–218,000 events per second for the specification to 2.3–27 million.
   Generations 11 to 16 alone gained 1.24× to 1.78× over generation 10.
