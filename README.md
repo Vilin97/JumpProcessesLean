@@ -4,9 +4,9 @@ Lean translations of JumpProcesses.jl's Direct, NRM, and RSSA. The same
 arithmetic-parameterized code runs with FloatLib binary64 arithmetic and has a real
 interpretation used by the proofs. The repository also contains
 [Tree-RSSA](#tree-rssa-a-new-ssa-optimized-under-proof), a new exact SSA. It went through
-sixteen optimized generations, each proved to produce exactly the specification's
-trajectories. Generation 16 is faster than every JumpProcesses.jl aggregator on all five
-networks of the Catalyst paper's SSA benchmark: 1.08× to 1.30× the fastest one on each
+seventeen optimized generations, each proved to produce exactly the specification's
+trajectories. Generation 17 is faster than every JumpProcesses.jl aggregator on all five
+networks of the Catalyst paper's SSA benchmark: 1.14× to 1.34× the fastest one on each
 network, measured in the same time window.
 
 **Checked (real, end to end).** The public `simulate` driver runs on the
@@ -62,10 +62,10 @@ specification is generic in the arithmetic and the random source, like the drive
 model (`treeRSSA_simulate_eq`). So on the IID streams its event probabilities are within
 the cap defect of the exact stopped-path law (`tree_rssa_iid_capped_law`), and they
 converge to those of Gillespie's Direct method as the cap grows
-(`tree_rssa_tendsto_direct`). On host floats with the xoshiro256++ source, each of sixteen
+(`tree_rssa_tendsto_direct`). On host floats with the xoshiro256++ source, each of seventeen
 optimized **generations** is proved to return exactly what the specification returns, bit
 for bit, for every input and every network whose reactant species are in range
-(`gen1_simulate_eq` … `gen16_simulate_eq`). Speed never changes the result: all
+(`gen1_simulate_eq` … `gen17_simulate_eq`). Speed never changes the result: all
 generations produce the same trajectory for the same seed.
 
 The host source draws uniforms from a word's top 53 bits and exponentials by a 256-layer
@@ -94,6 +94,7 @@ which cover the specification for every source.
 | 14 | the tree size tested once per proposal: no join after the descent | `gen14_eq_gen13` |
 | 15 | firing on machine words; refresh fold only when a bracket is left | `gen15_eq_gen14` |
 | 16 | refreshes on machine words: products only for changed bounds | `gen16_eq_gen15` |
+| 17 | one firing loop with one-sided bracket tests; machine-word counters; implied range tests dropped | `gen17_eq_gen16` |
 
 Also in Lean: [a port of JumpProcesses.jl's RSSACR](JumpProcessesLean/Ports/RSSACR.lean),
 its fastest aggregator on four of the five networks below (unverified, for comparison).
@@ -113,8 +114,8 @@ The five networks of the Catalyst paper's SSA benchmark, from
 | fceri_gamma2 | 3744 | 58276 | 300 |
 
 Every method simulates the full network on `(0, T)` from the initial populations. Julia
-runs the nine JumpProcesses.jl 9.33.1 aggregators with `SSAStepper` and
-`MassActionJump(…; scale_rates = false)`, warmed up. Lean runs `jumpBench`.
+runs all twelve exact aggregators of JumpProcesses.jl 9.33.1 (`JUMP_AGGREGATORS`) with
+`SSAStepper` and `MassActionJump(…; scale_rates = false)`, warmed up. Lean runs `jumpBench`.
 
 ![Tree-RSSA generations against JumpProcesses.jl](bench/results/history.svg)
 
@@ -124,31 +125,33 @@ runs the nine JumpProcesses.jl 9.33.1 aggregators with `SSAStepper` and
 
 **Results.** Measured in the same time window, alternating rounds, best time:
 
-| network | fastest Julia | Julia ev/s | Lean G16 ev/s | ratio | C ev/s |
+| network | fastest Julia | Julia ev/s | Lean G17 ev/s | ratio | C ev/s |
 |---|---|---:|---:|---:|---:|
-| multistate | SortingDirect | 2.45e+07 | 2.65e+07 | 1.08 | 3.38e+07 |
-| multisite2 | RSSACR | 1.42e+07 | 1.55e+07 | 1.09 | 1.59e+07 |
-| egfr_net | RSSACR | 1.7e+07 | 2.21e+07 | 1.30 | 2.52e+07 |
-| BCR | RSSACR | 2.48e+07 | 2.7e+07 | 1.09 | 3.64e+07 |
-| fcεRI γ2 | RSSACR | 1.88e+06 | 2.34e+06 | 1.25 | 1.63e+06 |
+| multistate | SortingDirect | 2.44e+07 | 2.95e+07 | 1.21 | 3.04e+07 |
+| multisite2 | RSSACR | 1.4e+07 | 1.59e+07 | 1.14 | 1.42e+07 |
+| egfr_net | RSSACR | 1.71e+07 | 2.24e+07 | 1.31 | 2.16e+07 |
+| BCR | RSSACR | 2.47e+07 | 3.3e+07 | 1.34 | 3.5e+07 |
+| fcεRI γ2 | RSSACR | 1.88e+06 | 2.35e+06 | 1.25 | 1.55e+06 |
 
-* **Against JumpProcesses.jl:** generation 16 is 1.08× to 1.30× the fastest aggregator on
-  every network, in the same window. RSSACR is the fastest Julia aggregator on four
-  networks, SortingDirect on multistate; the other six are slower on every network (table
-  below). A second window the same day gave 1.07× to 1.31×
-  ([`headtohead-repeat.json`](bench/results/headtohead-repeat.json); on fcεRI γ2 it left
-  out SortingDirect and RSSA, which are 33× and 130× slower than RSSACR there).
-* **Generation 16 against generation 0:** 6,696× faster (geometric mean over the five
-  networks): from 72–218,000 events per second for the specification to 2.3–27 million.
-  Generations 11 to 16 alone gained 1.24× to 1.78× over generation 10.
-* **Against the Lean RSSACR port:** 3.2× to 4.1× faster on every network.
+* **Against JumpProcesses.jl:** generation 17 is 1.14× to 1.34× the fastest aggregator on
+  every network, in the same window. Every aggregator within a factor of two of the fastest
+  in the full suite ran in that window: seven on multistate, three or four elsewhere. RSSACR
+  is the fastest Julia aggregator on four networks, SortingDirect on multistate; the other
+  ten are slower on every network (table below). Generation 16 measured 1.08× to 1.30× in
+  its own window ([`headtohead-g16.json`](bench/results/headtohead-g16.json), repeated in
+  [`headtohead-g16-repeat.json`](bench/results/headtohead-g16-repeat.json)).
+* **Generation 17 against generation 16:** 1.04× to 1.20× in the same window, most on BCR
+  and multistate, where firing and bookkeeping weighed most; on fcεRI γ2 refreshes dominate.
+* **Generation 17 against generation 0:** 7,176× faster (geometric mean over the five
+  networks): from 72–218,000 events per second for the specification to 2.4–32 million.
+* **Against the Lean RSSACR port:** 3.4× to 4.5× faster on every network.
 * **The independent C implementation** of the same algorithm ends every run with the same
-  final populations as generations 2 to 16. It is straightforward C: each refresh computes
+  final populations as generations 2 to 17. It is straightforward C: each refresh computes
   the product of every dependent bound and re-adds each changed leaf's path to the root.
-  On the first four networks it is 1.02× to 1.35× generation 16: the overhead that remains
-  in Lean's generated code. On fcεRI γ2, refreshes dominate, with about 38 dependent bound
-  evaluations per event. Generation 16 skips the products whose integer factors are
-  unchanged and re-adds the paths of one refresh together, so there it is 1.44× the C.
+  Generation 17 is within 6% of it on multistate and BCR and faster on the other three; on
+  fcεRI γ2, where refreshes dominate with about 38 dependent bound evaluations per event, it
+  is 1.52× the C, because it skips the products whose integer factors are unchanged and
+  re-adds the paths of one refresh together.
 
 The numbers come from a shared machine with other jobs running, so ±15% between runs is
 normal. Each script records the machine, the commit, and whether the working tree had
@@ -160,11 +163,14 @@ keeps each one's best of five rounds.
 | method | multistate | multisite2 | egfr_net | BCR | fceri_gamma2 |
 |---|---:|---:|---:|---:|---:|
 | Julia Direct | 2.19e+07 | 2.32e+06 | 1.59e+05 | 1.4e+04 | 7.06e+03 |
+| Julia DirectFW | 2.11e+07 | 2.32e+06 | 1.59e+05 | 1.49e+04 | 7.92e+03 |
 | Julia SortingDirect | 2.44e+07 | 6.07e+06 | 4e+06 | 1.39e+06 | 5.2e+04 |
 | Julia RDirect | 1.68e+07 | 4.67e+06 | 8.69e+05 | 1.05e+05 | 5.58e+04 |
 | Julia FRM | 9.83e+06 | 6.76e+05 | 5e+04 | 6.63e+03 | 2.9e+03 |
+| Julia FRMFW | 1e+07 | 6.71e+05 | 5.08e+04 | 6.55e+03 | 2.92e+03 |
 | Julia NRM | 1.02e+07 | 1.75e+06 | 1.41e+06 | 5.16e+05 | 2.88e+05 |
 | Julia CCNRM | 9.66e+06 | 1.86e+06 | 1.92e+06 | 7.02e+05 | 4.79e+05 |
+| Julia Coevolve | 8.22e+06 | 1.22e+06 | 9.9e+05 | 3.4e+05 | 1.68e+05 |
 | Julia DirectCR | 1.33e+07 | 2.4e+06 | 1.9e+06 | 6.85e+05 | 4.67e+05 |
 | Julia RSSA | 2.32e+07 | 6.73e+06 | 5.18e+06 | 1.98e+07 | 1.48e+04 |
 | Julia RSSACR | 1.75e+07 | 1.38e+07 | 1.71e+07 | 2.07e+07 | 1.93e+06 |
@@ -183,18 +189,20 @@ keeps each one's best of five rounds.
 | Lean Tree-RSSA G12 | 2.23e+07 | 1.27e+07 | 1.95e+07 | 2.29e+07 | 1.67e+06 |
 | Lean Tree-RSSA G13 | 2.26e+07 | 1.32e+07 | 1.99e+07 | 2.32e+07 | 1.8e+06 |
 | Lean Tree-RSSA G14 | 2.37e+07 | 1.34e+07 | 2.04e+07 | 2.4e+07 | 1.8e+06 |
-| Lean Tree-RSSA G15 | 2.65e+07 | 1.43e+07 | 2.18e+07 | 2.7e+07 | 1.8e+06 |
-| Lean Tree-RSSA G16 | 2.65e+07 | 1.56e+07 | 2.2e+07 | 2.71e+07 | 2.33e+06 |
-| Tree-RSSA in C (unverified cross-check) | 3.4e+07 | 1.59e+07 | 2.64e+07 | 3.63e+07 | 1.62e+06 |
-| Lean RSSACR port | 6.5e+06 | 4.82e+06 | 6.89e+06 | 7.84e+06 | 6.55e+05 |
+| Lean Tree-RSSA G15 | 2.5e+07 | 1.35e+07 | 2.01e+07 | 2.68e+07 | 1.79e+06 |
+| Lean Tree-RSSA G16 | 2.5e+07 | 1.44e+07 | 1.95e+07 | 2.7e+07 | 2.27e+06 |
+| Lean Tree-RSSA G17 | 2.95e+07 | 1.6e+07 | 2.24e+07 | 3.24e+07 | 2.36e+06 |
+| Tree-RSSA in C (unverified cross-check) | 3.04e+07 | 1.43e+07 | 2.18e+07 | 3.51e+07 | 1.55e+06 |
+| Lean RSSACR port | 6.6e+06 | 4.72e+06 | 6.38e+06 | 7.85e+06 | 6.55e+05 |
 | Lean FloatLib Direct | 2.07e+04 | 1.6e+03 | 179 | 29.4 | 10.4 |
 | Lean FloatLib NRM | 9.51e+03 | 557 | 115 | 17.3 | 6.14 |
 | Lean FloatLib RSSA | 8.12e+03 | 599 | 46.6 | 6.37 | 2.51 |
 
 Generations 0 and 1 and the FloatLib drivers were measured by `run.py`, with shorter
 spans where the budget required (recorded in `bench/results/lean.json`). Generations 2 to
-16, the port and the C implementation come from `generations.py`, and Julia from `run.py`
-in its own window.
+17, the port and the C implementation come from `generations.py`: generations 15 to 17, the
+port and the C in the window of generation 17's head to head, the others in an earlier one
+(each result records when it was measured). Julia comes from `run.py` in its own windows.
 
 </details>
 
@@ -208,9 +216,16 @@ cc -O3 -march=native -ffp-contract=off -o treerssa-c bench/c/treerssa.c -lm
 CREF=./treerssa-c python3 bench/generations.py --out bench/results/generations.json \
   --methods treerssa-g2 treerssa-g3 treerssa-g4 treerssa-g5 treerssa-g6 treerssa-g7 \
   treerssa-g8 treerssa-g9 treerssa-g10 treerssa-g11 treerssa-g12 treerssa-g13 \
-  treerssa-g14 treerssa-g15 treerssa-g16 rssacr-port c-reference
+  treerssa-g14 treerssa-g15 treerssa-g16 treerssa-g17 rssacr-port c-reference
 CREF=./treerssa-c python3 bench/generations.py --out bench/results/headtohead.json \
-  --methods julia:SortingDirect julia:RSSA julia:RSSACR treerssa-g16 c-reference
+  --models multistate --methods julia:Direct julia:DirectFW julia:SortingDirect \
+  julia:RDirect julia:DirectCR julia:RSSA julia:RSSACR treerssa-g17 c-reference
+CREF=./treerssa-c python3 bench/generations.py --out bench/results/headtohead.json \
+  --models multisite2 egfr_net BCR \
+  --methods julia:SortingDirect julia:RSSA julia:RSSACR treerssa-g17 c-reference
+CREF=./treerssa-c python3 bench/generations.py --out bench/results/headtohead.json \
+  --models fceri_gamma2 --methods julia:SortingDirect julia:CCNRM julia:DirectCR \
+  julia:RSSACR treerssa-g17 c-reference
 python3 bench/plot.py
 ```
 

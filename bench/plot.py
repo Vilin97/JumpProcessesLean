@@ -372,6 +372,8 @@ def head_to_head_svg(rows):
     ratios = [r[k] / r["julia"] for r in rows.values() for k, _, _ in series if r[k] > 0]
     top = max(1.5, math.ceil(max(ratios + [1]) * 4) / 4)
     ys = lambda v: Y1 - v / top * (Y1 - Y0)
+    leaders = sorted({r["best_julia"].split(":")[1] for r in rows.values()})
+    named = leaders[0] if len(leaders) == 1 else ", ".join(leaders[:-1]) + " or " + leaders[-1]
     out = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" '
            f'font-family="Helvetica, Arial, sans-serif">',
            f'<rect width="{W}" height="{H}" fill="#ffffff"/>',
@@ -379,7 +381,7 @@ def head_to_head_svg(rows):
            f'fill="#222">Head to head, same machine, same time window</text>',
            f'<text x="{W / 2}" y="50" text-anchor="middle" font-size="12.5" fill="#555">'
            f'throughput relative to the fastest JumpProcesses.jl aggregator on each network '
-           f'(RSSA, RSSACR or SortingDirect), best of alternating rounds</text>']
+           f'({named}), best of alternating rounds</text>']
     t = 0.0
     while t <= top + 1e-9:
         out.append(f'<line x1="{X0}" x2="{X1}" y1="{ys(t):.1f}" y2="{ys(t):.1f}" '
