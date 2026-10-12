@@ -137,8 +137,12 @@ runs all twelve exact aggregators of JumpProcesses.jl 9.33.1 (`JUMP_AGGREGATORS`
   every network, in the same window. Every aggregator within a factor of two of the fastest
   in the full suite ran in that window: seven on multistate, three or four elsewhere. RSSACR
   is the fastest Julia aggregator on four networks, SortingDirect on multistate; the other
-  ten are slower on every network (table below). Generation 16 measured 1.08× to 1.30× in
-  its own window ([`headtohead-g16.json`](bench/results/headtohead-g16.json), repeated in
+  ten are slower on every network (table below). A second window, with the leading
+  aggregators only (four on multistate, RSSA and RSSACR on the next three networks, RSSACR
+  on fcεRI γ2), gave 1.14× to 1.35×
+  ([`headtohead-repeat.json`](bench/results/headtohead-repeat.json)). Generation 16
+  measured 1.08× to 1.30× in its own window
+  ([`headtohead-g16.json`](bench/results/headtohead-g16.json), repeated in
   [`headtohead-g16-repeat.json`](bench/results/headtohead-g16-repeat.json)).
 * **Generation 17 against generation 16:** 1.04× to 1.20× in the same window, most on BCR
   and multistate, where firing and bookkeeping weighed most; on fcεRI γ2 refreshes dominate.
