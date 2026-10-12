@@ -229,7 +229,7 @@ Install Elan and Julia 1.11 or later, then run `bash scripts/verify.sh`. It runs
 
 1. `lake build` for all proofs;
 2. `lake test` for the native FloatLib executables;
-3. the theorem dependency audit of `Tests/Trust.lean` (275 results);
+3. the theorem dependency audit of `Tests/Trust.lean` (282 results);
 4. the original Julia fixtures.
 
 Logs are written to `results/`. The first native build compiles FloatLib's C
@@ -408,7 +408,7 @@ state/count/error outcome.
 * No nonexplosion or infinite-time CTMC extension is claimed.
 
 There are no project proof placeholders, extra axioms, `native_decide`, or unsafe
-code. `Tests/Trust.lean` audits 275 principal results. `scripts/audit.py` rejects
+code. `Tests/Trust.lean` audits 282 principal results. `scripts/audit.py` rejects
 forbidden tokens in all project sources and accepts only Lean's standard `propext`,
 `Classical.choice` and `Quot.sound`.
 

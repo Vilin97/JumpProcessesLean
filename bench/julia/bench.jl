@@ -41,9 +41,9 @@ function read_rn(path)
     u0, rates, rstoch, nstoch
 end
 
-const AGGREGATORS = Dict("Direct" => Direct, "SortingDirect" => SortingDirect,
-    "RDirect" => RDirect, "FRM" => FRM, "NRM" => NRM, "CCNRM" => CCNRM,
-    "DirectCR" => DirectCR, "RSSA" => RSSA, "RSSACR" => RSSACR)
+# every exact aggregator of `JumpProcesses.JUMP_AGGREGATORS`, keyed by name
+const AGGREGATORS = Dict(string(nameof(typeof(a))) => typeof(a)
+                         for a in JumpProcesses.JUMP_AGGREGATORS)
 
 function problem(network, T, aggregator, seed)
     u0, rates, rstoch, nstoch = network

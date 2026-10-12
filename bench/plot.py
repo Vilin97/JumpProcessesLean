@@ -19,11 +19,12 @@ MODELS = [("multistate", 18), ("multisite2", 288), ("egfr_net", 3749), ("BCR", 2
           ("fceri_gamma2", 58276)]
 LABEL = {"multistate": "multistate", "multisite2": "multisite2", "egfr_net": "egfr_net",
          "BCR": "BCR", "fceri_gamma2": "fcεRI γ2"}
-JULIA = [("Direct", "#4c72b0", "circle"), ("SortingDirect", "#55a868", "square"),
-         ("RDirect", "#8172b2", "triangle"), ("FRM", "#ccb974", "diamond"),
+JULIA = [("Direct", "#4c72b0", "circle"), ("DirectFW", "#4c72b0", "square"),
+         ("SortingDirect", "#55a868", "square"), ("RDirect", "#8172b2", "triangle"),
+         ("FRM", "#ccb974", "diamond"), ("FRMFW", "#ccb974", "circle"),
          ("NRM", "#64b5cd", "circle"), ("CCNRM", "#8c8c8c", "square"),
-         ("DirectCR", "#dd8452", "triangle"), ("RSSA", "#937860", "diamond"),
-         ("RSSACR", "#da8bc3", "star")]
+         ("Coevolve", "#64b5cd", "diamond"), ("DirectCR", "#dd8452", "triangle"),
+         ("RSSA", "#937860", "diamond"), ("RSSACR", "#da8bc3", "star")]
 GENERATIONS = [
     ("treerssa-spec", "specification: the proved Tree-RSSA itself"),
     ("treerssa-g1", "flat FloatArray sum tree, incremental path updates"),
@@ -42,6 +43,7 @@ GENERATIONS = [
     ("treerssa-g14", "tree size tested once per proposal: no join after the descent"),
     ("treerssa-g15", "firing on machine words; refresh fold only when a bracket is left"),
     ("treerssa-g16", "refreshes on machine words: products only for changed bounds"),
+    ("treerssa-g17", "one firing loop, one-sided bracket tests, machine-word counters"),
 ]
 FINAL = GENERATIONS[-1][0]
 TREE = "#c0392b"

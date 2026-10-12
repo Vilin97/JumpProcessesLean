@@ -28,8 +28,8 @@ MODELS = [  # name, T: about 0.5-1.5 s for the fastest Julia method
     ("BCR", 10.0),
     ("fceri_gamma2", 300.0),
 ]
-JULIA_METHODS = ["Direct", "SortingDirect", "RDirect", "FRM", "NRM", "CCNRM", "DirectCR",
-                 "RSSA", "RSSACR"]
+JULIA_METHODS = ["Direct", "DirectFW", "SortingDirect", "RDirect", "FRM", "FRMFW", "NRM",
+                 "CCNRM", "Coevolve", "DirectCR", "RSSA", "RSSACR"]
 SIZES = {"multistate": (9, 18), "multisite2": (66, 288), "egfr_net": (356, 3749),
          "BCR": (1122, 24388), "fceri_gamma2": (3744, 58276)}
 

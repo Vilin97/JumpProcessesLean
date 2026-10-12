@@ -237,8 +237,8 @@ proofs reason about Lean's logical model of `Float` and use no floating-point id
 * generation 5's refresh returns exactly generation 3's cache (`gen5_refresh_eq`). A
   skipped bound has an unchanged integer factor, and `evalAt_set` reads the old factor
   from the updated arrays;
-* generations 6 to 16 are proved equal to their predecessors (`gen6_eq_gen5` …
-  `gen16_eq_gen15`). Generation 7 uses `isFinite_eq_lt`: a float is finite exactly when
+* generations 6 to 17 are proved equal to their predecessors (`gen6_eq_gen5` …
+  `gen17_eq_gen16`). Generation 7 uses `isFinite_eq_lt`: a float is finite exactly when
   it lies strictly between the two infinities, by the same case analysis in Lean's model of
   `compare` and `isFinite`;
 * generation 11's machine-word descent visits the nodes of `Gen1.descend`: from node `1` a
@@ -258,6 +258,15 @@ proofs reason about Lean's logical model of `Float` and use no floating-point id
 * generation 16 refreshes on machine words with the refreshed species' powers precomputed;
   `a p = b p` iff `a = b` or `p = 0`, so its test of a changed bound is generation 13's
   (`mul_eq_ite`, `setBounds16_eq`).
+* generation 17 keeps of each group of range tests only those that imply the others in Lean's
+  float model (`uniform_checks`, `exponential_checks`, `time_checks`). It fires in one loop that
+  tests each changed species on the side it moved to: with no species outside its bracket before
+  the event and distinct species per reaction, this is the fold of the changes followed by
+  generation 15's test (`staleI_up`, `staleI_down`, `applyTest_eq`, `fire17`). A refresh puts its
+  species inside the bracket of its own count and moves no other bracket, so the invariant holds
+  after every event (`foldRefresh13_brackets`), and without a refresh the tree, hence the total,
+  is unchanged (`RunInv`, `gen17_run_eq`). The start tests these conditions and otherwise runs
+  generation 16 (`start17_eq`).
 
 The trust base for executable Tree-RSSA is Lean's: compiled code runs the C
 implementations of the `@[extern]` float operations (including `log` and `exp` from the C
@@ -281,7 +290,7 @@ bash scripts/verify.sh
 ```
 
 This builds the proofs, runs the native FloatLib test suite, audits the dependencies
-of the 275 results listed in `Tests/Trust.lean`, and runs the original pinned Julia
+of the 282 results listed in `Tests/Trust.lean`, and runs the original pinned Julia
 method fixtures. The audit permits only Lean's standard `propext`, `Classical.choice`
 and `Quot.sound`, and rejects `sorry`, `admit`, `axiom`, `unsafe` and `native_decide`
 in project sources.
