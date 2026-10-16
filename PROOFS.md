@@ -238,7 +238,7 @@ proofs reason about Lean's logical model of `Float` and use no floating-point id
   skipped bound has an unchanged integer factor, and `evalAt_set` reads the old factor
   from the updated arrays;
 * generations 6 to 18 are proved equal to their predecessors (`gen6_eq_gen5` …
-  `gen18_eq_gen17`). Generation 7 uses `isFinite_eq_lt`: a float is finite exactly when
+  `gen18_eq_gen17`), and generation 19 to generation 17 (`gen19_eq_gen17`). Generation 7 uses `isFinite_eq_lt`: a float is finite exactly when
   it lies strictly between the two infinities, by the same case analysis in Lean's model of
   `compare` and `isFinite`;
 * generation 11's machine-word descent visits the nodes of `Gen1.descend`: from node `1` a
@@ -282,6 +282,18 @@ proofs reason about Lean's logical model of `Float` and use no floating-point id
   generation 17's (`run18_eq_of`). The start tests that the network's factors have order at
   most two and the counts, brackets and change amounts are below `2^26`, and otherwise runs
   generation 17 (`start18_eq`).
+* generation 19 is generation 18 without lower bounds. Generation 17's lower bounds are the
+  propensities at the brackets' lower ends (`CacheOK`); every firing keeps this, through the
+  equalities of the earlier generations' firings with generation 3's (`fire13_cacheOK`), and no
+  species leaves its bracket (`fire17`). For factors of order at most two the integer factor is
+  monotone in every count (`eval_mono`). Lean's float comparisons are transitive, since
+  `compare` is lexicographic in sign class, exponent and mantissa (`float_le_trans`,
+  `float_lt_of_lt_of_le`), and multiplication by a rate `0 ≤ r < 2^52` is monotone on counts
+  below `2^53`: it is the exact product rounded once, and rounding is monotone (`mul_count_mono`,
+  through FloatLib's bridge). So the lower-bound test accepts only proposals that the exact test
+  accepts (`squeeze_redundant`), and generation 17's acceptance is generation 19's (`acc19_eq`,
+  `gen19_run_eq`). The start also tests the rates and otherwise runs generation 17
+  (`start19_eq`).
 
 The trust base for executable Tree-RSSA is Lean's: compiled code runs the C
 implementations of the `@[extern]` float operations (including `log` and `exp` from the C
@@ -310,7 +322,7 @@ bash scripts/verify.sh
 ```
 
 This builds the proofs, runs the native FloatLib test suite, audits the dependencies
-of the 292 results listed in `Tests/Trust.lean`, and runs the original pinned Julia
+of the 301 results listed in `Tests/Trust.lean`, and runs the original pinned Julia
 method fixtures. The audit permits only Lean's standard `propext`, `Classical.choice`
 and `Quot.sound`, and rejects `sorry`, `admit`, `axiom`, `unsafe` and `native_decide`
 in project sources.

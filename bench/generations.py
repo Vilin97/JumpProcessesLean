@@ -25,7 +25,7 @@ import run as bench  # noqa: E402
 FAST = ["treerssa-g2", "treerssa-g3", "treerssa-g4", "treerssa-g5", "treerssa-g6",
         "treerssa-g7", "treerssa-g8", "treerssa-g9", "treerssa-g10", "treerssa-g11",
         "treerssa-g12", "treerssa-g13", "treerssa-g14", "treerssa-g15", "treerssa-g16",
-        "treerssa-g17", "treerssa-g18", "rssacr-port"]
+        "treerssa-g17", "treerssa-g18", "treerssa-g19", "rssacr-port"]
 
 
 def once(model, method, T):
