@@ -332,3 +332,8 @@ import JumpProcessesLean
 #print axioms JumpProcessesLean.Proofs.start25_eq
 #print axioms JumpProcessesLean.Proofs.gen25_eq_gen24
 #print axioms JumpProcessesLean.Proofs.gen25_simulate_eq
+#print axioms JumpProcessesLean.Proofs.applyRV_eq
+#print axioms JumpProcessesLean.Proofs.gen26_run_eq
+#print axioms JumpProcessesLean.Proofs.start26_eq
+#print axioms JumpProcessesLean.Proofs.gen26_eq_gen25
+#print axioms JumpProcessesLean.Proofs.gen26_simulate_eq

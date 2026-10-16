@@ -355,3 +355,8 @@
 'JumpProcessesLean.Proofs.start25_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
 'JumpProcessesLean.Proofs.gen25_eq_gen24' depends on axioms: [propext, Classical.choice, Quot.sound]
 'JumpProcessesLean.Proofs.gen25_simulate_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.applyRV_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.gen26_run_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.start26_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.gen26_eq_gen25' depends on axioms: [propext, Classical.choice, Quot.sound]
+'JumpProcessesLean.Proofs.gen26_simulate_eq' depends on axioms: [propext, Classical.choice, Quot.sound]

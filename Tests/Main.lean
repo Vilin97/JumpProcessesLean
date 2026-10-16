@@ -10,6 +10,7 @@ import JumpProcessesLean.TreeRSSA.Gen22
 import JumpProcessesLean.TreeRSSA.Gen23
 import JumpProcessesLean.TreeRSSA.Gen24
 import JumpProcessesLean.TreeRSSA.Gen25
+import JumpProcessesLean.TreeRSSA.Gen26
 
 open JumpProcessesLean
 
@@ -231,7 +232,28 @@ def absorbedClock : IO Unit := do
   let noRc ← getOk (TreeRSSA.Gen25.simulate net initial bigF (bigF + 1048576) (Xoshiro.seed 7))
   expect (noRc.state == spec.state && noRc.events == spec.events && noRc.rng == spec.rng)
     "Tree-RSSA generation 25 differs from the specification from 2^53"
+  let oneCh ← getOk (TreeRSSA.Gen26.simulate net initial bigF (bigF + 1048576) (Xoshiro.seed 7))
+  expect (oneCh.state == spec.state && oneCh.events == spec.events && oneCh.rng == spec.rng)
+    "Tree-RSSA generation 26 differs from the specification from 2^53"
   IO.println "PASS absorbed clock steps from 2^53 (Direct, NRM, RSSA, Tree-RSSA)"
+
+/-- Generation 26 takes its fast path on a network with reactions of one change (a gene's
+transcription, degradations, translation) and of two (dimerization), and returns what the
+specification returns; generation 25 falls back to generation 20 there. -/
+def oneChange : IO Unit := do
+  let net : Network Float := ⟨4, #[10, 0, 0, 0], #[⟨1, #[(0, 1)], #[(1, 1)]⟩,
+    ⟨0.1, #[(1, 1)], #[(1, -1)]⟩, ⟨0.5, #[(1, 1)], #[(2, 1)]⟩, ⟨0.05, #[(2, 1)], #[(2, -1)]⟩,
+    ⟨0.001, #[(2, 2)], #[(2, -2), (3, 1)]⟩, ⟨0.1, #[(3, 1)], #[(3, -1), (2, 2)]⟩]⟩
+  let initial := TreeRSSA.initialState net net.initial
+  let spec ← getOk (TreeRSSA.simulate hostArithmetic hostSource net initial 0 300 (Xoshiro.seed 3))
+  let fast ← getOk (TreeRSSA.Gen26.simulate net initial 0 300 (Xoshiro.seed 3))
+  let old ← getOk (TreeRSSA.Gen25.simulate net initial 0 300 (Xoshiro.seed 3))
+  expect (spec.events > 1000) "one-change network: too few events"
+  expect (fast.state == spec.state && fast.events == spec.events && fast.rng == spec.rng)
+    "Tree-RSSA generation 26 differs from the specification on reactions of one change"
+  expect (old.state == spec.state && old.events == spec.events && old.rng == spec.rng)
+    "Tree-RSSA generation 25 differs from the specification on reactions of one change"
+  IO.println s!"PASS reactions of one change: generations 25 and 26 match the specification over {spec.events} events"
 
 /-- Moments and tail frequencies of `n` host exponential draws: the sum, the sum of squares,
 the counts above 1, 5 and 8 (beyond the ziggurat's base layer at 7.697), and whether every
@@ -271,6 +293,8 @@ def main : IO Unit := do
   Tests.extinction
   (← IO.getStdout).flush
   Tests.absorbedClock
+  (← IO.getStdout).flush
+  Tests.oneChange
   (← IO.getStdout).flush
   Tests.hostExponential
   IO.println "All tests passed."

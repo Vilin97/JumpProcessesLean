@@ -7,5 +7,6 @@ PASS JumpProcessesLean.Algorithm.nrm: upstream A→B (8000 simulations), mean=25
 PASS JumpProcessesLean.Algorithm.rssa: upstream A→B (8000 simulations), mean=25.655750, expected=25.666078
 PASS extinction and trace chronology for all three algorithms
 PASS absorbed clock steps from 2^53 (Direct, NRM, RSSA, Tree-RSSA)
+PASS reactions of one change: generations 25 and 26 match the specification over 153555 events
 PASS host ziggurat exponential: mean 1.000181, P(E > 8) 0.000328
 All tests passed.
