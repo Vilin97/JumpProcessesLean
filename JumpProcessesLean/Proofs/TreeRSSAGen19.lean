@@ -38,15 +38,15 @@ theorem setBoundsV_proj (leaves P : USize) (hP2 : 2 * P.toNat < USize.size) (D :
     intro i hm lower tree pending
     have hge : ¬ i < ds.usize := by
       intro h; have := Gen15.lt_size_of_lt_usize ds i h; omega
-    rw [Gen19.setBoundsV, dif_neg hge, Gen18.setBoundsW, dif_neg hge]
+    rw [Gen19.setBoundsV, dite_eq_right hge, Gen18.setBoundsW, dite_eq_right hge]
   | succ m ih =>
     intro i hm lower tree pending
     by_cases h : i < ds.usize
     · have hs := Gen15.succ_toNat_of_lt_usize ds i h
-      rw [Gen19.setBoundsV, dif_pos h, Gen18.setBoundsW, dif_pos h]
+      rw [Gen19.setBoundsV, dite_eq_left h, Gen18.setBoundsW, dite_eq_left h]
       dsimp only
       split_ifs <;> exact ih _ (by omega) _ _ _
-    · rw [Gen19.setBoundsV, dif_neg h, Gen18.setBoundsW, dif_neg h]
+    · rw [Gen19.setBoundsV, dite_eq_right h, Gen18.setBoundsW, dite_eq_right h]
 
 theorem rebracketV_proj (W : Gen18.Compiled) (leaves P : USize) (hP2 : 2 * P.toNat < USize.size)
     (D : USize) (pop : FloatArray) (cW : Gen18.CacheW) (s : USize) :
@@ -67,24 +67,24 @@ theorem refreshFromV_proj (W : Gen18.Compiled) (leaves P : USize) (hP2 : 2 * P.t
     intro i hm cW
     have hge : ¬ i < chs.usize := by
       intro h; have := Gen15.lt_size_of_lt_usize chs i h; omega
-    rw [Gen19.refreshFromV, dif_neg hge, Gen18.refreshFrom, dif_neg hge]
+    rw [Gen19.refreshFromV, dite_eq_right hge, Gen18.refreshFrom, dite_eq_right hge]
   | succ m ih =>
     intro i hm cW
     by_cases h : i < chs.usize
     · have hs := Gen15.succ_toNat_of_lt_usize chs i h
-      rw [Gen19.refreshFromV, dif_pos h, Gen18.refreshFrom, dif_pos h]
+      rw [Gen19.refreshFromV, dite_eq_left h, Gen18.refreshFrom, dite_eq_left h]
       dsimp only
       by_cases hst : Gen18.staleW (Gen18.cget W.ms (chs.uget i (Gen15.lt_size_of_lt_usize chs i h)).species)
           (Gen18.cget pop (chs.uget i (Gen15.lt_size_of_lt_usize chs i h)).species)
           (Gen18.cget cW.lo (chs.uget i (Gen15.lt_size_of_lt_usize chs i h)).species)
           (Gen18.cget cW.hi (chs.uget i (Gen15.lt_size_of_lt_usize chs i h)).species) = true
-      · rw [if_pos (show Gen18.staleW _ _ (Gen18.cget (projV cW).lo _) (Gen18.cget (projV cW).hi _) = true
-          from hst), if_pos hst, rebracketV_proj]
+      · rw [ite_eq_left (show Gen18.staleW _ _ (Gen18.cget (projV cW).lo _) (Gen18.cget (projV cW).hi _) = true
+          from hst), ite_eq_left hst, rebracketV_proj]
         exact ih _ (by omega) _
-      · rw [if_neg (show ¬ Gen18.staleW _ _ (Gen18.cget (projV cW).lo _) (Gen18.cget (projV cW).hi _) = true
-          from hst), if_neg hst]
+      · rw [ite_eq_right (show ¬ Gen18.staleW _ _ (Gen18.cget (projV cW).lo _) (Gen18.cget (projV cW).hi _) = true
+          from hst), ite_eq_right hst]
         exact ih _ (by omega) _
-    · rw [Gen19.refreshFromV, dif_neg h, Gen18.refreshFrom, dif_neg h]
+    · rw [Gen19.refreshFromV, dite_eq_right h, Gen18.refreshFrom, dite_eq_right h]
 
 /-! ## Generation 17's lower bounds -/
 
@@ -131,7 +131,7 @@ theorem eval_mono (n : Nat) (f : Gen3.Factor) (hf : Gen18.FactorW.ok n f = true)
   | pair s ν t μ =>
     simp only [Gen18.FactorW.ok, Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq] at hf
     obtain ⟨⟨⟨hs, ht⟩, rfl⟩, rfl⟩ := hf
-    simp only [Gen3.Factor.eval, Gen3.ff, if_pos]
+    simp only [Gen3.Factor.eval, Gen3.ff, ite_eq_left]
     exact Nat.mul_le_mul (h s hs) (h t ht)
   | general rs => simp [Gen18.FactorW.ok] at hf
 
@@ -153,7 +153,7 @@ theorem eval_lt (n : Nat) (f : Gen3.Factor) (hf : Gen18.FactorW.ok n f = true)
   | pair s ν t μ =>
     simp only [Gen18.FactorW.ok, Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq] at hf
     obtain ⟨⟨⟨hs, ht⟩, rfl⟩, rfl⟩ := hf
-    simp only [Gen3.Factor.eval, Gen3.ff, if_pos]
+    simp only [Gen3.Factor.eval, Gen3.ff, ite_eq_left]
     calc pop[s]! * pop[t]! < 2 ^ 26 * 2 ^ 26 := Nat.mul_lt_mul'' (h s hs) (h t ht)
       _ ≤ 2 ^ 53 := by norm_num
   | general rs => simp [Gen18.FactorW.ok] at hf
@@ -420,7 +420,7 @@ theorem run19_eq_of (net : Network Float) (C : Gen6.Compiled) (hC : C = Gen6.com
       · have hjn : Gen17.descendW c.tree P (Gen11.two_mul_le_size c.tree P hP2 hT) hP2 1
             Gen11.usize_one_pos (u * total) - P < numRx := by
           by_contra hj
-          rw [if_pos (by simp [hj])] at hacc
+          rw [ite_eq_left (by simp [hj])] at hacc
           cases hacc
         have hclo' : Gen18.ofCounts loW n = c.lo := hclo
         have hchi' : Gen18.ofCounts hiW n = c.hi := hchi
@@ -449,18 +449,18 @@ theorem run19_eq_of (net : Network Float) (C : Gen6.Compiled) (hC : C = Gen6.com
               (Gen17.changesAt C n hval (Gen17.descendW c.tree P (Gen11.two_mul_le_size c.tree P hP2 hT)
                 hP2 1 Gen11.usize_one_pos (u * total) - P)).2
               C.gen5.base.ms c.lo c.hi hms hlo hhi 0 pop hpop false).size = n
-          · rw [if_pos hps, dif_pos hps]
+          · rw [ite_eq_left hps, dite_eq_left hps]
             have f1' := f1
-            rw [if_pos hps] at f1'
+            rw [ite_eq_left hps] at f1'
             rw [ofCounts_eq f1' (fun t ht => by have := f5 hps t ht; omega), hclo', hchi']
             have hev0 : evW.toNat ≠ 0 := fun h0 => he (USize.toNat_inj.mp (by rw [h0]; rfl))
             obtain ⟨f, hf⟩ : ∃ f, fuel = f + 1 := ⟨fuel - 1, by omega⟩
             exact hnext f hf (evW - 1) cap _ ⟨loW, hiW, c.tree⟩ _ hps c hlo hhi _ total floatZero _ _ _ _
               (count + 1) _ (by rw [Gen16.pred_toNat evW he]; omega)
               ⟨⟨f1', f2, f5 hps, hrel.rel.cache⟩, hrel.ok, g1 hps⟩
-          · rw [if_neg hps, dif_neg hps]
+          · rw [ite_eq_right hps, dite_eq_right hps]
             have f1' := f1
-            rw [if_neg hps] at f1'
+            rw [ite_eq_right hps] at f1'
             have hpp : Gen18.ofCounts (Gen18.applyW ((Gen17.changesAt C n hval (Gen17.descendW c.tree P
                 (Gen11.two_mul_le_size c.tree P hP2 hT) hP2 1 Gen11.usize_one_pos (u * total) - P)).1.map
                 Gen18.ChangeW.ofChange) (Gen18.compileW C codes).ms loW hiW n.toUSize 0 popW false) n =
@@ -470,7 +470,7 @@ theorem run19_eq_of (net : Network Float) (C : Gen6.Compiled) (hC : C = Gen6.com
                     hP2 1 Gen11.usize_one_pos (u * total) - P)).2
                   C.gen5.base.ms c.lo c.hi hms hlo hhi 0 pop hpop false).pop := by
               have h4 := f4
-              simp only [if_neg hps] at h4
+              simp only [ite_eq_right hps] at h4
               exact ofCounts_eq f1' (fun t ht => by have := h4 t ht; omega)
             have hcsz : (Gen17.changesAt C n hval (Gen17.descendW c.tree P
                 (Gen11.two_mul_le_size c.tree P hP2 hT) hP2 1 Gen11.usize_one_pos (u * total) - P)).1.size <
@@ -480,9 +480,9 @@ theorem run19_eq_of (net : Network Float) (C : Gen6.Compiled) (hC : C = Gen6.com
                 Gen18.ChangeW.ofChange) (Gen18.applyW ((Gen17.changesAt C n hval (Gen17.descendW c.tree P
                 (Gen11.two_mul_le_size c.tree P hP2 hT) hP2 1 Gen11.usize_one_pos (u * total) - P)).1.map
                 Gen18.ChangeW.ofChange) (Gen18.compileW C codes).ms loW hiW n.toUSize 0 popW false) 0 = true
-            · rw [if_pos hsf]
+            · rw [ite_eq_left hsf]
               have h4 := f4
-              simp only [if_neg hps] at h4
+              simp only [ite_eq_right hps] at h4
               have hsm25 := smallFrom_spec _ n (Gen17.changesAt C n hval _).2 hcsz (by omega) _ _ f1'
                 (fun t ht => by have := h4 t ht; omega) _ 0 rfl hsf
               simp only [USize.toNat_zero, List.drop_zero] at hsm25
@@ -515,9 +515,9 @@ theorem run19_eq_of (net : Network Float) (C : Gen6.Compiled) (hC : C = Gen6.com
                 omega
               · push Not at hch
                 have h6 := f6 t ht hch
-                simp only [if_neg hps] at h6
+                simp only [ite_eq_right hps] at h6
                 rw [h6]; exact hrel.rel.small t ht
-            · rw [if_neg hsf]
+            · rw [ite_eq_right hsf]
               have htc : Gen19.toCache C n ⟨loW, hiW, c.tree⟩ = c := by
                 simp only [Gen19.toCache, hclo', hchi', lowerOf_eq' net C hC c hrel.ok]
               have hsz := Gen16.foldRefresh_size C.gen5 codes P hP2 C.gen5.base.ms
@@ -530,12 +530,12 @@ theorem run19_eq_of (net : Network Float) (C : Gen6.Compiled) (hC : C = Gen6.com
                   (Gen11.two_mul_le_size c.tree P hP2 hT) hP2 1 Gen11.usize_one_pos (u * total) - P)).1 c
               simp only [hpp, htc, ← changesAt_val C n hval (Gen17.descendW c.tree P
                   (Gen11.two_mul_le_size c.tree P hP2 hT) hP2 1 Gen11.usize_one_pos (u * total) - P)]
-              rw [dif_pos f1'.1, dif_pos ⟨hsz.1.trans hlo, hsz.2.trans hhi⟩]
+              rw [dite_eq_left f1'.1, dite_eq_left ⟨hsz.1.trans hlo, hsz.2.trans hhi⟩]
       · exact ih evW (prW - 1) popW ⟨loW, hiW, c.tree⟩ pop hpop c hlo hhi now total _ _ _ _ _
           count trace hev (usize_pred_toNat hpr) hrel
     · rw [dite_eq_right hT, dite_eq_right hT]
       simp only [Gen19.toCache, hcounts, hclo, hchi, lowerOf_eq' net C hC c hrel.ok]
-      rw [dif_pos ⟨hpop, hlo, hhi⟩, Gen17.run]
+      rw [dite_eq_left ⟨hpop, hlo, hhi⟩, Gen17.run]
       simp only [dite_eq_right hT, dite_eq_right (usize_ne_zero_of_toNat hpr)]
 
 /-! ## The driver and the start -/

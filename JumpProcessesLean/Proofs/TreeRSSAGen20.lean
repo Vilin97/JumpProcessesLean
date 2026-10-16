@@ -75,14 +75,14 @@ theorem applyU_eq (chs : Array Gen18.ChangeW) (nW : USize)
     intro i hm pop hpop hpopU stale
     have hge : ¬ i < chs.usize := by
       intro h; have := Gen15.lt_size_of_lt_usize chs i h; omega
-    rw [Gen20.applyU, dif_neg hge, Gen18.applyW, dif_neg hge, cset_uset _ _ _ hpop hpopU]
+    rw [Gen20.applyU, dite_eq_right hge, Gen18.applyW, dite_eq_right hge, cset_uset _ _ _ hpop hpopU]
   | succ m ih =>
     intro i hm pop hpop hpopU stale
     by_cases h : i < chs.usize
     · have hs := Gen15.succ_toNat_of_lt_usize chs i h
       have hi' := Gen15.lt_size_of_lt_usize chs i h
       have hsp : (chs.uget i hi').species.toNat < nW.toNat := hchs i.toNat hi'
-      rw [Gen20.applyU, dif_pos h, Gen18.applyW, dif_pos h]
+      rw [Gen20.applyU, dite_eq_left h, Gen18.applyW, dite_eq_left h]
       dsimp only
       rw [cget_uget pop _ (by omega)]
       split
@@ -91,7 +91,7 @@ theorem applyU_eq (chs : Array Gen18.ChangeW) (nW : USize)
       · rw [cset_uset _ _ _ (by omega) hpopU, cget_uget lo _ (by omega), cget_uget ms _ (by omega),
           cget_uget hi _ (by omega)]
         exact ih (i + 1) (by omega) _ _ (by rw [Gen20.size_uset]; exact hpopU) _
-    · rw [Gen20.applyU, dif_neg h, Gen18.applyW, dif_neg h, cset_uset _ _ _ hpop hpopU]
+    · rw [Gen20.applyU, dite_eq_right h, Gen18.applyW, dite_eq_right h, cset_uset _ _ _ hpop hpopU]
 
 theorem smallU_eq (chs : Array Gen18.ChangeW) (nW : USize)
     (hchs : ∀ k (h : k < chs.size), (chs[k]'h).species.toNat < nW.toNat) (pop : FloatArray)
@@ -104,17 +104,17 @@ theorem smallU_eq (chs : Array Gen18.ChangeW) (nW : USize)
     intro i hm
     have hge : ¬ i < chs.usize := by
       intro h; have := Gen15.lt_size_of_lt_usize chs i h; omega
-    rw [Gen20.smallU, dif_neg hge, Gen18.smallFrom, dif_neg hge]
+    rw [Gen20.smallU, dite_eq_right hge, Gen18.smallFrom, dite_eq_right hge]
   | succ m ih =>
     intro i hm
     by_cases h : i < chs.usize
     · have hs := Gen15.succ_toNat_of_lt_usize chs i h
       have hi' := Gen15.lt_size_of_lt_usize chs i h
       have hsp : (chs.uget i hi').species.toNat < nW.toNat := hchs i.toNat hi'
-      rw [Gen20.smallU, dif_pos h, Gen18.smallFrom, dif_pos h]
+      rw [Gen20.smallU, dite_eq_left h, Gen18.smallFrom, dite_eq_left h]
       dsimp only
       rw [cget_uget pop _ (by omega), ih (i + 1) (by omega)]
-    · rw [Gen20.smallU, dif_neg h, Gen18.smallFrom, dif_neg h]
+    · rw [Gen20.smallU, dite_eq_right h, Gen18.smallFrom, dite_eq_right h]
 
 theorem evalU_eq (f : Gen18.FactorW) (pop : FloatArray) (hs : f.s.toNat < pop.size)
     (ht : f.t.toNat < pop.size) : Gen20.evalU f pop hs ht = Gen18.evalW f pop := by
@@ -131,7 +131,7 @@ theorem fixUntilAt_go (P : USize) (hP2 : 2 * P.toNat < USize.size) (tree : Float
     Gen16.fixUntilAt P hP2 tree D.toNat D pending.toNat other.toNat =
       Gen16.fixUntilGo P D tree htree pending hpn other (tree.uget pending hu) := by
   unfold Gen16.fixUntilAt
-  rw [dif_pos ⟨htree, hpn, hother, rfl⟩]
+  rw [dite_eq_left ⟨htree, hpn, hother, rfl⟩]
   simp only [toUSize_toNat']
 
 theorem fixPathAt_go (P : USize) (hP2 : 2 * P.toNat < USize.size) (tree : FloatArray) (D : USize)
@@ -140,7 +140,7 @@ theorem fixPathAt_go (P : USize) (hP2 : 2 * P.toNat < USize.size) (tree : FloatA
     Gen16.fixPathAt P hP2 tree D.toNat D pending.toNat =
       Gen16.fixPathGo P D tree htree pending hpn (tree.uget pending hu) := by
   unfold Gen16.fixPathAt
-  rw [dif_pos ⟨htree, hpn, rfl⟩]
+  rw [dite_eq_left ⟨htree, hpn, rfl⟩]
   simp only [toUSize_toNat']
 
 theorem setBoundsU_eq (P : USize) (hP2 : 2 * P.toNat < USize.size) (D : USize) (nW : USize)
@@ -157,11 +157,11 @@ theorem setBoundsU_eq (P : USize) (hP2 : 2 * P.toNat < USize.size) (D : USize) (
     intro i hm tree htree pending hpend
     have hge : ¬ i < ds.usize := by
       intro h; have := Gen15.lt_size_of_lt_usize ds i h; omega
-    rw [Gen20.setBoundsU, dif_neg hge, Gen19.setBoundsV, dif_neg hge]
+    rw [Gen20.setBoundsU, dite_eq_right hge, Gen19.setBoundsV, dite_eq_right hge]
     by_cases hz : pending = 0
-    · rw [dif_pos hz, if_pos hz]
+    · rw [dite_eq_left hz, ite_eq_left hz]
     · have hpn := hpend.resolve_left hz
-      rw [dif_neg hz, if_neg hz, fixPathAt_go P hP2 tree D htree pending hpn (by omega)]
+      rw [dite_eq_right hz, ite_eq_right hz, fixPathAt_go P hP2 tree D htree pending hpn (by omega)]
   | succ m ih =>
     intro i hm tree htree pending hpend
     by_cases h : i < ds.usize
@@ -176,38 +176,38 @@ theorem setBoundsU_eq (P : USize) (hP2 : 2 * P.toNat < USize.size) (D : USize) (
             rw [Gen20.usize_sub_one_toNat hp]; omega)) = Gen18.partnerW (ds.uget i hi') hi := by
         unfold Gen18.partnerW
         by_cases hp : (ds.uget i hi').partner = 0
-        · rw [dif_pos hp, if_pos hp]
+        · rw [dite_eq_left hp, ite_eq_left hp]
         · have : (ds.uget i hi').partner.toNat ≠ 0 :=
             fun h0 => hp (USize.toNat_inj.mp (by rw [h0]; rfl))
-          rw [dif_neg hp, if_neg hp, cget_uget hi _ (by rw [Gen20.usize_sub_one_toNat hp]; omega)]
-      rw [Gen20.setBoundsU, dif_pos h, Gen19.setBoundsV, dif_pos h]
+          rw [dite_eq_right hp, ite_eq_right hp, cget_uget hi _ (by rw [Gen20.usize_sub_one_toNat hp]; omega)]
+      rw [Gen20.setBoundsU, dite_eq_left h, Gen19.setBoundsV, dite_eq_left h]
       dsimp only
       simp only [hpH]
       by_cases c1 : ((if (ds.uget i hi').two = true then h1 else h0) ==
           (if (ds.uget i hi').two = true then g1 else g0)) = true
-      · rw [if_pos c1, if_pos c1]
+      · rw [ite_eq_left c1, ite_eq_left c1]
         exact ih (i + 1) (by omega) _ _ _ _
-      · rw [if_neg c1, if_neg c1]
+      · rw [ite_eq_right c1, ite_eq_right c1]
         by_cases c2 : (Gen18.partnerW (ds.uget i hi') hi == floatZero) = true
-        · rw [if_pos c2, if_pos c2]
+        · rw [ite_eq_left c2, ite_eq_left c2]
           exact ih (i + 1) (by omega) _ _ _ _
-        · rw [if_neg c2, if_neg c2, ih (i + 1) (by omega)]
+        · rw [ite_eq_right c2, ite_eq_right c2, ih (i + 1) (by omega)]
           have hleaf : (P + (ds.uget i hi').k).toNat = P.toNat + (ds.uget i hi').k.toNat := by
             have hsz : USize.size = 2 ^ System.Platform.numBits := rfl
             rw [USize.toNat_add]; exact Nat.mod_eq_of_lt (by omega)
           congr 1
           by_cases hz : pending = 0
-          · simp only [dif_pos hz, if_pos hz]
+          · simp only [dite_eq_left hz, ite_eq_left hz]
             rw [floatArray_uset_eq]
           · have hpn := hpend.resolve_left hz
-            simp only [dif_neg hz, if_neg hz]
+            simp only [dite_eq_right hz, ite_eq_right hz]
             rw [floatArray_uset_eq, fixUntilAt_go P hP2 tree D htree pending hpn _ (by omega)
               (by omega)]
-    · rw [Gen20.setBoundsU, dif_neg h, Gen19.setBoundsV, dif_neg h]
+    · rw [Gen20.setBoundsU, dite_eq_right h, Gen19.setBoundsV, dite_eq_right h]
       by_cases hz : pending = 0
-      · rw [dif_pos hz, if_pos hz]
+      · rw [dite_eq_left hz, ite_eq_left hz]
       · have hpn := hpend.resolve_left hz
-        rw [dif_neg hz, if_neg hz, fixPathAt_go P hP2 tree D htree pending hpn (by omega)]
+        rw [dite_eq_right hz, ite_eq_right hz, fixPathAt_go P hP2 tree D htree pending hpn (by omega)]
 
 theorem rebracketU_eq (W : Gen18.Compiled) (P : USize) (hP2 : 2 * P.toNat < USize.size)
     (D : USize) (nW numRx : USize) (rates : FloatArray) (hB : Gen20.Bounds W nW P numRx rates)
@@ -241,7 +241,7 @@ theorem refreshFromU_eq (W : Gen18.Compiled) (P : USize) (hP2 : 2 * P.toNat < US
     intro i hm c hc
     have hge : ¬ i < chs.usize := by
       intro h; have := Gen15.lt_size_of_lt_usize chs i h; omega
-    rw [Gen20.refreshFromU, dif_neg hge, Gen19.refreshFromV, dif_neg hge]
+    rw [Gen20.refreshFromU, dite_eq_right hge, Gen19.refreshFromV, dite_eq_right hge]
   | succ m ih =>
     intro i hm c hc
     by_cases h : i < chs.usize
@@ -251,14 +251,14 @@ theorem refreshFromU_eq (W : Gen18.Compiled) (P : USize) (hP2 : 2 * P.toNat < US
       have hms := hB.ms
       have h1 := hc.1
       have h2 := hc.2.1
-      rw [Gen20.refreshFromU, dif_pos h, Gen19.refreshFromV, dif_pos h]
+      rw [Gen20.refreshFromU, dite_eq_left h, Gen19.refreshFromV, dite_eq_left h]
       dsimp only
       rw [cget_uget W.ms _ (by omega), cget_uget pop _ (by omega), cget_uget c.lo _ (by omega),
         cget_uget c.hi _ (by omega)]
       split
       · rw [ih (i + 1) (by omega), rebracketU_eq]
       · exact ih (i + 1) (by omega) _ _
-    · rw [Gen20.refreshFromU, dif_neg h, Gen19.refreshFromV, dif_neg h]
+    · rw [Gen20.refreshFromU, dite_eq_right h, Gen19.refreshFromV, dite_eq_right h]
 
 /-! ## The driver -/
 
@@ -315,8 +315,8 @@ theorem dite_ite_eq {c d : Prop} [Decidable c] [Decidable d] {α : Sort _} (h : 
     dite c f g = ite d x y := by
   subst h
   by_cases hc : c
-  · rw [dif_pos hc, if_pos hc, hf]
-  · rw [dif_neg hc, if_neg hc, hg]
+  · rw [dite_eq_left hc, ite_eq_left hc, hf]
+  · rw [dite_eq_right hc, ite_eq_right hc, hg]
 
 theorem run20_eq_of (C : Gen6.Compiled) (codes : Array (Array Nat)) (W : Gen18.Compiled)
     (msN : Array Nat) (n : Nat) (hms : msN.size = n) (hval : Gen15.ValidChanges C n)

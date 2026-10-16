@@ -466,7 +466,7 @@ theorem count_toUInt64 {a : Nat} (ha : a < 2 ^ 53) : (Float.ofNat a).toUInt64 = 
   show UInt64.ofNatClamp ((UnpackedFloat.roundToInt .positive m e).toNat) = a.toUInt64
   rw [key, Int.toNat_natCast]
   have hs : a < UInt64.size := by simp [UInt64.size]; omega
-  rw [UInt64.ofNatClamp, dif_pos hs]
+  rw [UInt64.ofNatClamp, dite_eq_left hs]
   apply UInt64.toNat_inj.mp
   simp [Nat.toUInt64, UInt64.toNat_ofNat']
   omega
