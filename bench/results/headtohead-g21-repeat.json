@@ -1,0 +1,627 @@
+{
+ "results": {
+  "multistate": {
+   "julia:Direct": {
+    "T": 10000.0,
+    "events": 12807520,
+    "best_seconds": 0.588201793,
+    "events_per_second": 21774024.07204155,
+    "digest": null,
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:12:28+00:00"
+    }
+   },
+   "julia:DirectFW": {
+    "T": 10000.0,
+    "events": 12807520,
+    "best_seconds": 0.602107501,
+    "events_per_second": 21271151.710830454,
+    "digest": null,
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:12:28+00:00"
+    }
+   },
+   "julia:SortingDirect": {
+    "T": 10000.0,
+    "events": 12804959,
+    "best_seconds": 0.531964794,
+    "events_per_second": 24071064.7479427,
+    "digest": null,
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:12:28+00:00"
+    }
+   },
+   "julia:RDirect": {
+    "T": 10000.0,
+    "events": 12806707,
+    "best_seconds": 0.752606007,
+    "events_per_second": 17016482.569743827,
+    "digest": null,
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:12:28+00:00"
+    }
+   },
+   "julia:DirectCR": {
+    "T": 10000.0,
+    "events": 12797585,
+    "best_seconds": 0.956532271,
+    "events_per_second": 13379146.096786523,
+    "digest": null,
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:12:28+00:00"
+    }
+   },
+   "julia:RSSA": {
+    "T": 10000.0,
+    "events": 12792846,
+    "best_seconds": 0.541691902,
+    "events_per_second": 23616461.59517445,
+    "digest": null,
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:12:28+00:00"
+    }
+   },
+   "julia:RSSACR": {
+    "T": 10000.0,
+    "events": 12800741,
+    "best_seconds": 0.713225501,
+    "events_per_second": 17947677.11201061,
+    "digest": null,
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:12:28+00:00"
+    }
+   },
+   "treerssa-g17": {
+    "T": 10000.0,
+    "events": 12799693,
+    "best_seconds": 0.443652,
+    "events_per_second": 28850750.137495153,
+    "digest": "16147000650801915413",
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:12:28+00:00"
+    }
+   },
+   "treerssa-g18": {
+    "T": 10000.0,
+    "events": 12799693,
+    "best_seconds": 0.417913,
+    "events_per_second": 30627649.773996025,
+    "digest": "16147000650801915413",
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:12:28+00:00"
+    }
+   },
+   "treerssa-g19": {
+    "T": 10000.0,
+    "events": 12799693,
+    "best_seconds": 0.38862,
+    "events_per_second": 32936269.363388397,
+    "digest": "16147000650801915413",
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:12:28+00:00"
+    }
+   },
+   "treerssa-g20": {
+    "T": 10000.0,
+    "events": 12799693,
+    "best_seconds": 0.340487,
+    "events_per_second": 37592310.42594872,
+    "digest": "16147000650801915413",
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:12:28+00:00"
+    }
+   },
+   "treerssa-g21": {
+    "T": 10000.0,
+    "events": 12799693,
+    "best_seconds": 0.324194,
+    "events_per_second": 39481585.100279465,
+    "digest": "16147000650801915413",
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:12:28+00:00"
+    }
+   },
+   "c-reference": {
+    "T": 10000.0,
+    "events": 12799693,
+    "best_seconds": 0.378888,
+    "events_per_second": 33782260.19298579,
+    "digest": "16147000650801915413",
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:12:28+00:00"
+    }
+   },
+   "min_idle": 0.9135879774577332
+  },
+  "multisite2": {
+   "julia:SortingDirect": {
+    "T": 300.0,
+    "events": 7012845,
+    "best_seconds": 1.13676712,
+    "events_per_second": 6169113.1601343285,
+    "digest": null,
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:19:21+00:00"
+    }
+   },
+   "julia:RSSA": {
+    "T": 300.0,
+    "events": 6999341,
+    "best_seconds": 1.050577401,
+    "events_per_second": 6662375.369332735,
+    "digest": null,
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:19:21+00:00"
+    }
+   },
+   "julia:RSSACR": {
+    "T": 300.0,
+    "events": 7010046,
+    "best_seconds": 0.496638206,
+    "events_per_second": 14114995.413784174,
+    "digest": null,
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:19:21+00:00"
+    }
+   },
+   "treerssa-g17": {
+    "T": 300.0,
+    "events": 7009506,
+    "best_seconds": 0.41868,
+    "events_per_second": 16741917.454858126,
+    "digest": "7164578934026488009",
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:19:21+00:00"
+    }
+   },
+   "treerssa-g18": {
+    "T": 300.0,
+    "events": 7009506,
+    "best_seconds": 0.395536,
+    "events_per_second": 17721537.35690304,
+    "digest": "7164578934026488009",
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:19:21+00:00"
+    }
+   },
+   "treerssa-g19": {
+    "T": 300.0,
+    "events": 7009506,
+    "best_seconds": 0.348419,
+    "events_per_second": 20118036.042810526,
+    "digest": "7164578934026488009",
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:19:21+00:00"
+    }
+   },
+   "treerssa-g20": {
+    "T": 300.0,
+    "events": 7009506,
+    "best_seconds": 0.354658,
+    "events_per_second": 19764127.69484969,
+    "digest": "7164578934026488009",
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:19:21+00:00"
+    }
+   },
+   "treerssa-g21": {
+    "T": 300.0,
+    "events": 7009506,
+    "best_seconds": 0.346353,
+    "events_per_second": 20238040.3807676,
+    "digest": "7164578934026488009",
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:19:21+00:00"
+    }
+   },
+   "c-reference": {
+    "T": 300.0,
+    "events": 7009506,
+    "best_seconds": 0.488579,
+    "events_per_second": 14346719.77305615,
+    "digest": "7164578934026488009",
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:19:21+00:00"
+    }
+   },
+   "min_idle": 0.9262038774233896
+  },
+  "egfr_net": {
+   "julia:SortingDirect": {
+    "T": 30.0,
+    "events": 7999211,
+    "best_seconds": 1.983491483,
+    "events_per_second": 4032894.0499917436,
+    "digest": null,
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:19:21+00:00"
+    }
+   },
+   "julia:RSSA": {
+    "T": 30.0,
+    "events": 7995797,
+    "best_seconds": 1.54620042,
+    "events_per_second": 5171255.224468249,
+    "digest": null,
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:19:21+00:00"
+    }
+   },
+   "julia:RSSACR": {
+    "T": 30.0,
+    "events": 7994181,
+    "best_seconds": 0.46593181,
+    "events_per_second": 17157405.501032438,
+    "digest": null,
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:19:21+00:00"
+    }
+   },
+   "treerssa-g17": {
+    "T": 30.0,
+    "events": 7991303,
+    "best_seconds": 0.368554,
+    "events_per_second": 21682855.158267174,
+    "digest": "15356218212856464794",
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:19:21+00:00"
+    }
+   },
+   "treerssa-g18": {
+    "T": 30.0,
+    "events": 7991303,
+    "best_seconds": 0.353822,
+    "events_per_second": 22585658.89062862,
+    "digest": "15356218212856464794",
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:19:21+00:00"
+    }
+   },
+   "treerssa-g19": {
+    "T": 30.0,
+    "events": 7991303,
+    "best_seconds": 0.341648,
+    "events_per_second": 23390457.42986934,
+    "digest": "15356218212856464794",
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:19:21+00:00"
+    }
+   },
+   "treerssa-g20": {
+    "T": 30.0,
+    "events": 7991303,
+    "best_seconds": 0.329474,
+    "events_per_second": 24254730.267031692,
+    "digest": "15356218212856464794",
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:19:21+00:00"
+    }
+   },
+   "treerssa-g21": {
+    "T": 30.0,
+    "events": 7991303,
+    "best_seconds": 0.323804,
+    "events_per_second": 24679444.972884834,
+    "digest": "15356218212856464794",
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:19:21+00:00"
+    }
+   },
+   "c-reference": {
+    "T": 30.0,
+    "events": 7991303,
+    "best_seconds": 0.369666,
+    "events_per_second": 21617630.509703353,
+    "digest": "15356218212856464794",
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:19:21+00:00"
+    }
+   },
+   "min_idle": 0.9918800749531543
+  },
+  "BCR": {
+   "julia:SortingDirect": {
+    "T": 10.0,
+    "events": 31044254,
+    "best_seconds": 20.982503122,
+    "events_per_second": 1479530.5316766677,
+    "digest": null,
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:19:21+00:00"
+    }
+   },
+   "julia:RSSA": {
+    "T": 10.0,
+    "events": 31041775,
+    "best_seconds": 1.568662896,
+    "events_per_second": 19788684.413429257,
+    "digest": null,
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:19:21+00:00"
+    }
+   },
+   "julia:RSSACR": {
+    "T": 10.0,
+    "events": 31030229,
+    "best_seconds": 1.24422551,
+    "events_per_second": 24939393.020482276,
+    "digest": null,
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:19:21+00:00"
+    }
+   },
+   "treerssa-g17": {
+    "T": 10.0,
+    "events": 31024843,
+    "best_seconds": 0.985282,
+    "events_per_second": 31488287.617149204,
+    "digest": "535527620985224149",
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:19:21+00:00"
+    }
+   },
+   "treerssa-g18": {
+    "T": 10.0,
+    "events": 31024843,
+    "best_seconds": 0.950142,
+    "events_per_second": 32652848.732084256,
+    "digest": "535527620985224149",
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:19:21+00:00"
+    }
+   },
+   "treerssa-g19": {
+    "T": 10.0,
+    "events": 31024843,
+    "best_seconds": 0.938353,
+    "events_per_second": 33063082.86966632,
+    "digest": "535527620985224149",
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:19:21+00:00"
+    }
+   },
+   "treerssa-g20": {
+    "T": 10.0,
+    "events": 31024843,
+    "best_seconds": 0.890165,
+    "events_per_second": 34852912.66225924,
+    "digest": "535527620985224149",
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:19:21+00:00"
+    }
+   },
+   "treerssa-g21": {
+    "T": 10.0,
+    "events": 31024843,
+    "best_seconds": 0.859391,
+    "events_per_second": 36100963.35660951,
+    "digest": "535527620985224149",
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:19:21+00:00"
+    }
+   },
+   "c-reference": {
+    "T": 10.0,
+    "events": 31024843,
+    "best_seconds": 0.887621,
+    "events_per_second": 34952804.181063764,
+    "digest": "535527620985224149",
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:19:21+00:00"
+    }
+   },
+   "min_idle": 0.9925
+  },
+  "fceri_gamma2": {
+   "julia:SortingDirect": {
+    "T": 300.0,
+    "events": 1152805,
+    "best_seconds": 20.589094506,
+    "events_per_second": 55991.04903151782,
+    "digest": null,
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:34:06+00:00"
+    }
+   },
+   "julia:CCNRM": {
+    "T": 300.0,
+    "events": 1123027,
+    "best_seconds": 2.083185612,
+    "events_per_second": 539091.1849289405,
+    "digest": null,
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:34:06+00:00"
+    }
+   },
+   "julia:DirectCR": {
+    "T": 300.0,
+    "events": 1127303,
+    "best_seconds": 2.127593724,
+    "events_per_second": 529848.8086722707,
+    "digest": null,
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:34:06+00:00"
+    }
+   },
+   "julia:RSSACR": {
+    "T": 300.0,
+    "events": 1138621,
+    "best_seconds": 0.605722078,
+    "events_per_second": 1879774.6381633459,
+    "digest": null,
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:34:06+00:00"
+    }
+   },
+   "treerssa-g17": {
+    "T": 300.0,
+    "events": 1164783,
+    "best_seconds": 0.524437,
+    "events_per_second": 2221016.0610330696,
+    "digest": "8464086864201947417",
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:34:06+00:00"
+    }
+   },
+   "treerssa-g18": {
+    "T": 300.0,
+    "events": 1164783,
+    "best_seconds": 0.443209,
+    "events_per_second": 2628067.11957564,
+    "digest": "8464086864201947417",
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:34:06+00:00"
+    }
+   },
+   "treerssa-g19": {
+    "T": 300.0,
+    "events": 1164783,
+    "best_seconds": 0.403399,
+    "events_per_second": 2887421.6346594812,
+    "digest": "8464086864201947417",
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:34:06+00:00"
+    }
+   },
+   "treerssa-g20": {
+    "T": 300.0,
+    "events": 1164783,
+    "best_seconds": 0.370026,
+    "events_per_second": 3147840.9625269575,
+    "digest": "8464086864201947417",
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:34:06+00:00"
+    }
+   },
+   "treerssa-g21": {
+    "T": 300.0,
+    "events": 1164783,
+    "best_seconds": 0.364629,
+    "events_per_second": 3194433.245847149,
+    "digest": "8464086864201947417",
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:34:06+00:00"
+    }
+   },
+   "c-reference": {
+    "T": 300.0,
+    "events": 1164783,
+    "best_seconds": 0.753294,
+    "events_per_second": 1546252.8574500792,
+    "digest": "8464086864201947417",
+    "measured": {
+     "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+     "dirty": false,
+     "date": "2026-10-16T14:34:06+00:00"
+    }
+   },
+   "min_idle": 0.9787367104440275
+  }
+ },
+ "machine": {
+  "cpu": "AMD Ryzen 9 9955HX 16-Core Processor",
+  "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.43",
+  "commit": "6a6dbaa24b53d77be746262358f709b9b53019b1",
+  "dirty": false,
+  "date": "2026-10-16T14:34:06+00:00"
+ },
+ "rounds": 5
+}

@@ -4,1104 +4,1404 @@
    "treerssa-g2": {
     "T": 10000.0,
     "events": 12799693,
-    "best_seconds": 1.132363,
-    "events_per_second": 11303524.576482983,
+    "best_seconds": 1.141782,
+    "events_per_second": 11210277.443504976,
     "digest": "16147000650801915413",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g3": {
     "T": 10000.0,
     "events": 12799693,
-    "best_seconds": 1.034905,
-    "events_per_second": 12367988.366081912,
+    "best_seconds": 1.058968,
+    "events_per_second": 12086949.747301146,
     "digest": "16147000650801915413",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g4": {
     "T": 10000.0,
     "events": 12799693,
-    "best_seconds": 0.766013,
-    "events_per_second": 16709498.40276862,
+    "best_seconds": 0.790334,
+    "events_per_second": 16195295.912867218,
     "digest": "16147000650801915413",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g5": {
     "T": 10000.0,
     "events": 12799693,
-    "best_seconds": 0.834688,
-    "events_per_second": 15334703.505980678,
+    "best_seconds": 0.839587,
+    "events_per_second": 15245225.33102585,
     "digest": "16147000650801915413",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g6": {
     "T": 10000.0,
     "events": 12799693,
-    "best_seconds": 0.771939,
-    "events_per_second": 16581223.386822015,
+    "best_seconds": 0.793317,
+    "events_per_second": 16134398.98552533,
     "digest": "16147000650801915413",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g7": {
     "T": 10000.0,
     "events": 12799693,
-    "best_seconds": 0.66897,
-    "events_per_second": 19133433.487301376,
+    "best_seconds": 0.693466,
+    "events_per_second": 18457563.88921735,
     "digest": "16147000650801915413",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g8": {
     "T": 10000.0,
     "events": 12799693,
-    "best_seconds": 0.650957,
-    "events_per_second": 19662885.56694221,
+    "best_seconds": 0.66882,
+    "events_per_second": 19137724.649382494,
     "digest": "16147000650801915413",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g9": {
     "T": 10000.0,
     "events": 12799693,
-    "best_seconds": 0.62982,
-    "events_per_second": 20322779.524308532,
+    "best_seconds": 0.626968,
+    "events_per_second": 20415225.338454276,
     "digest": "16147000650801915413",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g10": {
+    "T": 10000.0,
+    "events": 12799693,
+    "best_seconds": 0.591053,
+    "events_per_second": 21655744.91627654,
+    "digest": "16147000650801915413",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g11": {
+    "T": 10000.0,
+    "events": 12799693,
+    "best_seconds": 0.566278,
+    "events_per_second": 22603196.66312306,
+    "digest": "16147000650801915413",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g12": {
+    "T": 10000.0,
+    "events": 12799693,
+    "best_seconds": 0.579288,
+    "events_per_second": 22095560.412092086,
+    "digest": "16147000650801915413",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g13": {
+    "T": 10000.0,
+    "events": 12799693,
+    "best_seconds": 0.556345,
+    "events_per_second": 23006754.801427174,
+    "digest": "16147000650801915413",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g14": {
+    "T": 10000.0,
+    "events": 12799693,
+    "best_seconds": 0.54647,
+    "events_per_second": 23422498.947792195,
+    "digest": "16147000650801915413",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g15": {
+    "T": 10000.0,
+    "events": 12799693,
+    "best_seconds": 0.506597,
+    "events_per_second": 25266026.0522664,
+    "digest": "16147000650801915413",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g16": {
+    "T": 10000.0,
+    "events": 12799693,
+    "best_seconds": 0.503292,
+    "events_per_second": 25431942.09325799,
+    "digest": "16147000650801915413",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g17": {
+    "T": 10000.0,
+    "events": 12799693,
+    "best_seconds": 0.441234,
+    "events_per_second": 29008854.71201222,
+    "digest": "16147000650801915413",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g18": {
+    "T": 10000.0,
+    "events": 12799693,
+    "best_seconds": 0.413477,
+    "events_per_second": 30956239.40388462,
+    "digest": "16147000650801915413",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g19": {
+    "T": 10000.0,
+    "events": 12799693,
+    "best_seconds": 0.386485,
+    "events_per_second": 33118214.160963554,
+    "digest": "16147000650801915413",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g20": {
+    "T": 10000.0,
+    "events": 12799693,
+    "best_seconds": 0.3659,
+    "events_per_second": 34981396.55643618,
+    "digest": "16147000650801915413",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g21": {
+    "T": 10000.0,
+    "events": 12799693,
+    "best_seconds": 0.351927,
+    "events_per_second": 36370306.910239905,
+    "digest": "16147000650801915413",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g22": {
+    "T": 10000.0,
+    "events": 12799693,
+    "best_seconds": 0.342136,
+    "events_per_second": 37411125.98498843,
+    "digest": "16147000650801915413",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "rssacr-port": {
     "T": 10000.0,
     "events": 12797193,
-    "best_seconds": 1.94039,
-    "events_per_second": 6595165.40489283,
+    "best_seconds": 2.091096,
+    "events_per_second": 6119849.590836576,
     "digest": "17339614880613866847",
     "measured": {
-     "commit": "5a0609aa9769f170dfe97826e357109e3eb3555a",
-     "dirty": true,
-     "date": "2026-10-12T08:29:12+00:00"
-    }
-   },
-   "min_idle": 0.4790494058786742,
-   "treerssa-g10": {
-    "T": 10000.0,
-    "events": 12799693,
-    "best_seconds": 0.601143,
-    "events_per_second": 21292259.911535192,
-    "digest": "16147000650801915413",
-    "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "c-reference": {
     "T": 10000.0,
     "events": 12799693,
-    "best_seconds": 0.4217,
-    "events_per_second": 30352603.746739388,
+    "best_seconds": 0.419767,
+    "events_per_second": 30492375.53214045,
     "digest": "16147000650801915413",
     "measured": {
-     "commit": "5a0609aa9769f170dfe97826e357109e3eb3555a",
-     "dirty": true,
-     "date": "2026-10-12T08:29:12+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
-   "treerssa-g11": {
-    "T": 10000.0,
-    "events": 12799693,
-    "best_seconds": 0.572887,
-    "events_per_second": 22342439.259400193,
-    "digest": "16147000650801915413",
-    "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
-    }
-   },
-   "treerssa-g12": {
-    "T": 10000.0,
-    "events": 12799693,
-    "best_seconds": 0.573094,
-    "events_per_second": 22334369.23087661,
-    "digest": "16147000650801915413",
-    "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
-    }
-   },
-   "treerssa-g13": {
-    "T": 10000.0,
-    "events": 12799693,
-    "best_seconds": 0.56515,
-    "events_per_second": 22648311.06785809,
-    "digest": "16147000650801915413",
-    "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
-    }
-   },
-   "treerssa-g14": {
-    "T": 10000.0,
-    "events": 12799693,
-    "best_seconds": 0.540752,
-    "events_per_second": 23670172.278604608,
-    "digest": "16147000650801915413",
-    "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
-    }
-   },
-   "treerssa-g15": {
-    "T": 10000.0,
-    "events": 12799693,
-    "best_seconds": 0.512362,
-    "events_per_second": 24981737.52151799,
-    "digest": "16147000650801915413",
-    "measured": {
-     "commit": "5a0609aa9769f170dfe97826e357109e3eb3555a",
-     "dirty": true,
-     "date": "2026-10-12T08:29:12+00:00"
-    }
-   },
-   "treerssa-g16": {
-    "T": 10000.0,
-    "events": 12799693,
-    "best_seconds": 0.511954,
-    "events_per_second": 25001646.632314622,
-    "digest": "16147000650801915413",
-    "measured": {
-     "commit": "5a0609aa9769f170dfe97826e357109e3eb3555a",
-     "dirty": true,
-     "date": "2026-10-12T08:29:12+00:00"
-    }
-   },
-   "treerssa-g17": {
-    "T": 10000.0,
-    "events": 12799693,
-    "best_seconds": 0.433512,
-    "events_per_second": 29525579.4533946,
-    "digest": "16147000650801915413",
-    "measured": {
-     "commit": "5a0609aa9769f170dfe97826e357109e3eb3555a",
-     "dirty": true,
-     "date": "2026-10-12T08:29:12+00:00"
-    }
-   }
+   "min_idle": 0.9662921348314607
   },
   "multisite2": {
    "treerssa-g2": {
     "T": 300.0,
     "events": 7009506,
-    "best_seconds": 1.106371,
-    "events_per_second": 6335583.633338184,
+    "best_seconds": 1.099327,
+    "events_per_second": 6376179.244210321,
     "digest": "7164578934026488009",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g3": {
     "T": 300.0,
     "events": 7009506,
-    "best_seconds": 0.862588,
-    "events_per_second": 8126134.377014287,
+    "best_seconds": 0.88183,
+    "events_per_second": 7948817.799349081,
     "digest": "7164578934026488009",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g4": {
     "T": 300.0,
     "events": 7009506,
-    "best_seconds": 0.697641,
-    "events_per_second": 10047439.872369887,
+    "best_seconds": 0.722171,
+    "events_per_second": 9706158.236761099,
     "digest": "7164578934026488009",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g5": {
     "T": 300.0,
     "events": 7009506,
-    "best_seconds": 0.746465,
-    "events_per_second": 9390267.460631108,
+    "best_seconds": 0.763948,
+    "events_per_second": 9175370.5749606,
     "digest": "7164578934026488009",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g6": {
     "T": 300.0,
     "events": 7009506,
-    "best_seconds": 0.715368,
-    "events_per_second": 9798461.770724997,
+    "best_seconds": 0.735694,
+    "events_per_second": 9527746.590294335,
     "digest": "7164578934026488009",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g7": {
     "T": 300.0,
     "events": 7009506,
-    "best_seconds": 0.657463,
-    "events_per_second": 10661445.587052047,
+    "best_seconds": 0.679498,
+    "events_per_second": 10315712.481861608,
     "digest": "7164578934026488009",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g8": {
     "T": 300.0,
     "events": 7009506,
-    "best_seconds": 0.640608,
-    "events_per_second": 10941958.264648585,
+    "best_seconds": 0.662236,
+    "events_per_second": 10584604.28004518,
     "digest": "7164578934026488009",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g9": {
     "T": 300.0,
     "events": 7009506,
-    "best_seconds": 0.63843,
-    "events_per_second": 10979286.687655654,
+    "best_seconds": 0.653525,
+    "events_per_second": 10725689.147316476,
     "digest": "7164578934026488009",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g10": {
+    "T": 300.0,
+    "events": 7009506,
+    "best_seconds": 0.635416,
+    "events_per_second": 11031365.278809473,
+    "digest": "7164578934026488009",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g11": {
+    "T": 300.0,
+    "events": 7009506,
+    "best_seconds": 0.59356,
+    "events_per_second": 11809262.753554823,
+    "digest": "7164578934026488009",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g12": {
+    "T": 300.0,
+    "events": 7009506,
+    "best_seconds": 0.564317,
+    "events_per_second": 12421220.69687782,
+    "digest": "7164578934026488009",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g13": {
+    "T": 300.0,
+    "events": 7009506,
+    "best_seconds": 0.55047,
+    "events_per_second": 12733674.859665377,
+    "digest": "7164578934026488009",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g14": {
+    "T": 300.0,
+    "events": 7009506,
+    "best_seconds": 0.550761,
+    "events_per_second": 12726946.897111453,
+    "digest": "7164578934026488009",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g15": {
+    "T": 300.0,
+    "events": 7009506,
+    "best_seconds": 0.523996,
+    "events_per_second": 13377021.961999709,
+    "digest": "7164578934026488009",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g16": {
+    "T": 300.0,
+    "events": 7009506,
+    "best_seconds": 0.478962,
+    "events_per_second": 14634785.223044835,
+    "digest": "7164578934026488009",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g17": {
+    "T": 300.0,
+    "events": 7009506,
+    "best_seconds": 0.450049,
+    "events_per_second": 15574984.05729154,
+    "digest": "7164578934026488009",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g18": {
+    "T": 300.0,
+    "events": 7009506,
+    "best_seconds": 0.406358,
+    "events_per_second": 17249582.880120486,
+    "digest": "7164578934026488009",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g19": {
+    "T": 300.0,
+    "events": 7009506,
+    "best_seconds": 0.378224,
+    "events_per_second": 18532684.335208766,
+    "digest": "7164578934026488009",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g20": {
+    "T": 300.0,
+    "events": 7009506,
+    "best_seconds": 0.355091,
+    "events_per_second": 19740027.20429411,
+    "digest": "7164578934026488009",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g21": {
+    "T": 300.0,
+    "events": 7009506,
+    "best_seconds": 0.347335,
+    "events_per_second": 20180822.548836138,
+    "digest": "7164578934026488009",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g22": {
+    "T": 300.0,
+    "events": 7009506,
+    "best_seconds": 0.348025,
+    "events_per_second": 20140811.72329574,
+    "digest": "7164578934026488009",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "rssacr-port": {
     "T": 300.0,
     "events": 7003000,
-    "best_seconds": 1.482298,
-    "events_per_second": 4724421.135291285,
+    "best_seconds": 1.530975,
+    "events_per_second": 4574209.245742093,
     "digest": "15025603670243179829",
     "measured": {
-     "commit": "5a0609aa9769f170dfe97826e357109e3eb3555a",
-     "dirty": true,
-     "date": "2026-10-12T08:29:12+00:00"
-    }
-   },
-   "min_idle": 0.4678326046221112,
-   "treerssa-g10": {
-    "T": 300.0,
-    "events": 7009506,
-    "best_seconds": 0.614453,
-    "events_per_second": 11407717.107736474,
-    "digest": "7164578934026488009",
-    "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "c-reference": {
     "T": 300.0,
     "events": 7009506,
-    "best_seconds": 0.489709,
-    "events_per_second": 14313614.820229974,
+    "best_seconds": 0.489979,
+    "events_per_second": 14305727.388316642,
     "digest": "7164578934026488009",
     "measured": {
-     "commit": "5a0609aa9769f170dfe97826e357109e3eb3555a",
-     "dirty": true,
-     "date": "2026-10-12T08:29:12+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
-   "treerssa-g11": {
-    "T": 300.0,
-    "events": 7009506,
-    "best_seconds": 0.582172,
-    "events_per_second": 12040266.450464811,
-    "digest": "7164578934026488009",
-    "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
-    }
-   },
-   "treerssa-g12": {
-    "T": 300.0,
-    "events": 7009506,
-    "best_seconds": 0.550933,
-    "events_per_second": 12722973.573919151,
-    "digest": "7164578934026488009",
-    "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
-    }
-   },
-   "treerssa-g13": {
-    "T": 300.0,
-    "events": 7009506,
-    "best_seconds": 0.529793,
-    "events_per_second": 13230650.461595379,
-    "digest": "7164578934026488009",
-    "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
-    }
-   },
-   "treerssa-g14": {
-    "T": 300.0,
-    "events": 7009506,
-    "best_seconds": 0.523804,
-    "events_per_second": 13381925.300303165,
-    "digest": "7164578934026488009",
-    "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
-    }
-   },
-   "treerssa-g15": {
-    "T": 300.0,
-    "events": 7009506,
-    "best_seconds": 0.519434,
-    "events_per_second": 13494507.483145118,
-    "digest": "7164578934026488009",
-    "measured": {
-     "commit": "5a0609aa9769f170dfe97826e357109e3eb3555a",
-     "dirty": true,
-     "date": "2026-10-12T08:29:12+00:00"
-    }
-   },
-   "treerssa-g16": {
-    "T": 300.0,
-    "events": 7009506,
-    "best_seconds": 0.485904,
-    "events_per_second": 14425701.373110738,
-    "digest": "7164578934026488009",
-    "measured": {
-     "commit": "5a0609aa9769f170dfe97826e357109e3eb3555a",
-     "dirty": true,
-     "date": "2026-10-12T08:29:12+00:00"
-    }
-   },
-   "treerssa-g17": {
-    "T": 300.0,
-    "events": 7009506,
-    "best_seconds": 0.436962,
-    "events_per_second": 16041454.405646257,
-    "digest": "7164578934026488009",
-    "measured": {
-     "commit": "5a0609aa9769f170dfe97826e357109e3eb3555a",
-     "dirty": true,
-     "date": "2026-10-12T08:29:12+00:00"
-    }
-   }
+   "min_idle": 0.9756402248594629
   },
   "egfr_net": {
    "treerssa-g2": {
     "T": 30.0,
     "events": 7991303,
-    "best_seconds": 0.794748,
-    "events_per_second": 10055140.749017298,
+    "best_seconds": 0.803494,
+    "events_per_second": 9945690.944798592,
     "digest": "15356218212856464794",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g3": {
     "T": 30.0,
     "events": 7991303,
-    "best_seconds": 0.738865,
-    "events_per_second": 10815646.972044962,
+    "best_seconds": 0.750568,
+    "events_per_second": 10647007.333113056,
     "digest": "15356218212856464794",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g4": {
     "T": 30.0,
     "events": 7991303,
-    "best_seconds": 0.563987,
-    "events_per_second": 14169303.54777681,
+    "best_seconds": 0.58691,
+    "events_per_second": 13615891.704009132,
     "digest": "15356218212856464794",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g5": {
     "T": 30.0,
     "events": 7991303,
-    "best_seconds": 0.59307,
-    "events_per_second": 13474468.443859916,
+    "best_seconds": 0.605338,
+    "events_per_second": 13201389.967257962,
     "digest": "15356218212856464794",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g6": {
     "T": 30.0,
     "events": 7991303,
-    "best_seconds": 0.55921,
-    "events_per_second": 14290343.520323314,
+    "best_seconds": 0.580746,
+    "events_per_second": 13760409.886594139,
     "digest": "15356218212856464794",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g7": {
     "T": 30.0,
     "events": 7991303,
-    "best_seconds": 0.50717,
-    "events_per_second": 15756655.559279926,
+    "best_seconds": 0.531786,
+    "events_per_second": 15027291.053168004,
     "digest": "15356218212856464794",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g8": {
     "T": 30.0,
     "events": 7991303,
-    "best_seconds": 0.494168,
-    "events_per_second": 16171227.193990707,
+    "best_seconds": 0.512851,
+    "events_per_second": 15582114.493293375,
     "digest": "15356218212856464794",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g9": {
     "T": 30.0,
     "events": 7991303,
-    "best_seconds": 0.480941,
-    "events_per_second": 16615973.684921851,
+    "best_seconds": 0.502784,
+    "events_per_second": 15894107.608834011,
     "digest": "15356218212856464794",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g10": {
+    "T": 30.0,
+    "events": 7991303,
+    "best_seconds": 0.484892,
+    "events_per_second": 16480583.305148363,
+    "digest": "15356218212856464794",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g11": {
+    "T": 30.0,
+    "events": 7991303,
+    "best_seconds": 0.437305,
+    "events_per_second": 18273980.40269377,
+    "digest": "15356218212856464794",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g12": {
+    "T": 30.0,
+    "events": 7991303,
+    "best_seconds": 0.432448,
+    "events_per_second": 18479222.93547432,
+    "digest": "15356218212856464794",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g13": {
+    "T": 30.0,
+    "events": 7991303,
+    "best_seconds": 0.429436,
+    "events_per_second": 18608833.446660273,
+    "digest": "15356218212856464794",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g14": {
+    "T": 30.0,
+    "events": 7991303,
+    "best_seconds": 0.426719,
+    "events_per_second": 18727319.383481868,
+    "digest": "15356218212856464794",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g15": {
+    "T": 30.0,
+    "events": 7991303,
+    "best_seconds": 0.404188,
+    "events_per_second": 19771252.486466695,
+    "digest": "15356218212856464794",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g16": {
+    "T": 30.0,
+    "events": 7991303,
+    "best_seconds": 0.389339,
+    "events_per_second": 20525308.278903477,
+    "digest": "15356218212856464794",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g17": {
+    "T": 30.0,
+    "events": 7991303,
+    "best_seconds": 0.36637,
+    "events_per_second": 21812110.70775446,
+    "digest": "15356218212856464794",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g18": {
+    "T": 30.0,
+    "events": 7991303,
+    "best_seconds": 0.351324,
+    "events_per_second": 22746248.477189146,
+    "digest": "15356218212856464794",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g19": {
+    "T": 30.0,
+    "events": 7991303,
+    "best_seconds": 0.340818,
+    "events_per_second": 23447420.61745565,
+    "digest": "15356218212856464794",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g20": {
+    "T": 30.0,
+    "events": 7991303,
+    "best_seconds": 0.327012,
+    "events_per_second": 24437338.69093489,
+    "digest": "15356218212856464794",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g21": {
+    "T": 30.0,
+    "events": 7991303,
+    "best_seconds": 0.324473,
+    "events_per_second": 24628560.773931883,
+    "digest": "15356218212856464794",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g22": {
+    "T": 30.0,
+    "events": 7991303,
+    "best_seconds": 0.310806,
+    "events_per_second": 25711546.75263669,
+    "digest": "15356218212856464794",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "rssacr-port": {
     "T": 30.0,
     "events": 7993137,
-    "best_seconds": 1.253121,
-    "events_per_second": 6378583.552585904,
+    "best_seconds": 1.274008,
+    "events_per_second": 6274008.483463212,
     "digest": "16549052988376452555",
     "measured": {
-     "commit": "5a0609aa9769f170dfe97826e357109e3eb3555a",
-     "dirty": true,
-     "date": "2026-10-12T08:29:12+00:00"
-    }
-   },
-   "min_idle": 0.4655388471177945,
-   "treerssa-g10": {
-    "T": 30.0,
-    "events": 7991303,
-    "best_seconds": 0.465574,
-    "events_per_second": 17164409.954164106,
-    "digest": "15356218212856464794",
-    "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "c-reference": {
     "T": 30.0,
     "events": 7991303,
-    "best_seconds": 0.367256,
-    "events_per_second": 21759489.293571785,
+    "best_seconds": 0.366236,
+    "events_per_second": 21820091.4164637,
     "digest": "15356218212856464794",
     "measured": {
-     "commit": "5a0609aa9769f170dfe97826e357109e3eb3555a",
-     "dirty": true,
-     "date": "2026-10-12T08:29:12+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
-   "treerssa-g11": {
-    "T": 30.0,
-    "events": 7991303,
-    "best_seconds": 0.413279,
-    "events_per_second": 19336339.37364347,
-    "digest": "15356218212856464794",
-    "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
-    }
-   },
-   "treerssa-g12": {
-    "T": 30.0,
-    "events": 7991303,
-    "best_seconds": 0.410161,
-    "events_per_second": 19483332.154934283,
-    "digest": "15356218212856464794",
-    "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
-    }
-   },
-   "treerssa-g13": {
-    "T": 30.0,
-    "events": 7991303,
-    "best_seconds": 0.401321,
-    "events_per_second": 19912496.48037357,
-    "digest": "15356218212856464794",
-    "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
-    }
-   },
-   "treerssa-g14": {
-    "T": 30.0,
-    "events": 7991303,
-    "best_seconds": 0.392144,
-    "events_per_second": 20378491.064506914,
-    "digest": "15356218212856464794",
-    "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
-    }
-   },
-   "treerssa-g15": {
-    "T": 30.0,
-    "events": 7991303,
-    "best_seconds": 0.397463,
-    "events_per_second": 20105778.39949882,
-    "digest": "15356218212856464794",
-    "measured": {
-     "commit": "5a0609aa9769f170dfe97826e357109e3eb3555a",
-     "dirty": true,
-     "date": "2026-10-12T08:29:12+00:00"
-    }
-   },
-   "treerssa-g16": {
-    "T": 30.0,
-    "events": 7991303,
-    "best_seconds": 0.409038,
-    "events_per_second": 19536822.98466157,
-    "digest": "15356218212856464794",
-    "measured": {
-     "commit": "5a0609aa9769f170dfe97826e357109e3eb3555a",
-     "dirty": true,
-     "date": "2026-10-12T08:29:12+00:00"
-    }
-   },
-   "treerssa-g17": {
-    "T": 30.0,
-    "events": 7991303,
-    "best_seconds": 0.357432,
-    "events_per_second": 22357547.729358308,
-    "digest": "15356218212856464794",
-    "measured": {
-     "commit": "5a0609aa9769f170dfe97826e357109e3eb3555a",
-     "dirty": true,
-     "date": "2026-10-12T08:29:12+00:00"
-    }
-   }
+   "min_idle": 0.98125
   },
   "BCR": {
    "treerssa-g2": {
     "T": 10.0,
     "events": 31024843,
-    "best_seconds": 2.881271,
-    "events_per_second": 10767762.907411348,
+    "best_seconds": 2.864503,
+    "events_per_second": 10830794.382131908,
     "digest": "535527620985224149",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g3": {
     "T": 10.0,
     "events": 31024843,
-    "best_seconds": 2.698493,
-    "events_per_second": 11497099.677486656,
+    "best_seconds": 2.676017,
+    "events_per_second": 11593664.39002443,
     "digest": "535527620985224149",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g4": {
     "T": 10.0,
     "events": 31024843,
-    "best_seconds": 2.081973,
-    "events_per_second": 14901654.824534228,
+    "best_seconds": 2.111229,
+    "events_per_second": 14695157.65461729,
     "digest": "535527620985224149",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g5": {
     "T": 10.0,
     "events": 31024843,
-    "best_seconds": 2.284334,
-    "events_per_second": 13581570.383315226,
+    "best_seconds": 2.288364,
+    "events_per_second": 13557652.104298092,
     "digest": "535527620985224149",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g6": {
     "T": 10.0,
     "events": 31024843,
-    "best_seconds": 2.166913,
-    "events_per_second": 14317530.514607646,
+    "best_seconds": 2.165509,
+    "events_per_second": 14326813.2342096,
     "digest": "535527620985224149",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g7": {
     "T": 10.0,
     "events": 31024843,
-    "best_seconds": 1.845234,
-    "events_per_second": 16813500.61834976,
+    "best_seconds": 1.829383,
+    "events_per_second": 16959184.052765332,
     "digest": "535527620985224149",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g8": {
     "T": 10.0,
     "events": 31024843,
-    "best_seconds": 1.726435,
-    "events_per_second": 17970466.886966497,
+    "best_seconds": 1.718061,
+    "events_per_second": 18058056.727904305,
     "digest": "535527620985224149",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g9": {
     "T": 10.0,
     "events": 31024843,
-    "best_seconds": 1.670651,
-    "events_per_second": 18570511.13607809,
+    "best_seconds": 1.677288,
+    "events_per_second": 18497027.94034179,
     "digest": "535527620985224149",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g10": {
+    "T": 10.0,
+    "events": 31024843,
+    "best_seconds": 1.58801,
+    "events_per_second": 19536931.757356692,
+    "digest": "535527620985224149",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g11": {
+    "T": 10.0,
+    "events": 31024843,
+    "best_seconds": 1.324334,
+    "events_per_second": 23426751.10659396,
+    "digest": "535527620985224149",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g12": {
+    "T": 10.0,
+    "events": 31024843,
+    "best_seconds": 1.317418,
+    "events_per_second": 23549733.64566144,
+    "digest": "535527620985224149",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g13": {
+    "T": 10.0,
+    "events": 31024843,
+    "best_seconds": 1.334031,
+    "events_per_second": 23256463.30557536,
+    "digest": "535527620985224149",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g14": {
+    "T": 10.0,
+    "events": 31024843,
+    "best_seconds": 1.302137,
+    "events_per_second": 23826097.40756925,
+    "digest": "535527620985224149",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g15": {
+    "T": 10.0,
+    "events": 31024843,
+    "best_seconds": 1.146985,
+    "events_per_second": 27049039.87410472,
+    "digest": "535527620985224149",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g16": {
+    "T": 10.0,
+    "events": 31024843,
+    "best_seconds": 1.147181,
+    "events_per_second": 27044418.448352963,
+    "digest": "535527620985224149",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g17": {
+    "T": 10.0,
+    "events": 31024843,
+    "best_seconds": 0.980943,
+    "events_per_second": 31627569.593748055,
+    "digest": "535527620985224149",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g18": {
+    "T": 10.0,
+    "events": 31024843,
+    "best_seconds": 0.945482,
+    "events_per_second": 32813784.926630013,
+    "digest": "535527620985224149",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g19": {
+    "T": 10.0,
+    "events": 31024843,
+    "best_seconds": 0.936904,
+    "events_per_second": 33114217.67865224,
+    "digest": "535527620985224149",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g20": {
+    "T": 10.0,
+    "events": 31024843,
+    "best_seconds": 0.888991,
+    "events_per_second": 34898939.3593411,
+    "digest": "535527620985224149",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g21": {
+    "T": 10.0,
+    "events": 31024843,
+    "best_seconds": 0.857646,
+    "events_per_second": 36174415.78460111,
+    "digest": "535527620985224149",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g22": {
+    "T": 10.0,
+    "events": 31024843,
+    "best_seconds": 0.783705,
+    "events_per_second": 39587399.595511064,
+    "digest": "535527620985224149",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "rssacr-port": {
     "T": 10.0,
     "events": 31039751,
-    "best_seconds": 3.952791,
-    "events_per_second": 7852616.290615922,
+    "best_seconds": 4.120885,
+    "events_per_second": 7532302.163248913,
     "digest": "2120539038492617808",
     "measured": {
-     "commit": "5a0609aa9769f170dfe97826e357109e3eb3555a",
-     "dirty": true,
-     "date": "2026-10-12T08:29:12+00:00"
-    }
-   },
-   "min_idle": 0.469630557294928,
-   "treerssa-g10": {
-    "T": 10.0,
-    "events": 31024843,
-    "best_seconds": 1.587383,
-    "events_per_second": 19544648.644971,
-    "digest": "535527620985224149",
-    "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "c-reference": {
     "T": 10.0,
     "events": 31024843,
-    "best_seconds": 0.88416,
-    "events_per_second": 35089625.18096273,
+    "best_seconds": 0.882871,
+    "events_per_second": 35140856.36519945,
     "digest": "535527620985224149",
     "measured": {
-     "commit": "5a0609aa9769f170dfe97826e357109e3eb3555a",
-     "dirty": true,
-     "date": "2026-10-12T08:29:12+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
-   "treerssa-g11": {
-    "T": 10.0,
-    "events": 31024843,
-    "best_seconds": 1.336417,
-    "events_per_second": 23214941.89313665,
-    "digest": "535527620985224149",
-    "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
-    }
-   },
-   "treerssa-g12": {
-    "T": 10.0,
-    "events": 31024843,
-    "best_seconds": 1.354008,
-    "events_per_second": 22913338.03049908,
-    "digest": "535527620985224149",
-    "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
-    }
-   },
-   "treerssa-g13": {
-    "T": 10.0,
-    "events": 31024843,
-    "best_seconds": 1.336667,
-    "events_per_second": 23210599.947481308,
-    "digest": "535527620985224149",
-    "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
-    }
-   },
-   "treerssa-g14": {
-    "T": 10.0,
-    "events": 31024843,
-    "best_seconds": 1.291496,
-    "events_per_second": 24022407.34775795,
-    "digest": "535527620985224149",
-    "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
-    }
-   },
-   "treerssa-g15": {
-    "T": 10.0,
-    "events": 31024843,
-    "best_seconds": 1.159476,
-    "events_per_second": 26757641.382831555,
-    "digest": "535527620985224149",
-    "measured": {
-     "commit": "5a0609aa9769f170dfe97826e357109e3eb3555a",
-     "dirty": true,
-     "date": "2026-10-12T08:29:12+00:00"
-    }
-   },
-   "treerssa-g16": {
-    "T": 10.0,
-    "events": 31024843,
-    "best_seconds": 1.15113,
-    "events_per_second": 26951641.430594284,
-    "digest": "535527620985224149",
-    "measured": {
-     "commit": "5a0609aa9769f170dfe97826e357109e3eb3555a",
-     "dirty": true,
-     "date": "2026-10-12T08:29:12+00:00"
-    }
-   },
-   "treerssa-g17": {
-    "T": 10.0,
-    "events": 31024843,
-    "best_seconds": 0.956986,
-    "events_per_second": 32419327.97344998,
-    "digest": "535527620985224149",
-    "measured": {
-     "commit": "5a0609aa9769f170dfe97826e357109e3eb3555a",
-     "dirty": true,
-     "date": "2026-10-12T08:29:12+00:00"
-    }
-   }
+   "min_idle": 0.981863664790494
   },
   "fceri_gamma2": {
    "treerssa-g2": {
     "T": 300.0,
     "events": 1164783,
-    "best_seconds": 1.702471,
-    "events_per_second": 684172.0064541481,
+    "best_seconds": 1.702536,
+    "events_per_second": 684145.8859019721,
     "digest": "8464086864201947417",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g3": {
     "T": 300.0,
     "events": 1164783,
-    "best_seconds": 0.915846,
-    "events_per_second": 1271810.9813221872,
+    "best_seconds": 0.907395,
+    "events_per_second": 1283655.9601937416,
     "digest": "8464086864201947417",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g4": {
     "T": 300.0,
     "events": 1164783,
-    "best_seconds": 0.892735,
-    "events_per_second": 1304735.4478092603,
+    "best_seconds": 0.884813,
+    "events_per_second": 1316417.141249055,
     "digest": "8464086864201947417",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g5": {
     "T": 300.0,
     "events": 1164783,
-    "best_seconds": 0.922584,
-    "events_per_second": 1262522.436981348,
+    "best_seconds": 0.92417,
+    "events_per_second": 1260355.7786987242,
     "digest": "8464086864201947417",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g6": {
     "T": 300.0,
     "events": 1164783,
-    "best_seconds": 0.931424,
-    "events_per_second": 1250540.0333253169,
+    "best_seconds": 0.91414,
+    "events_per_second": 1274184.4794014047,
     "digest": "8464086864201947417",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g7": {
     "T": 300.0,
     "events": 1164783,
-    "best_seconds": 0.91502,
-    "events_per_second": 1272959.061004131,
+    "best_seconds": 0.90702,
+    "events_per_second": 1284186.6772507771,
     "digest": "8464086864201947417",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g8": {
     "T": 300.0,
     "events": 1164783,
-    "best_seconds": 0.898839,
-    "events_per_second": 1295875.0120989408,
+    "best_seconds": 0.887393,
+    "events_per_second": 1312589.7995589327,
     "digest": "8464086864201947417",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g9": {
     "T": 300.0,
     "events": 1164783,
-    "best_seconds": 0.893347,
-    "events_per_second": 1303841.6203334203,
+    "best_seconds": 0.890164,
+    "events_per_second": 1308503.8262612284,
     "digest": "8464086864201947417",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
-   "rssacr-port": {
-    "T": 300.0,
-    "events": 1119209,
-    "best_seconds": 1.70744,
-    "events_per_second": 655489.5047556575,
-    "digest": "6941673430327417528",
-    "measured": {
-     "commit": "5a0609aa9769f170dfe97826e357109e3eb3555a",
-     "dirty": true,
-     "date": "2026-10-12T08:29:12+00:00"
-    }
-   },
-   "min_idle": 0.473253618628068,
    "treerssa-g10": {
     "T": 300.0,
     "events": 1164783,
-    "best_seconds": 0.888825,
-    "events_per_second": 1310475.0653953254,
+    "best_seconds": 0.877399,
+    "events_per_second": 1327540.833759783,
     "digest": "8464086864201947417",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
-    }
-   },
-   "c-reference": {
-    "T": 300.0,
-    "events": 1164783,
-    "best_seconds": 0.750642,
-    "events_per_second": 1551715.731333978,
-    "digest": "8464086864201947417",
-    "measured": {
-     "commit": "5a0609aa9769f170dfe97826e357109e3eb3555a",
-     "dirty": true,
-     "date": "2026-10-12T08:29:12+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g11": {
     "T": 300.0,
     "events": 1164783,
-    "best_seconds": 0.862216,
-    "events_per_second": 1350917.867448528,
+    "best_seconds": 0.845435,
+    "events_per_second": 1377732.1733782017,
     "digest": "8464086864201947417",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g12": {
     "T": 300.0,
     "events": 1164783,
-    "best_seconds": 0.698739,
-    "events_per_second": 1666978.6572668764,
+    "best_seconds": 0.676539,
+    "events_per_second": 1721679.0162873094,
     "digest": "8464086864201947417",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g13": {
     "T": 300.0,
     "events": 1164783,
-    "best_seconds": 0.648623,
-    "events_per_second": 1795778.133060345,
+    "best_seconds": 0.658081,
+    "events_per_second": 1769969.0463635935,
     "digest": "8464086864201947417",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g14": {
     "T": 300.0,
     "events": 1164783,
-    "best_seconds": 0.648792,
-    "events_per_second": 1795310.3614101282,
+    "best_seconds": 0.65337,
+    "events_per_second": 1782731.071215391,
     "digest": "8464086864201947417",
     "measured": {
-     "commit": "409e4b9374fdd38a22728b0f77b2575edead5ae8",
-     "dirty": true,
-     "date": "2026-10-10T12:15:05+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g15": {
     "T": 300.0,
     "events": 1164783,
-    "best_seconds": 0.649176,
-    "events_per_second": 1794248.4010499464,
+    "best_seconds": 0.658742,
+    "events_per_second": 1768193.0103135975,
     "digest": "8464086864201947417",
     "measured": {
-     "commit": "5a0609aa9769f170dfe97826e357109e3eb3555a",
-     "dirty": true,
-     "date": "2026-10-12T08:29:12+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g16": {
     "T": 300.0,
     "events": 1164783,
-    "best_seconds": 0.512694,
-    "events_per_second": 2271887.3246029797,
+    "best_seconds": 0.506392,
+    "events_per_second": 2300160.7450354667,
     "digest": "8464086864201947417",
     "measured": {
-     "commit": "5a0609aa9769f170dfe97826e357109e3eb3555a",
-     "dirty": true,
-     "date": "2026-10-12T08:29:12+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
    },
    "treerssa-g17": {
     "T": 300.0,
     "events": 1164783,
-    "best_seconds": 0.493799,
-    "events_per_second": 2358820.086715445,
+    "best_seconds": 0.524392,
+    "events_per_second": 2221206.654563762,
     "digest": "8464086864201947417",
     "measured": {
-     "commit": "5a0609aa9769f170dfe97826e357109e3eb3555a",
-     "dirty": true,
-     "date": "2026-10-12T08:29:12+00:00"
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
     }
-   }
+   },
+   "treerssa-g18": {
+    "T": 300.0,
+    "events": 1164783,
+    "best_seconds": 0.448258,
+    "events_per_second": 2598465.6157837673,
+    "digest": "8464086864201947417",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g19": {
+    "T": 300.0,
+    "events": 1164783,
+    "best_seconds": 0.406682,
+    "events_per_second": 2864112.500676204,
+    "digest": "8464086864201947417",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g20": {
+    "T": 300.0,
+    "events": 1164783,
+    "best_seconds": 0.368537,
+    "events_per_second": 3160559.1840168014,
+    "digest": "8464086864201947417",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g21": {
+    "T": 300.0,
+    "events": 1164783,
+    "best_seconds": 0.359193,
+    "events_per_second": 3242777.5596963195,
+    "digest": "8464086864201947417",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "treerssa-g22": {
+    "T": 300.0,
+    "events": 1164783,
+    "best_seconds": 0.341398,
+    "events_per_second": 3411803.8184172143,
+    "digest": "8464086864201947417",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "rssacr-port": {
+    "T": 300.0,
+    "events": 1119209,
+    "best_seconds": 1.681542,
+    "events_per_second": 665584.9214589942,
+    "digest": "6941673430327417528",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "c-reference": {
+    "T": 300.0,
+    "events": 1164783,
+    "best_seconds": 0.748336,
+    "events_per_second": 1556497.3487845033,
+    "digest": "8464086864201947417",
+    "measured": {
+     "commit": "742f281c94471ab956311265435759eb5d534571",
+     "dirty": false,
+     "date": "2026-10-16T17:36:42+00:00"
+    }
+   },
+   "min_idle": 0.9818863210493441
   }
  },
  "machine": {
   "cpu": "AMD Ryzen 9 9955HX 16-Core Processor",
   "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.43",
-  "commit": "5a0609aa9769f170dfe97826e357109e3eb3555a",
-  "dirty": true,
-  "date": "2026-10-12T08:29:12+00:00"
+  "commit": "742f281c94471ab956311265435759eb5d534571",
+  "dirty": false,
+  "date": "2026-10-16T17:36:42+00:00"
  },
- "rounds": 5
+ "rounds": 8
 }

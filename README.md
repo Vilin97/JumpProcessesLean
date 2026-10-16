@@ -5,8 +5,8 @@ arithmetic-parameterized code runs with FloatLib binary64 arithmetic and has a r
 interpretation used by the proofs. The repository also contains
 [Tree-RSSA](#tree-rssa-a-new-ssa-optimized-under-proof), a new exact SSA. It went through
 twenty-two optimized generations, each proved to produce exactly the specification's
-trajectories. Generation 17 is faster than every JumpProcesses.jl aggregator on all five
-networks of the Catalyst paper's SSA benchmark: 1.14× to 1.34× the fastest one on each
+trajectories. Generation 22 is faster than every JumpProcesses.jl aggregator on all five
+networks of the Catalyst paper's SSA benchmark: 1.44× to 1.81× the fastest one on each
 network, measured in the same time window.
 
 **Checked (real, end to end).** The public `simulate` driver runs on the
@@ -128,39 +128,64 @@ runs all twelve exact aggregators of JumpProcesses.jl 9.33.1 (`JUMP_AGGREGATORS`
 
 ![Lean against the fastest Julia aggregator, same window](bench/results/headtohead.svg)
 
-**Results.** Measured in the same time window, alternating rounds, best time:
+**Results.** Measured in the same time window, alternating rounds, best time, every process
+pinned to the same core:
 
-| network | fastest Julia | Julia ev/s | Lean G17 ev/s | ratio | C ev/s |
+| network | fastest Julia | Julia ev/s | Lean G22 ev/s | ratio | C ev/s |
 |---|---|---:|---:|---:|---:|
-| multistate | SortingDirect | 2.44e+07 | 2.95e+07 | 1.21 | 3.04e+07 |
-| multisite2 | RSSACR | 1.4e+07 | 1.59e+07 | 1.14 | 1.42e+07 |
-| egfr_net | RSSACR | 1.71e+07 | 2.24e+07 | 1.31 | 2.16e+07 |
-| BCR | RSSACR | 2.47e+07 | 3.3e+07 | 1.34 | 3.5e+07 |
-| fcεRI γ2 | RSSACR | 1.88e+06 | 2.35e+06 | 1.25 | 1.55e+06 |
+| multistate | SortingDirect | 2.44e+07 | 3.74e+07 | 1.53 | 3.04e+07 |
+| multisite2 | RSSACR | 1.4e+07 | 2.02e+07 | 1.44 | 1.43e+07 |
+| egfr_net | RSSACR | 1.72e+07 | 2.55e+07 | 1.49 | 2.18e+07 |
+| BCR | RSSACR | 2.5e+07 | 3.96e+07 | 1.58 | 3.51e+07 |
+| fcεRI γ2 | RSSACR | 1.88e+06 | 3.39e+06 | 1.81 | 1.56e+06 |
 
-* **Against JumpProcesses.jl:** generation 17 is 1.14× to 1.34× the fastest aggregator on
-  every network, in the same window. Every aggregator within a factor of two of the fastest
-  in the full suite ran in that window: seven on multistate, three or four elsewhere. RSSACR
-  is the fastest Julia aggregator on four networks, SortingDirect on multistate; the other
-  ten are slower on every network (table below). A second window, with the leading
-  aggregators only (four on multistate, RSSA and RSSACR on the next three networks, RSSACR
-  on fcεRI γ2), gave 1.14× to 1.35×
-  ([`headtohead-repeat.json`](bench/results/headtohead-repeat.json)). Generation 16
-  measured 1.08× to 1.30× in its own window
-  ([`headtohead-g16.json`](bench/results/headtohead-g16.json), repeated in
+* **Against JumpProcesses.jl:** generation 22 is 1.44× to 1.81× the fastest aggregator on
+  every network, in the same window ([`headtohead.json`](bench/results/headtohead.json)).
+  Every aggregator within a factor of two of the fastest in the full suite ran in that
+  window: seven on multistate, three or four elsewhere. RSSACR is the fastest Julia
+  aggregator on four networks, SortingDirect on multistate; the other ten are slower on every
+  network (table below). A second window, unpinned, gave 1.44× to 1.81×
+  ([`headtohead-repeat.json`](bench/results/headtohead-repeat.json)). Both windows also ran
+  generations 17 to 21; in the pinned one they were 1.11× to 1.27× (generation 17),
+  1.23× to 1.40× (18), 1.32× to 1.52× (19), 1.39× to 1.68× (20) and 1.43× to 1.73× (21) the
+  fastest aggregator.
+* **Window to window:** generation 21's own windows gave it 1.43× to 1.71× pinned
+  ([`headtohead-g21.json`](bench/results/headtohead-g21.json)) and 1.43× to 1.70×
+  unpinned ([`headtohead-g21-repeat.json`](bench/results/headtohead-g21-repeat.json)).
+  Generation 20's morning windows gave it 1.39× to 1.68×
+  ([`headtohead-g20.json`](bench/results/headtohead-g20.json), unpinned in
+  [`headtohead-g20-repeat.json`](bench/results/headtohead-g20-repeat.json)), 1.54× to 1.57× on
+  multistate, multisite2 and egfr_net, where its afternoon windows give it 1.40× to 1.43×:
+  on those three networks the native programs, the C one included, ran 8% to 17% slower in
+  the afternoon while Julia's rates stayed within 1% (a laptop-class Ryzen in its balanced
+  power profile; BCR and fcεRI γ2 did not move), so only ratios within one window compare.
+  Earlier windows are kept for generations 19
+  ([`headtohead-g19.json`](bench/results/headtohead-g19.json),
+  [`headtohead-g19-repeat.json`](bench/results/headtohead-g19-repeat.json)), 17
+  ([`headtohead-g17.json`](bench/results/headtohead-g17.json),
+  [`headtohead-g17-repeat.json`](bench/results/headtohead-g17-repeat.json)) and 16
+  ([`headtohead-g16.json`](bench/results/headtohead-g16.json),
   [`headtohead-g16-repeat.json`](bench/results/headtohead-g16-repeat.json)).
-* **Generation 17 against generation 16:** 1.04× to 1.20× in the same window, most on BCR
-  and multistate, where firing and bookkeeping weighed most; on fcεRI γ2 refreshes dominate.
-* **Generation 17 against generation 0:** 7,176× faster (geometric mean over the five
-  networks): from 72–218,000 events per second for the specification to 2.4–32 million.
-* **Against the Lean RSSACR port:** 3.4× to 4.5× faster on every network.
+* **Generations 18 to 22, each against its predecessor** (same binary, pinned, alternating
+  rounds, best of five, same final populations): 1.02× to 1.19× (18), 1.01× to 1.08× (19),
+  1.05× to 1.12× (20), 1.02× to 1.04× (21) and 1.01× to 1.10× (22, most on BCR). In the
+  pinned window generation 22 is 1.17× to 1.52× generation 17.
+* **Generation 22 against generation 0:** 9,073× faster (geometric mean over the five
+  networks): from 72–218,000 events per second for the specification to
+  3.4–40 million.
+* **Against the Lean RSSACR port:** 4.1× to 6.1× faster on every network.
 * **The independent C implementation** of the same algorithm ends every run with the same
-  final populations as generations 2 to 17. It is straightforward C: each refresh computes
+  final populations as generations 2 to 22. It is straightforward C: each refresh computes
   the product of every dependent bound and re-adds each changed leaf's path to the root.
-  Generation 17 is within 6% of it on multistate and BCR and faster on the other three; on
-  fcεRI γ2, where refreshes dominate with about 38 dependent bound evaluations per event, it
-  is 1.52× the C, because it skips the products whose integer factors are unchanged and
-  re-adds the paths of one refresh together.
+  Generation 22 is 1.13× the C on BCR, 1.17× to 1.41× on multistate,
+  multisite2 and egfr_net, and 2.18× on fcεRI γ2, where refreshes dominate with about
+  28 dependent bound evaluations per event: it skips the products whose integer factors are
+  unchanged and re-adds the paths of one refresh together.
+* **What is timed:** each Lean measurement is one fresh process, and its time includes
+  compiling the network and building the initial brackets, tree and records (0.05 ms on
+  multistate, 12 ms on BCR, 28 ms on fcεRI γ2, about 8% of that run). Julia's time is the
+  `solve` call alone, after a warm-up solve, with the `JumpProblem` built beforehand. Both
+  differences favor Julia.
 
 The numbers come from a shared machine with other jobs running, so ±15% between runs is
 normal. Each script records the machine, the commit, and whether the working tree had
@@ -185,56 +210,66 @@ keeps each one's best of five rounds.
 | Julia RSSACR | 1.75e+07 | 1.38e+07 | 1.71e+07 | 2.07e+07 | 1.93e+06 |
 | Lean Tree-RSSA G0 | 2.18e+05 | 1.25e+04 | 1.25e+03 | 175 | 71.7 |
 | Lean Tree-RSSA G1 | 3.49e+06 | 2.38e+06 | 3.6e+06 | 3.47e+06 | 2.34e+05 |
-| Lean Tree-RSSA G2 | 1.13e+07 | 6.34e+06 | 1.01e+07 | 1.08e+07 | 6.84e+05 |
-| Lean Tree-RSSA G3 | 1.24e+07 | 8.13e+06 | 1.08e+07 | 1.15e+07 | 1.27e+06 |
-| Lean Tree-RSSA G4 | 1.67e+07 | 1e+07 | 1.42e+07 | 1.49e+07 | 1.3e+06 |
-| Lean Tree-RSSA G5 | 1.53e+07 | 9.39e+06 | 1.35e+07 | 1.36e+07 | 1.26e+06 |
-| Lean Tree-RSSA G6 | 1.66e+07 | 9.8e+06 | 1.43e+07 | 1.43e+07 | 1.25e+06 |
-| Lean Tree-RSSA G7 | 1.91e+07 | 1.07e+07 | 1.58e+07 | 1.68e+07 | 1.27e+06 |
-| Lean Tree-RSSA G8 | 1.97e+07 | 1.09e+07 | 1.62e+07 | 1.8e+07 | 1.3e+06 |
-| Lean Tree-RSSA G9 | 2.03e+07 | 1.1e+07 | 1.66e+07 | 1.86e+07 | 1.3e+06 |
-| Lean Tree-RSSA G10 | 2.13e+07 | 1.14e+07 | 1.72e+07 | 1.95e+07 | 1.31e+06 |
-| Lean Tree-RSSA G11 | 2.23e+07 | 1.2e+07 | 1.93e+07 | 2.32e+07 | 1.35e+06 |
-| Lean Tree-RSSA G12 | 2.23e+07 | 1.27e+07 | 1.95e+07 | 2.29e+07 | 1.67e+06 |
-| Lean Tree-RSSA G13 | 2.26e+07 | 1.32e+07 | 1.99e+07 | 2.32e+07 | 1.8e+06 |
-| Lean Tree-RSSA G14 | 2.37e+07 | 1.34e+07 | 2.04e+07 | 2.4e+07 | 1.8e+06 |
-| Lean Tree-RSSA G15 | 2.5e+07 | 1.35e+07 | 2.01e+07 | 2.68e+07 | 1.79e+06 |
-| Lean Tree-RSSA G16 | 2.5e+07 | 1.44e+07 | 1.95e+07 | 2.7e+07 | 2.27e+06 |
-| Lean Tree-RSSA G17 | 2.95e+07 | 1.6e+07 | 2.24e+07 | 3.24e+07 | 2.36e+06 |
-| Tree-RSSA in C (unverified cross-check) | 3.04e+07 | 1.43e+07 | 2.18e+07 | 3.51e+07 | 1.55e+06 |
-| Lean RSSACR port | 6.6e+06 | 4.72e+06 | 6.38e+06 | 7.85e+06 | 6.55e+05 |
+| Lean Tree-RSSA G2 | 1.12e+07 | 6.38e+06 | 9.95e+06 | 1.08e+07 | 6.84e+05 |
+| Lean Tree-RSSA G3 | 1.21e+07 | 7.95e+06 | 1.06e+07 | 1.16e+07 | 1.28e+06 |
+| Lean Tree-RSSA G4 | 1.62e+07 | 9.71e+06 | 1.36e+07 | 1.47e+07 | 1.32e+06 |
+| Lean Tree-RSSA G5 | 1.52e+07 | 9.18e+06 | 1.32e+07 | 1.36e+07 | 1.26e+06 |
+| Lean Tree-RSSA G6 | 1.61e+07 | 9.53e+06 | 1.38e+07 | 1.43e+07 | 1.27e+06 |
+| Lean Tree-RSSA G7 | 1.85e+07 | 1.03e+07 | 1.5e+07 | 1.7e+07 | 1.28e+06 |
+| Lean Tree-RSSA G8 | 1.91e+07 | 1.06e+07 | 1.56e+07 | 1.81e+07 | 1.31e+06 |
+| Lean Tree-RSSA G9 | 2.04e+07 | 1.07e+07 | 1.59e+07 | 1.85e+07 | 1.31e+06 |
+| Lean Tree-RSSA G10 | 2.17e+07 | 1.1e+07 | 1.65e+07 | 1.95e+07 | 1.33e+06 |
+| Lean Tree-RSSA G11 | 2.26e+07 | 1.18e+07 | 1.83e+07 | 2.34e+07 | 1.38e+06 |
+| Lean Tree-RSSA G12 | 2.21e+07 | 1.24e+07 | 1.85e+07 | 2.35e+07 | 1.72e+06 |
+| Lean Tree-RSSA G13 | 2.3e+07 | 1.27e+07 | 1.86e+07 | 2.33e+07 | 1.77e+06 |
+| Lean Tree-RSSA G14 | 2.34e+07 | 1.27e+07 | 1.87e+07 | 2.38e+07 | 1.78e+06 |
+| Lean Tree-RSSA G15 | 2.53e+07 | 1.34e+07 | 1.98e+07 | 2.7e+07 | 1.77e+06 |
+| Lean Tree-RSSA G16 | 2.54e+07 | 1.46e+07 | 2.05e+07 | 2.7e+07 | 2.3e+06 |
+| Lean Tree-RSSA G17 | 2.9e+07 | 1.56e+07 | 2.18e+07 | 3.16e+07 | 2.22e+06 |
+| Lean Tree-RSSA G18 | 3.1e+07 | 1.72e+07 | 2.27e+07 | 3.28e+07 | 2.6e+06 |
+| Lean Tree-RSSA G19 | 3.31e+07 | 1.85e+07 | 2.34e+07 | 3.31e+07 | 2.86e+06 |
+| Lean Tree-RSSA G20 | 3.5e+07 | 1.97e+07 | 2.44e+07 | 3.49e+07 | 3.16e+06 |
+| Lean Tree-RSSA G21 | 3.64e+07 | 2.02e+07 | 2.46e+07 | 3.62e+07 | 3.24e+06 |
+| Lean Tree-RSSA G22 | 3.74e+07 | 2.01e+07 | 2.57e+07 | 3.96e+07 | 3.41e+06 |
+| Tree-RSSA in C (unverified cross-check) | 3.05e+07 | 1.43e+07 | 2.18e+07 | 3.51e+07 | 1.56e+06 |
+| Lean RSSACR port | 6.12e+06 | 4.57e+06 | 6.27e+06 | 7.53e+06 | 6.66e+05 |
 | Lean FloatLib Direct | 2.07e+04 | 1.6e+03 | 179 | 29.4 | 10.4 |
 | Lean FloatLib NRM | 9.51e+03 | 557 | 115 | 17.3 | 6.14 |
 | Lean FloatLib RSSA | 8.12e+03 | 599 | 46.6 | 6.37 | 2.51 |
 
 Generations 0 and 1 and the FloatLib drivers were measured by `run.py`, with shorter
 spans where the budget required (recorded in `bench/results/lean.json`). Generations 2 to
-17, the port and the C implementation come from `generations.py`: generations 15 to 17, the
-port and the C in the window of generation 17's head to head, the others in an earlier one
-(each result records when it was measured). Julia comes from `run.py` in its own windows.
+22, the port and the C implementation come from one `generations.py` window, eight
+alternating rounds with every process pinned to one core
+([`generations.json`](bench/results/generations.json)). Julia comes from `run.py` in its
+own windows.
 
 </details>
 
-Reproduce with `lake build jumpBench`, then:
+Reproduce with `lake build jumpBench`, then (the unpinned window, `headtohead-repeat.json`,
+ran the same three head-to-head commands without `taskset`):
 
 ```bash
 python3 bench/run.py --julia --out bench/results/julia.json       # needs JULIA=…
 python3 bench/run.py --lean treerssa-spec treerssa-g1 rssacr-port direct-floatlib \
   nrm-floatlib rssa-floatlib --out bench/results/lean.json
 cc -O3 -march=native -ffp-contract=off -o treerssa-c bench/c/treerssa.c -lm
-CREF=./treerssa-c python3 bench/generations.py --out bench/results/generations.json \
-  --methods treerssa-g2 treerssa-g3 treerssa-g4 treerssa-g5 treerssa-g6 treerssa-g7 \
-  treerssa-g8 treerssa-g9 treerssa-g10 treerssa-g11 treerssa-g12 treerssa-g13 \
-  treerssa-g14 treerssa-g15 treerssa-g16 treerssa-g17 rssacr-port c-reference
-CREF=./treerssa-c python3 bench/generations.py --out bench/results/headtohead.json \
+CREF=./treerssa-c taskset -c 4 python3 bench/generations.py \
+  --out bench/results/generations.json --rounds 8 --methods treerssa-g2 treerssa-g3 \
+  treerssa-g4 treerssa-g5 treerssa-g6 treerssa-g7 treerssa-g8 treerssa-g9 treerssa-g10 \
+  treerssa-g11 treerssa-g12 treerssa-g13 treerssa-g14 treerssa-g15 treerssa-g16 \
+  treerssa-g17 treerssa-g18 treerssa-g19 treerssa-g20 treerssa-g21 treerssa-g22 \
+  rssacr-port c-reference
+G="treerssa-g17 treerssa-g18 treerssa-g19 treerssa-g20 treerssa-g21 treerssa-g22"
+CREF=./treerssa-c taskset -c 4 python3 bench/generations.py --out bench/results/headtohead.json \
   --models multistate --methods julia:Direct julia:DirectFW julia:SortingDirect \
-  julia:RDirect julia:DirectCR julia:RSSA julia:RSSACR treerssa-g17 c-reference
-CREF=./treerssa-c python3 bench/generations.py --out bench/results/headtohead.json \
+  julia:RDirect julia:DirectCR julia:RSSA julia:RSSACR $G c-reference
+CREF=./treerssa-c taskset -c 4 python3 bench/generations.py --out bench/results/headtohead.json \
   --models multisite2 egfr_net BCR \
-  --methods julia:SortingDirect julia:RSSA julia:RSSACR treerssa-g17 c-reference
-CREF=./treerssa-c python3 bench/generations.py --out bench/results/headtohead.json \
+  --methods julia:SortingDirect julia:RSSA julia:RSSACR $G c-reference
+CREF=./treerssa-c taskset -c 4 python3 bench/generations.py --out bench/results/headtohead.json \
   --models fceri_gamma2 --methods julia:SortingDirect julia:CCNRM julia:DirectCR \
-  julia:RSSACR treerssa-g17 c-reference
+  julia:RSSACR $G c-reference
 python3 bench/plot.py
 ```
 
