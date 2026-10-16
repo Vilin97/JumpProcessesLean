@@ -46,6 +46,7 @@ GENERATIONS = [
     ("treerssa-g17", "one firing loop, one-sided bracket tests, machine-word counters"),
     ("treerssa-g18", "counts as exact floats: native float sums, differences and products"),
     ("treerssa-g19", "no lower bounds: the exact propensity alone decides acceptance"),
+    ("treerssa-g20", "every array access in bounds by proof, no size tests"),
 ]
 FINAL = GENERATIONS[-1][0]
 TREE = "#c0392b"
