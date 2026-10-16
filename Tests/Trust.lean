@@ -308,3 +308,9 @@ import JumpProcessesLean
 #print axioms JumpProcessesLean.Proofs.gen20_run_eq
 #print axioms JumpProcessesLean.Proofs.gen20_eq_gen19
 #print axioms JumpProcessesLean.Proofs.gen20_simulate_eq
+#print axioms JumpProcessesLean.Proofs.applyR_eq
+#print axioms JumpProcessesLean.Proofs.smallR_eq
+#print axioms JumpProcessesLean.Proofs.refreshFromR_eq
+#print axioms JumpProcessesLean.Proofs.gen21_run_eq
+#print axioms JumpProcessesLean.Proofs.gen21_eq_gen20
+#print axioms JumpProcessesLean.Proofs.gen21_simulate_eq

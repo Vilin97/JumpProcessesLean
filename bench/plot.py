@@ -47,6 +47,7 @@ GENERATIONS = [
     ("treerssa-g18", "counts as exact floats: native float sums, differences and products"),
     ("treerssa-g19", "no lower bounds: the exact propensity alone decides acceptance"),
     ("treerssa-g20", "every array access in bounds by proof, no size tests"),
+    ("treerssa-g21", "one record per reaction: rate, factor and changes behind one load"),
 ]
 FINAL = GENERATIONS[-1][0]
 TREE = "#c0392b"

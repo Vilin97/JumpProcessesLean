@@ -237,8 +237,9 @@ proofs reason about Lean's logical model of `Float` and use no floating-point id
 * generation 5's refresh returns exactly generation 3's cache (`gen5_refresh_eq`). A
   skipped bound has an unchanged integer factor, and `evalAt_set` reads the old factor
   from the updated arrays;
-* generations 6 to 18 and 20 are proved equal to their predecessors (`gen6_eq_gen5` …
-  `gen18_eq_gen17`, `gen20_eq_gen19`), and generation 19 to generation 17 (`gen19_eq_gen17`). Generation 7 uses `isFinite_eq_lt`: a float is finite exactly when
+* generations 6 to 18, 20 and 21 are proved equal to their predecessors (`gen6_eq_gen5` …
+  `gen18_eq_gen17`, `gen20_eq_gen19`, `gen21_eq_gen20`), and generation 19 to generation 17
+  (`gen19_eq_gen17`). Generation 7 uses `isFinite_eq_lt`: a float is finite exactly when
   it lies strictly between the two infinities, by the same case analysis in Lean's model of
   `compare` and `isFinite`;
 * generation 11's machine-word descent visits the nodes of `Gen1.descend`: from node `1` a
@@ -301,6 +302,13 @@ proofs reason about Lean's logical model of `Float` and use no floating-point id
   bounds reads and writes what generation 19's tested access does (`fget_uget`, `cset_uset`), so
   each loop is generation 19's (`applyU_eq`, `setBoundsU_eq`, `refreshFromU_eq`) and, with the
   tree's size carried, so is the driver (`gen20_run_eq`, `start20_eq`).
+* generation 21 reads each proposed reaction from one record holding its rate, its factor and
+  its two or three changes, built once at the start (`buildRx`). A record holds its reaction
+  (`RxAt`, by `rxOf_at` from the array's definition), so its fields are what generation 19's
+  tested accesses read (`rx_rate`, `rx_eval`), and its steps over the changes are generation
+  19's loops unrolled (`applyR_eq`, `smallR_eq`, `refreshFromR_eq`). The drivers agree
+  (`gen21_run_eq`), and the start runs generation 20 when a reaction changes fewer than two
+  or more than three species (`start21_eq`).
 
 The trust base for executable Tree-RSSA is Lean's: compiled code runs the C
 implementations of the `@[extern]` float operations (including `log` and `exp` from the C
@@ -329,7 +337,7 @@ bash scripts/verify.sh
 ```
 
 This builds the proofs, runs the native FloatLib test suite, audits the dependencies
-of the 307 results listed in `Tests/Trust.lean`, and runs the original pinned Julia
+of the 313 results listed in `Tests/Trust.lean`, and runs the original pinned Julia
 method fixtures. The audit permits only Lean's standard `propext`, `Classical.choice`
 and `Quot.sound`, and rejects `sorry`, `admit`, `axiom`, `unsafe` and `native_decide`
 in project sources.
