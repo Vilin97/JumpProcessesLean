@@ -237,8 +237,8 @@ proofs reason about Lean's logical model of `Float` and use no floating-point id
 * generation 5's refresh returns exactly generation 3's cache (`gen5_refresh_eq`). A
   skipped bound has an unchanged integer factor, and `evalAt_set` reads the old factor
   from the updated arrays;
-* generations 6 to 17 are proved equal to their predecessors (`gen6_eq_gen5` …
-  `gen17_eq_gen16`). Generation 7 uses `isFinite_eq_lt`: a float is finite exactly when
+* generations 6 to 18 are proved equal to their predecessors (`gen6_eq_gen5` …
+  `gen18_eq_gen17`). Generation 7 uses `isFinite_eq_lt`: a float is finite exactly when
   it lies strictly between the two infinities, by the same case analysis in Lean's model of
   `compare` and `isFinite`;
 * generation 11's machine-word descent visits the nodes of `Gen1.descend`: from node `1` a
@@ -267,6 +267,21 @@ proofs reason about Lean's logical model of `Float` and use no floating-point id
   after every event (`foldRefresh13_brackets`), and without a refresh the tree, hence the total,
   is unchanged (`RunInv`, `gen17_run_eq`). The start tests these conditions and otherwise runs
   generation 16 (`start17_eq`).
+* generation 18 holds the populations, the brackets and the maximal stoichiometries as the
+  floats `Float.ofNat x` of counts below `2^26` (`CountsOf`). `Proofs/NativeCounts.lean` proves
+  that on such floats the native sum, the difference of a larger and a smaller count, the
+  product below `2^53` and the comparisons are those of the natural numbers (`count_add`,
+  `count_sub`, `count_mul`, `count_lt`, `count_le`, `count_beq`), through FloatLib's bridge
+  from Lean's float model to binary64 rounding (`toModel_ofFloat_add_of_isFinite`,
+  `roundDyadic_of_representable`) and an ordering lemma: the model compares finite positive
+  floats by exponent, then mantissa (`count_compare`). So generation 18's firing
+  (`applyW_eq`), staleness test (`staleW_eq`), refresh (`setBoundsW_eq`, `refreshFrom_eq`)
+  and acceptance test (`acc18_eq`) compute generation 17's on the floats of its counts, and a
+  bound's float product is `natToFloat` of generation 17's integer factor. Counts stay below
+  `2^26`: when a changed count reaches `2^25`, that event's refresh and the rest of the run are
+  generation 17's (`run18_eq_of`). The start tests that the network's factors have order at
+  most two and the counts, brackets and change amounts are below `2^26`, and otherwise runs
+  generation 17 (`start18_eq`).
 
 The trust base for executable Tree-RSSA is Lean's: compiled code runs the C
 implementations of the `@[extern]` float operations (including `log` and `exp` from the C
@@ -295,7 +310,7 @@ bash scripts/verify.sh
 ```
 
 This builds the proofs, runs the native FloatLib test suite, audits the dependencies
-of the 282 results listed in `Tests/Trust.lean`, and runs the original pinned Julia
+of the 292 results listed in `Tests/Trust.lean`, and runs the original pinned Julia
 method fixtures. The audit permits only Lean's standard `propext`, `Classical.choice`
 and `Quot.sound`, and rejects `sorry`, `admit`, `axiom`, `unsafe` and `native_decide`
 in project sources.

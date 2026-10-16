@@ -283,3 +283,13 @@ import JumpProcessesLean
 #print axioms JumpProcessesLean.Proofs.gen17_run_eq
 #print axioms JumpProcessesLean.Proofs.gen17_eq_gen16
 #print axioms JumpProcessesLean.Proofs.gen17_simulate_eq
+#print axioms JumpProcessesLean.Proofs.Counts.count_lt
+#print axioms JumpProcessesLean.Proofs.Counts.count_le
+#print axioms JumpProcessesLean.Proofs.Counts.count_add
+#print axioms JumpProcessesLean.Proofs.Counts.count_sub
+#print axioms JumpProcessesLean.Proofs.Counts.count_mul
+#print axioms JumpProcessesLean.Proofs.applyW_eq
+#print axioms JumpProcessesLean.Proofs.refreshFrom_eq
+#print axioms JumpProcessesLean.Proofs.gen18_run_eq
+#print axioms JumpProcessesLean.Proofs.gen18_eq_gen17
+#print axioms JumpProcessesLean.Proofs.gen18_simulate_eq

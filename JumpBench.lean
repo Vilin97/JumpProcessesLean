@@ -149,6 +149,10 @@ def runOnce (netF : Network Float) (netB : Network Binary64) (method : String) (
     let r := TreeRSSA.Gen17.simulate netF (TreeRSSA.initialState netF netF.initial) 0 T
       (Xoshiro.seed seed) maxEvents
     return describe hostTime stateDigest r maxEvents
+  | "treerssa-g18" =>
+    let r := TreeRSSA.Gen18.simulate netF (TreeRSSA.initialState netF netF.initial) 0 T
+      (Xoshiro.seed seed) maxEvents
+    return describe hostTime stateDigest r maxEvents
   | "treerssa-spec" =>
     let r := TreeRSSA.simulate hostArithmetic hostSource netF
       (TreeRSSA.initialState netF netF.initial) 0 T (Xoshiro.seed seed) maxEvents
