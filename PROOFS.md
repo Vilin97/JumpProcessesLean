@@ -237,9 +237,9 @@ proofs reason about Lean's logical model of `Float` and use no floating-point id
 * generation 5's refresh returns exactly generation 3's cache (`gen5_refresh_eq`). A
   skipped bound has an unchanged integer factor, and `evalAt_set` reads the old factor
   from the updated arrays;
-* generations 6 to 18 and 20 to 22 are proved equal to their predecessors (`gen6_eq_gen5` …
-  `gen18_eq_gen17`, `gen20_eq_gen19`, `gen21_eq_gen20`, `gen22_eq_gen21`), and generation 19 to
-  generation 17 (`gen19_eq_gen17`). Generation 7 uses `isFinite_eq_lt`: a float is finite exactly when
+* generations 6 to 18 and 20 to 23 are proved equal to their predecessors (`gen6_eq_gen5` …
+  `gen18_eq_gen17`, `gen20_eq_gen19` … `gen23_eq_gen22`), and generation 19 to generation 17
+  (`gen19_eq_gen17`). Generation 7 uses `isFinite_eq_lt`: a float is finite exactly when
   it lies strictly between the two infinities, by the same case analysis in Lean's model of
   `compare` and `isFinite`;
 * generation 11's machine-word descent visits the nodes of `Gen1.descend`: from node `1` a
@@ -316,6 +316,9 @@ proofs reason about Lean's logical model of `Float` and use no floating-point id
   walks and refreshes, compiled in its own module, are generation 21's (`fixUntilR_eq`,
   `setBoundsR22_eq`), and so is the driver (`gen22_run_eq`); the start runs generation 21
   unless the leaves number `2^depth` (`start22_eq`).
+* generation 23 descends two levels per step from `2^9` leaves instead of `2^12`; its descents,
+  compiled in its module, are generation 22's (`descendW23_eq`, `Gen23.descend2_eq`), and the
+  rest of its driver is generation 22's (`gen23_run_eq`, `start23_eq`).
 
 The trust base for executable Tree-RSSA is Lean's: compiled code runs the C
 implementations of the `@[extern]` float operations (including `log` and `exp` from the C
@@ -344,7 +347,7 @@ bash scripts/verify.sh
 ```
 
 This builds the proofs, runs the native FloatLib test suite, audits the dependencies
-of the 318 results listed in `Tests/Trust.lean`, and runs the original pinned Julia
+of the 322 results listed in `Tests/Trust.lean`, and runs the original pinned Julia
 method fixtures. The audit permits only Lean's standard `propext`, `Classical.choice`
 and `Quot.sound`, and rejects `sorry`, `admit`, `axiom`, `unsafe` and `native_decide`
 in project sources.

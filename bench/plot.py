@@ -49,6 +49,7 @@ GENERATIONS = [
     ("treerssa-g20", "every array access in bounds by proof, no size tests"),
     ("treerssa-g21", "one record per reaction: rate, factor and changes behind one load"),
     ("treerssa-g22", "two tree levels per descent step on deep trees, firing and walks inlined"),
+    ("treerssa-g23", "two tree levels per descent step from depth 9"),
 ]
 FINAL = GENERATIONS[-1][0]
 TREE = "#c0392b"

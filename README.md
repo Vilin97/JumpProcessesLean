@@ -4,7 +4,7 @@ Lean translations of JumpProcesses.jl's Direct, NRM, and RSSA. The same
 arithmetic-parameterized code runs with FloatLib binary64 arithmetic and has a real
 interpretation used by the proofs. The repository also contains
 [Tree-RSSA](#tree-rssa-a-new-ssa-optimized-under-proof), a new exact SSA. It went through
-twenty-two optimized generations, each proved to produce exactly the specification's
+twenty-three optimized generations, each proved to produce exactly the specification's
 trajectories. Generation 22 is faster than every JumpProcesses.jl aggregator on all five
 networks of the Catalyst paper's SSA benchmark: 1.44× to 1.81× the fastest one on each
 network, measured in the same time window.
@@ -62,10 +62,10 @@ specification is generic in the arithmetic and the random source, like the drive
 model (`treeRSSA_simulate_eq`). So on the IID streams its event probabilities are within
 the cap defect of the exact stopped-path law (`tree_rssa_iid_capped_law`), and they
 converge to those of Gillespie's Direct method as the cap grows
-(`tree_rssa_tendsto_direct`). On host floats with the xoshiro256++ source, each of twenty-two
+(`tree_rssa_tendsto_direct`). On host floats with the xoshiro256++ source, each of twenty-three
 optimized **generations** is proved to return exactly what the specification returns, bit
 for bit, for every input and every network whose reactant species are in range
-(`gen1_simulate_eq` … `gen22_simulate_eq`). Speed never changes the result: all
+(`gen1_simulate_eq` … `gen23_simulate_eq`). Speed never changes the result: all
 generations produce the same trajectory for the same seed.
 
 The host source draws uniforms from a word's top 53 bits and exponentials by a 256-layer
@@ -100,6 +100,7 @@ which cover the specification for every source.
 | 20 | every array access in bounds by proof: no index or size tests | `gen20_eq_gen19` |
 | 21 | one record per reaction: rate, factor and changes read through one pointer | `gen21_eq_gen20` |
 | 22 | two tree levels per descent step on deep trees; firing and tree walks inlined | `gen22_eq_gen21` |
+| 23 | two tree levels per descent step from depth 9 | `gen23_eq_gen22` |
 
 Also in Lean: [a port of JumpProcesses.jl's RSSACR](JumpProcessesLean/Ports/RSSACR.lean),
 its fastest aggregator on four of the five networks below (unverified, for comparison).
@@ -288,7 +289,7 @@ Install Elan and Julia 1.11 or later, then run `bash scripts/verify.sh`. It runs
 
 1. `lake build` for all proofs;
 2. `lake test` for the native FloatLib executables;
-3. the theorem dependency audit of `Tests/Trust.lean` (318 results);
+3. the theorem dependency audit of `Tests/Trust.lean` (322 results);
 4. the original Julia fixtures.
 
 Logs are written to `results/`. The first native build compiles FloatLib's C
@@ -475,7 +476,7 @@ state/count/error outcome.
 * No nonexplosion or infinite-time CTMC extension is claimed.
 
 There are no project proof placeholders, extra axioms, `native_decide`, or unsafe
-code. `Tests/Trust.lean` audits 318 principal results. `scripts/audit.py` rejects
+code. `Tests/Trust.lean` audits 322 principal results. `scripts/audit.py` rejects
 forbidden tokens in all project sources and accepts only Lean's standard `propext`,
 `Classical.choice` and `Quot.sound`.
 
@@ -495,7 +496,7 @@ The successful logs are in `results/`.
   16 channels, A=100, rates 0.1 through 1.6, horizon 0.1, original tolerance 1.
 * Conservation, extinction, terminal horizon and chronological traces are checked.
 * From `2^53`, where floats are two apart, a clock step below one rounds to the current
-  time: Direct, NRM and RSSA return it, and every driver and Tree-RSSA generations 17 to 22
+  time: Direct, NRM and RSSA return it, and every driver and Tree-RSSA generations 17 to 23
   complete a 100-event extinction started there.
 * A Julia harness executes the pinned original algorithm bodies with 8 deterministic
   assertions. Integrator, random-tape and heap interfaces are stubbed, and the full
