@@ -29,7 +29,7 @@ lemma direct_float_flags_executes (rates : Array Binary64) (e u : Binary64) (j :
       binary64Arithmetic.lt u binary64Arithmetic.one) = true)
     (hj : chooseAux binary64Arithmetic (u * sumRates binary64Arithmetic rates) rates.toList 0 0 = some j)
     (ht : (binary64Arithmetic.finite (binary64Arithmetic.add 0 (binary64Arithmetic.div e (sumRates binary64Arithmetic rates))) &&
-      binary64Arithmetic.lt 0 (binary64Arithmetic.add 0 (binary64Arithmetic.div e (sumRates binary64Arithmetic rates)))) = true) :
+      binary64Arithmetic.le 0 (binary64Arithmetic.add 0 (binary64Arithmetic.div e (sumRates binary64Arithmetic rates)))) = true) :
     direct binary64Arithmetic (tapeSource Binary64) rates 0 ⟨[u], [e]⟩ =
       .ok (some ⟨0 + e / sumRates binary64Arithmetic rates, j⟩, ⟨[], []⟩) := by
   have hc : checkRates binary64Arithmetic rates = .ok () := checkRatesAux_valid _ _ hr 0
@@ -90,7 +90,7 @@ structure DirectFloatCertificate (rates : Array Binary64) (e u : Binary64) (ur e
   uniformValid : (binary64Arithmetic.finite u && binary64Arithmetic.le binary64Arithmetic.zero u && binary64Arithmetic.lt u binary64Arithmetic.one) = true
   quotientFinite : ExecFloat.Binary.isFinite (e / sumRates binary64Arithmetic rates) = true
   outputValid : (binary64Arithmetic.finite (binary64Arithmetic.add 0 (binary64Arithmetic.div e (sumRates binary64Arithmetic rates))) &&
-    binary64Arithmetic.lt 0 (binary64Arithmetic.add 0 (binary64Arithmetic.div e (sumRates binary64Arithmetic rates)))) = true
+    binary64Arithmetic.le 0 (binary64Arithmetic.add 0 (binary64Arithmetic.div e (sumRates binary64Arithmetic rates)))) = true
   thresholdFinite : ExecFloat.Binary.isFinite (u * sumRates binary64Arithmetic rates) = true
   thresholdError : |floatReal (u * sumRates binary64Arithmetic rates) - ur * (rates.toList.map floatReal).sum| ≤ η
   prefixBudget : ∀ j : Nat, j < rates.size → foldRoundBudget 0 (rates.toList.take (j + 1)) ≤ η
@@ -142,7 +142,7 @@ theorem direct_float_certificate_refines (rates : Array Binary64) (e u : Binary6
   have hout : ExecFloat.Binary.isFinite (0 + e / sumRates binary64Arithmetic rates) = true :=
     by
       have hp : binary64Arithmetic.finite (binary64Arithmetic.add 0 (binary64Arithmetic.div e (sumRates binary64Arithmetic rates))) = true ∧
-        binary64Arithmetic.lt 0 (binary64Arithmetic.add 0 (binary64Arithmetic.div e (sumRates binary64Arithmetic rates))) = true := by
+        binary64Arithmetic.le 0 (binary64Arithmetic.add 0 (binary64Arithmetic.div e (sumRates binary64Arithmetic rates))) = true := by
         simpa only [Bool.and_eq_true] using hc.outputValid
       exact hp.1
   have hTpos : 0 < floatReal (sumRates binary64Arithmetic rates) := by

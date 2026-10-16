@@ -16,7 +16,7 @@ theorem nrmInitializeAux_uniform {n : Nat} (rates u : Fin n → ℝ)
   | zero => simp [nrmInitializeAux, List.ofFn_zero]
   | succ n ih =>
     have he : 0 < -log (u 0) := neg_pos.mpr (log_neg (hu 0).1 (hu 0).2)
-    have ht : now < now + -log (u 0) / rates 0 := lt_add_of_pos_right _ (div_pos he (hr 0))
+    have ht : now ≤ now + -log (u 0) / rates 0 := (lt_add_of_pos_right _ (div_pos he (hr 0))).le
     have hd : drawExponential realArithmetic (tapeSource ℝ)
         (⟨us, -log (u 0) :: List.ofFn (fun i : Fin n => -log (u i.succ))⟩ : Tape ℝ) =
       .ok (-log (u 0), ⟨us, List.ofFn (fun i : Fin n => -log (u i.succ))⟩) := by

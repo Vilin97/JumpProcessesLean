@@ -48,7 +48,7 @@ theorem nrmUpdateAllAux_uniform {n : Nat} (old new c u : Fin n → ℝ)
     by_cases hn : 0 < new 0
     · by_cases hf : index = fired ∨ ¬0 < old 0
       · have he : 0 < -log (u 0) := neg_pos.mpr (log_neg (hu 0).1 (hu 0).2)
-        have ht : now < now + -log (u 0) / new 0 := lt_add_of_pos_right _ (div_pos he hn)
+        have ht : now ≤ now + -log (u 0) / new 0 := (lt_add_of_pos_right _ (div_pos he hn)).le
         have hcond : ¬(index ≠ fired ∧ 0 < old 0) := by tauto
         have hd : drawExponential realArithmetic (tapeSource ℝ)
             (⟨us, -log (u 0) :: (nrmFreshExponentials (fun j => old j.succ)

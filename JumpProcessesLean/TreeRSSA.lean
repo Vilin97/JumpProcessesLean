@@ -119,7 +119,7 @@ def proposals [Inhabited α] (op : Arithmetic α) (src : RandomSource α R) (net
     if j < net.reactions.size &&
         rssaAccept op lower[j]! (propensity op net.reactions[j]! pop) (op.mul v upper[j]!) then
       let time := op.add now (op.div elapsed total)
-      if !(op.finite time && op.lt now time) then throw .invalidTime
+      if !(op.finite time && op.le now time) then throw .invalidTime
       return (some ⟨time, j⟩, rng)
     else proposals op src net pop lower upper d now total fuel elapsed rng
 

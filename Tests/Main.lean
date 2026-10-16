@@ -1,6 +1,7 @@
 import JumpProcessesLean.FloatLibBackend
 import JumpProcessesLean.HostFloat
 import JumpProcessesLean.Simulation
+import JumpProcessesLean.TreeRSSA.Gen17
 
 open JumpProcessesLean
 
@@ -170,6 +171,36 @@ def extinction : IO Unit := do
       previous := t
   IO.println "PASS extinction and trace chronology for all three algorithms"
 
+/-- From `2^53` on, consecutive floats are two apart, so a clock step below one rounds back to the
+current time. The event then happens at the current time: the clock does not go back and stays
+finite, which is all the samplers require. A run from `2^53` must complete. -/
+def absorbedClock : IO Unit := do
+  let op := binary64Arithmetic
+  let src := tapeSource Binary64
+  let big : Binary64 := 9007199254740992
+  let (e, _) ← getOk (direct op src #[1] big ⟨[0.5], [0.5]⟩)
+  let some e := e | throw (IO.userError "Direct absorbed clock")
+  expect (e.time == big) "Direct absorbed clock step"
+  let (s, _) ← getOk (nrmInitialize op src #[2] big ⟨[], [1]⟩)
+  expect (s.clocks[0]! == some big) "NRM absorbed clock step"
+  let (e, _) ← getOk (rssa op src #[1] ⟨#[1], #[1]⟩ big ⟨[0.5, 0.5], [0.5]⟩)
+  let some e := e | throw (IO.userError "RSSA absorbed clock")
+  expect (e.time == big) "RSSA absorbed clock step"
+  for alg in [Algorithm.direct, .nrm, .rssa] do
+    let s ← getOk (simulate op binary64Source (deathModel 1) alg #[100, 0] big (big + 1048576)
+      111 100000 true)
+    expect (s.state == #[0, 100] && s.events == 100) s!"{repr alg}: run from 2^53"
+  let net : Network Float := ⟨2, #[100, 0], #[⟨0.1, #[(0, 1)], #[(0, -1), (1, 1)]⟩]⟩
+  let bigF : Float := 9007199254740992
+  let initial := TreeRSSA.initialState net net.initial
+  let spec ← getOk (TreeRSSA.simulate hostArithmetic hostSource net initial bigF (bigF + 1048576)
+    (Xoshiro.seed 7))
+  let fast ← getOk (TreeRSSA.Gen17.simulate net initial bigF (bigF + 1048576) (Xoshiro.seed 7))
+  expect (spec.state.pop == #[0, 100] && spec.events == 100) "Tree-RSSA: run from 2^53"
+  expect (fast.state == spec.state && fast.events == spec.events && fast.rng == spec.rng)
+    "Tree-RSSA generation 17 differs from the specification from 2^53"
+  IO.println "PASS absorbed clock steps from 2^53 (Direct, NRM, RSSA, Tree-RSSA)"
+
 /-- Moments and tail frequencies of `n` host exponential draws: the sum, the sum of squares,
 the counts above 1, 5 and 8 (beyond the ziggurat's base layer at 7.697), and whether every
 draw was positive and finite. -/
@@ -206,6 +237,8 @@ def main : IO Unit := do
   Tests.upstreamLinear
   (← IO.getStdout).flush
   Tests.extinction
+  (← IO.getStdout).flush
+  Tests.absorbedClock
   (← IO.getStdout).flush
   Tests.hostExponential
   IO.println "All tests passed."

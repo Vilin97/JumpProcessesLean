@@ -13,7 +13,7 @@ theorem nrmInitializeAux_flags {α : Type} (op : Arithmetic α) {n : Nat}
     (hr : ∀ j, op.lt op.zero (rates j) = true)
     (he : ∀ j, (op.finite (e j) && op.lt op.zero (e j)) = true)
     (ht : ∀ j, (op.finite (op.add now (op.div (e j) (rates j))) &&
-      op.lt now (op.add now (op.div (e j) (rates j)))) = true)
+      op.le now (op.add now (op.div (e j) (rates j)))) = true)
     (us es : List α) :
     nrmInitializeAux op (tapeSource α) now (List.ofFn rates)
       ⟨us, List.ofFn e ++ es⟩ =
@@ -40,7 +40,7 @@ structure NRMFloatCertificate {n : Nat} (rates e : Fin n → Binary64)
   exponentialValid : ∀ j, (binary64Arithmetic.finite (e j) && binary64Arithmetic.lt 0 (e j)) = true
   quotientFinite : ∀ j, ExecFloat.Binary.isFinite (e j / rates j) = true
   clockValid : ∀ j, (binary64Arithmetic.finite (0 + e j / rates j) &&
-    binary64Arithmetic.lt 0 (0 + e j / rates j)) = true
+    binary64Arithmetic.le 0 (0 + e j / rates j)) = true
   clockBudget : ∀ j,
     floatEpsilon (floatReal (e j / rates j)) +
     floatEpsilon (floatReal (e j) / floatReal (rates j)) +
@@ -78,7 +78,7 @@ theorem nrm_float_certificate_refines {n : Nat} (rates e : Fin (n + 1) → Binar
     exact hp.1
   have hcf (j : Fin (n + 1)) : ExecFloat.Binary.isFinite (0 + e j / rates j) = true := by
     have hp : binary64Arithmetic.finite (0 + e j / rates j) = true ∧
-        binary64Arithmetic.lt 0 (0 + e j / rates j) = true := by
+        binary64Arithmetic.le 0 (0 + e j / rates j) = true := by
       simpa only [Bool.and_eq_true] using hc.clockValid j
     exact hp.1
   have hrp (j : Fin (n + 1)) : 0 < floatReal (rates j) := by

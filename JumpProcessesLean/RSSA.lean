@@ -41,7 +41,7 @@ def rssaProposals {α R : Type} [Inhabited α] (op : Arithmetic α)
     let (v, rng) ← drawUniform op src rng
     if rssaAccept op bounds.lower[j]! rates[j]! (op.mul v bounds.upper[j]!) then
       let time := op.add now (op.div elapsed total)
-      if !(op.finite time && op.lt now time) then throw .invalidTime
+      if !(op.finite time && op.le now time) then throw .invalidTime
       return (some ⟨time, j⟩, rng)
     else rssaProposals op src rates bounds now total fuel elapsed rng
 

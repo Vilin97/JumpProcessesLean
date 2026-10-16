@@ -129,7 +129,7 @@ theorem direct_float_trajectory_close_stop {σ : Type} (mf : Model Binary64 σ) 
     · intro k hk
       have h := (C.hc k hk).clockValid
       rw [clockFlag, Bool.and_eq_true] at h
-      exact float_le_of_lt_flag _ _ (C.hc k hk).nowFinite h.1 h.2
+      exact h.2
     · intro k hk
       exact (div_pos (neg_pos.mpr (log_neg (C.hg k hk).1.1 (C.hg k hk).1.2)) (C.hA k hk)).le
     · intro k hk
@@ -245,7 +245,7 @@ theorem rssa_float_trajectory_close_stop {σ : Type} {n : Nat} (mf : Model Binar
     · intro k hk
       have h := (C.hc k hk).clockValid
       rw [clockFlag, Bool.and_eq_true] at h
-      exact float_le_of_lt_flag _ _ (C.hc k hk).nowFinite h.1 h.2
+      exact h.2
     · intro k hk
       unfold rssaRealClock rssaStoppingTime exponentialClock
       exact Finset.sum_nonneg (fun j _ => (div_pos

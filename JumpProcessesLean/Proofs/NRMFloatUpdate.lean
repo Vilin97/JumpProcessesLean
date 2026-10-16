@@ -29,7 +29,7 @@ def UpdateFlags {α : Type} (op : Arithmetic α) (old new c e now : α) (j fired
         op.le now (rescaleClock op now old new c)) = true) ∧
   (updateFresh op old new j fired = true →
     (op.finite e && op.lt op.zero e) = true ∧
-      (op.finite (op.add now (op.div e new)) && op.lt now (op.add now (op.div e new))) = true)
+      (op.finite (op.add now (op.div e new)) && op.le now (op.add now (op.div e new))) = true)
 
 theorem nrm_update_aux_flags {α : Type} {n : Nat} (op : Arithmetic α)
     (old new c e : Fin n → α) (now : α) (index fired : Nat)

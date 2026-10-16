@@ -993,6 +993,13 @@ Hint: Omit it from the simp argument list.
   [apply] simp only [Pure.pure, Except.pure, List.toArray_ofFn]
 
 Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-✔ [4232/4234] Built JumpProcessesLean.Proofs.TreeRSSAGen17 (2.4s)
-✔ [4233/4234] Built JumpProcessesLean (1.1s)
+⚠ [4217/4234] Replayed JumpProcessesLean.Proofs.TreeRSSAGen2
+warning: JumpProcessesLean/Proofs/TreeRSSAGen2.lean:224:82: This simp argument is unused:
+  host_lt
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [bind, host_drawUniform, host_drawExponential, except_bind_ite, except_throw, except_bind_error,
+    host_add, host_mul, host_div, host_finite, host_rssaAccept, host_propensity, h1, h3, h4, ih, pure, Except.pure]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
 Build completed successfully (4234 jobs).

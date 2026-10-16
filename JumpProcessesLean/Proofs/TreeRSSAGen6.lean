@@ -91,7 +91,7 @@ theorem run6_eq_of (C : Gen6.Compiled)
         true
     · simp only [hacc, ↓reduceIte]
       generalize now + (elapsed + e) / total = time
-      by_cases ht : (!(time.isFinite && decide (now < time))) = true
+      by_cases ht : (!(time.isFinite && decide (now ≤ time))) = true
       · simp only [ht, ↓reduceIte]
       simp only [ht, Bool.false_eq_true, ↓reduceIte]
       by_cases hle : (!decide (now ≤ time)) = true

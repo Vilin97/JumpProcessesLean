@@ -72,7 +72,7 @@ def run (C : Gen6.Compiled) (horizon : Float) (save : Bool) (cap : Nat) (evFuel 
                  (let actual := Gen3.rate C.gen5.base j pop
                   decide (floatZero < actual) && decide (threshold ≤ actual))) then
             let time := now + elapsed / total
-            if !(finite time && decide (now < time)) then .error .invalidTime
+            if !(finite time && decide (now ≤ time)) then .error .invalidTime
             else if !decide (now ≤ time) then .error .invalidTime
             else if !decide (time ≤ horizon) then
               .ok ⟨⟨pop, c.lo, c.hi⟩, horizon, count, ⟨rng.s0, rng.s1, rng.s2, rng.s3⟩,

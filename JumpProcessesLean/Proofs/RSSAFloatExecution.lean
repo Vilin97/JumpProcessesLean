@@ -15,7 +15,7 @@ def exponentialFlag (e : Binary64) : Bool :=
   binary64Arithmetic.finite e && binary64Arithmetic.lt 0 e
 
 def clockFlag (now elapsed total : Binary64) : Bool :=
-  binary64Arithmetic.finite (now + elapsed / total) && binary64Arithmetic.lt now (now + elapsed / total)
+  binary64Arithmetic.finite (now + elapsed / total) && binary64Arithmetic.le now (now + elapsed / total)
 
 def floatProposalMark (rates : Array Binary64) (bounds : RateBounds Binary64)
     (total u v : Binary64) : Option Nat :=
@@ -141,7 +141,7 @@ lemma rssa_step_float_flags (rates : Array Binary64) (bounds : RateBounds Binary
   simp only [Except.bind]
   by_cases ha : rssaAccept binary64Arithmetic bounds.lower[j]! rates[j]! (v * bounds.upper[j]!) = true
   · have hc : (binary64Arithmetic.finite (binary64Arithmetic.add now (binary64Arithmetic.div (elapsed + e) total)) &&
-      binary64Arithmetic.lt now (binary64Arithmetic.add now (binary64Arithmetic.div (elapsed + e) total))) = true := ht ha
+      binary64Arithmetic.le now (binary64Arithmetic.add now (binary64Arithmetic.div (elapsed + e) total))) = true := ht ha
     simp only [show rssaAccept binary64Arithmetic bounds.lower[j]! rates[j]!
       (binary64Arithmetic.mul v bounds.upper[j]!) = true from ha, ha, hc,
       Bool.not_true, Bool.false_eq_true, ite_false, ite_true, Pure.pure, Except.pure]

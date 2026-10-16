@@ -164,7 +164,7 @@ theorem direct_executes (rates : Array ℝ) (hr : ∀ a ∈ rates.toList, 0 ≤ 
     (hj : selection rates.toList u = some j) :
     direct realArithmetic (tapeSource ℝ) rates now
       ⟨[u], [e]⟩ = .ok (some ⟨now + e / rates.toList.sum, j⟩, ⟨[], []⟩) := by
-  have ht : now < now + e / rates.toList.sum := lt_add_of_pos_right _ (div_pos he hA)
+  have ht : now ≤ now + e / rates.toList.sum := (lt_add_of_pos_right _ (div_pos he hA)).le
   have hj' : weightedIndex realArithmetic rates (u * rates.toList.sum) = .ok j := by
     simp only [weightedIndex]
     change (match selection rates.toList u with | some i => Except.ok i | none => Except.error Error.selectionFailure) = Except.ok j

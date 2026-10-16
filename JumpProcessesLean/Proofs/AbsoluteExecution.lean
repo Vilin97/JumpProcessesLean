@@ -56,7 +56,7 @@ theorem direct_real_suffix_executes (rates : Array ℝ) (hr : ∀ a ∈ rates.to
     (us es : List ℝ) :
     direct realArithmetic (tapeSource ℝ) rates now ⟨u :: us, e :: es⟩ =
       .ok (some ⟨now + e / rates.toList.sum, j⟩, ⟨us, es⟩) := by
-  have ht : now < now + e / rates.toList.sum := lt_add_of_pos_right _ (div_pos he hA)
+  have ht : now ≤ now + e / rates.toList.sum := (lt_add_of_pos_right _ (div_pos he hA)).le
   have hj' : weightedIndex realArithmetic rates (u * rates.toList.sum) = .ok j := by
     unfold weightedIndex
     change (match selection rates.toList u with | some i => Except.ok i | none => Except.error Error.selectionFailure) = _

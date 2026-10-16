@@ -108,7 +108,7 @@ def run (C : Compiled) (horizon : Float) (save : Bool) (cap : Nat) (evFuel prFue
               Gen2.accept (c.lower.get! j) (Gen3.rate C.base j pop)
                 (v * c.tree.get! (C.base.leaves + j)) then
             let time := now + elapsed / total
-            if !(time.isFinite && decide (now < time)) then .error .invalidTime
+            if !(time.isFinite && decide (now ≤ time)) then .error .invalidTime
             else if !decide (now ≤ time) then .error .invalidTime
             else if !decide (time ≤ horizon) then
               .ok ⟨⟨pop, c.lo, c.hi⟩, horizon, count, ⟨rng.s0, rng.s1, rng.s2, rng.s3⟩,

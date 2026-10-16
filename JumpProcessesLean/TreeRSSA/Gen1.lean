@@ -95,7 +95,7 @@ def proposals (C : Compiled) (pop : Array Nat) (lower tree : FloatArray) (now to
         rssaAccept hostArithmetic (lower.get! j) (propensity hostArithmetic C.net.reactions[j]! pop)
           (hostArithmetic.mul v (tree.get! (2 ^ C.depth + j))) then
       let time := hostArithmetic.add now (hostArithmetic.div elapsed total)
-      if !(hostArithmetic.finite time && hostArithmetic.lt now time) then throw .invalidTime
+      if !(hostArithmetic.finite time && hostArithmetic.le now time) then throw .invalidTime
       return (some ⟨time, j⟩, rng)
     else proposals C pop lower tree now total fuel elapsed rng
 

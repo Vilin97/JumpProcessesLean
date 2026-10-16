@@ -271,6 +271,14 @@ Inactive NRM clocks are `none` and consume no exponential draw. Seeded trajector
 need not match Julia, which uses a different RNG and infinity representation.
 Duplicate dependencies consume no extra samples. Every rescaling uses the old state.
 
+A new clock is the rounded sum `now + Δ` of a positive increment. The samplers require it
+to be finite and no earlier than `now`, as the simulation driver requires of every event.
+When `Δ` is at most half a unit in the last place of `now` (from `2^53` on, any `Δ < 1`),
+the sum rounds to `now` itself and the event happens at the current time. The samplers
+used to require a strictly later time, which turned this rounding into an `invalidTime`
+error: multistate to `T = 10^5` (1.3·10^8 events, seed 1) stopped there and now
+completes, with the final state of the C reference, which has no such test.
+
 The scope excludes the SciML integrator/callback framework, ODE/SDE coupling,
 variable-rate jumps, GPU support, heap optimization, and cached RSSA
 species/dependency bracket updates.
@@ -446,6 +454,9 @@ The successful logs are in `results/`.
 * 8,000 trajectories per algorithm reproduce the upstream linear A→B scenario:
   16 channels, A=100, rates 0.1 through 1.6, horizon 0.1, original tolerance 1.
 * Conservation, extinction, terminal horizon and chronological traces are checked.
+* From `2^53`, where floats are two apart, a clock step below one rounds to the current
+  time: Direct, NRM and RSSA return it, and every driver and Tree-RSSA generation 17
+  complete a 100-event extinction started there.
 * A Julia harness executes the pinned original algorithm bodies with 8 deterministic
   assertions. Integrator, random-tape and heap interfaces are stubbed, and the full
   SciML suite was not run. Vendored sources keep the upstream MIT license.

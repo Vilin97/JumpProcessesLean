@@ -188,7 +188,7 @@ theorem nrmInitializeAux_float_masked {n : Nat} (rates e : Fin n → Binary64) (
     · have he0 : (binary64Arithmetic.finite (e 0) && binary64Arithmetic.lt binary64Arithmetic.zero (e 0)) =
           true := he 0 h0
       have ht0 : (binary64Arithmetic.finite (binary64Arithmetic.add now (binary64Arithmetic.div (e 0) (rates 0))) &&
-          binary64Arithmetic.lt now (binary64Arithmetic.add now (binary64Arithmetic.div (e 0) (rates 0)))) =
+          binary64Arithmetic.le now (binary64Arithmetic.add now (binary64Arithmetic.div (e 0) (rates 0)))) =
           true := ht 0 h0
       have h0' : binary64Arithmetic.lt binary64Arithmetic.zero (rates 0) = true := h0
       have hd : drawExponential binary64Arithmetic (tapeSource Binary64)

@@ -61,7 +61,7 @@ def run (C : Gen6.Compiled) (ms : Array Nat) (depth leaves numRx : Nat) (rates :
                  (let actual := rates.get! j * natToFloat (factors[j]!.eval pop)
                   decide (floatZero < actual) && decide (threshold ≤ actual))) then
             let time := now + elapsed / total
-            if !(Gen7.finite time && decide (now < time)) then .error .invalidTime
+            if !(Gen7.finite time && decide (now ≤ time)) then .error .invalidTime
             else if !decide (now ≤ time) then .error .invalidTime
             else if !decide (time ≤ horizon) then
               .ok ⟨⟨pop, c.lo, c.hi⟩, horizon, count, ⟨rng.s0, rng.s1, rng.s2, rng.s3⟩,

@@ -58,7 +58,7 @@ theorem rssa_float_local_refinement {σ : Type} {n : Nat} (model : Model Binary6
   · intro k hk
     have h := (hc k hk).clockValid
     rw [clockFlag, Bool.and_eq_true] at h
-    exact float_le_of_lt_flag _ _ (hc k hk).nowFinite h.1 h.2
+    exact h.2
   · intro k hk
     unfold rssaRealClock rssaStoppingTime exponentialClock
     exact Finset.sum_nonneg (fun j _ => (div_pos

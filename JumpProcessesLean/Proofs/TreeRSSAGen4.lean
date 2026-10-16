@@ -105,7 +105,7 @@ theorem run_eq_of (C : Gen3.Compiled) (horizon : Float) (save : Bool) (cap fuel 
         Gen2.accept (c.lower.get! j) (Gen3.rate C j pop) (v * c.tree.get! (C.leaves + j))) = true
     · simp only [hacc, ↓reduceIte]
       generalize now + (elapsed + e) / total = time
-      by_cases ht : (!(time.isFinite && decide (now < time))) = true
+      by_cases ht : (!(time.isFinite && decide (now ≤ time))) = true
       · simp only [ht, ↓reduceIte]; rfl
       simp only [ht, Bool.false_eq_true, ↓reduceIte]
       have hfin : time.isFinite = true := by

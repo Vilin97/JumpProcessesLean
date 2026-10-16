@@ -86,7 +86,7 @@ def proposals (C : Compiled) (pop : Array Nat) (lower tree : FloatArray) (now to
           else if j < C.numRx &&
               accept (lower.get! j) (rate C.net.reactions[j]! pop) (v * tree.get! (C.leaves + j)) then
             let time := now + elapsed / total
-            if !(time.isFinite && decide (now < time)) then .error .invalidTime
+            if !(time.isFinite && decide (now ≤ time)) then .error .invalidTime
             else .ok (some ⟨time, j⟩, rng)
           else proposals C pop lower tree now total fuel elapsed rng
 

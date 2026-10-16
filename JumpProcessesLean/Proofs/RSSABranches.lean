@@ -281,9 +281,9 @@ lemma rssa_step_real (rates : Array ℝ) (bounds : RateBounds ℝ) (now elapsed 
     unfold weightedIndex
     change (match selection bounds.upper.toList u with | some i => Except.ok i | none => Except.error Error.selectionFailure) = _
     rw [hj]
-  have ht : now < now + (elapsed + e) / bounds.upper.toList.sum := by
+  have ht : now ≤ now + (elapsed + e) / bounds.upper.toList.sum := by
     have hp : 0 < elapsed + e := by linarith
-    exact lt_add_of_pos_right _ (div_pos hp hB)
+    exact (lt_add_of_pos_right _ (div_pos hp hB)).le
   rw [rssaProposals, hdU]
   simp only [Bind.bind, Except.bind]
   rw [hsel]

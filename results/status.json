@@ -85,5 +85,6 @@
     "benchmark": "bench/results: julia.json (all 12 exact JumpProcesses.jl 9.33.1 aggregators), lean.json (generations 0-1, RSSACR port, FloatLib drivers), generations.json (generations 2-17, port, C cross-check, alternating rounds), headtohead.json (generation 17 against every aggregator within 2x of the fastest, same window), headtohead-repeat.json (a second window), headtohead-g16.json and headtohead-g16-repeat.json (generation 16's two windows), history.svg (animated), generations.svg, headtohead.svg, summary.md",
     "head_to_head": "generation 17 / fastest Julia aggregator, same window: multistate 1.21, multisite2 1.14, egfr_net 1.31, BCR 1.34, fceri_gamma2 1.25; geometric-mean speedup over generation 0: 7176x",
     "head_to_head_repeat": "second window, generation 17 / fastest Julia aggregator: multistate 1.20, multisite2 1.14, egfr_net 1.35, BCR 1.31, fceri_gamma2 1.26"
-  }
+  },
+  "event_time_check": "new clocks must be finite and not before the current time (they had to be strictly later); a step of at most half an ulp of the current time rounds to it and the event happens at the current time instead of raising invalidTime; multistate to T = 1e5 (127,945,775 events, seed 1) now completes, with the C reference's digest 17287891837259685469"
 }

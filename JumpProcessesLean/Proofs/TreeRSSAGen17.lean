@@ -5,9 +5,9 @@ import JumpProcessesLean.TreeRSSA.Gen17
 # Generation 17 is generation 16, hence the specification
 
 The dropped range tests are implied by the kept ones in Lean's model of `Float`: `0 ≤ u` gives
-`-∞ < u`, `u < 1` gives `u < ∞`, `0 < e` gives `-∞ < e`, and `now < t` gives both `-∞ < t` and
-`now ≤ t`; every test of a group raises the same error (`uniform_checks`, `exponential_checks`,
-`time_checks`). The machine-word reads are `get!` (`fget_eq`, `aget_eq`, `changesAt_val`) and the
+`-∞ < u`, `u < 1` gives `u < ∞` and `0 < e` gives `-∞ < e`, and the event time's test `now ≤ t`
+was made twice; every test of a group raises the same error (`uniform_checks`,
+`exponential_checks`, `time_checks`). The machine-word reads are `get!` (`fget_eq`, `aget_eq`, `changesAt_val`) and the
 descent ends at a leaf (`descendW17_eq`, `descendW17_ge`).
 
 Firing: if no species is outside its bracket, a species that only gained can be stale only above
@@ -182,14 +182,15 @@ theorem exponential_checks {α : Type} (e : Float) (E r : Except Error α) :
 theorem time_checks {α : Type} (now t : Float) (E r : Except Error α) :
     (if !decide (t < floatInf) then E
      else if !decide (floatNegInf < t) then E
-     else if !decide (now < t) then E
+     else if !decide (now ≤ t) then E
      else if !decide (now ≤ t) then E
      else r) =
     (if !decide (t < floatInf) then E
-     else if !decide (now < t) then E
+     else if !decide (floatNegInf < t) then E
+     else if !decide (now ≤ t) then E
      else r) := by
-  by_cases h1 : decide (now < t) = true
-  · simp [float_negInf_lt_of_lt h1, float_le_of_lt h1, h1]
+  by_cases h1 : decide (now ≤ t) = true
+  · simp [h1]
   · simp only [Bool.not_eq_true] at h1
     simp [h1]
 
@@ -717,6 +718,7 @@ theorem run17_eq_of (C : Gen6.Compiled) (codes : Array (Array Nat)) (n : Nat)
       refine ite_congr rfl (fun _ => rfl) (fun _ => ?_)
       refine ite_congr rfl (fun hacc => ?_) (fun _ => ?_)
       · refine ite_congr rfl (fun _ => rfl) (fun _ => ?_)
+        refine ite_congr rfl (fun _ => rfl) (fun _ => ?_)
         refine ite_congr rfl (fun _ => rfl) (fun _ => ?_)
         refine ite_congr rfl (fun _ => rfl) (fun _ => ?_)
         have hchs : (Gen17.changesAt C n hval (Gen17.descendW c.tree P

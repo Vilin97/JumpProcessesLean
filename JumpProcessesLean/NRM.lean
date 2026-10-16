@@ -15,7 +15,7 @@ def nrmInitializeAux {α R : Type} (op : Arithmetic α)
     let (clock, rng) ← if op.lt op.zero a then do
       let (e, r) ← drawExponential op src rng
       let time := op.add now (op.div e a)
-      if !(op.finite time && op.lt now time) then throw .invalidTime
+      if !(op.finite time && op.le now time) then throw .invalidTime
       pure (some time, r)
     else pure (none, rng)
     let (clocks, rng) ← nrmInitializeAux op src now rest rng
@@ -64,7 +64,7 @@ def nrmUpdateAllAux {α R : Type} (op : Arithmetic α) (src : RandomSource α R)
       else do
         let (e, rng) ← drawExponential op src rng
         let time := op.add now (op.div e new)
-        if !(op.finite time && op.lt now time) then throw .invalidTime
+        if !(op.finite time && op.le now time) then throw .invalidTime
         pure (some time, rng)
     let (clocks, rng) ← nrmUpdateAllAux op src fired now olds clocks news (j + 1) rng
     return (clock :: clocks, rng)
@@ -105,7 +105,7 @@ def nrmUpdate {α R : Type} [Inhabited α] (op : Arithmetic α)
       let (e, r) ← drawExponential op src rng
       rng := r
       let time := op.add now (op.div e newRate)
-      if !(op.finite time && op.lt now time) then throw .invalidTime
+      if !(op.finite time && op.le now time) then throw .invalidTime
       clocks := clocks.set! j (some time)
   return (⟨rates, clocks⟩, rng)
 

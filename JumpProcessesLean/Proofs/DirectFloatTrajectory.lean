@@ -51,7 +51,7 @@ theorem direct_float_local_refinement {σ : Type} (model : Model Binary64 σ)
   · intro k hk
     have h := (hc k hk).clockValid
     rw [clockFlag, Bool.and_eq_true] at h
-    exact float_le_of_lt_flag _ _ (hc k hk).nowFinite h.1 h.2
+    exact h.2
   · intro k hk
     exact (div_pos (neg_pos.mpr (log_neg (hg k hk).1.1 (hg k hk).1.2)) (hA k hk)).le
   · intro k hk

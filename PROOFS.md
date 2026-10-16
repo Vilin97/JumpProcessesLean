@@ -283,6 +283,11 @@ with FloatLib's nearest-even specification. `float_add_error`, `float_sub_error`
 by the certificates. `chooseAux_float_margin`, `nrm_float_winner_approx` and
 `rssa_float_accept_stable` prove decision stability under margins.
 
+A new clock passes its test (`clockFlag` and its NRM and Direct forms) when it is finite and
+no earlier than the current time. A step of at most half an ulp of the current time rounds
+to it; `float_clock_time_error` bounds that rounding like any other, so the certificates and
+their time budgets cover such a step, and the real replay is unchanged.
+
 ## Checking trust and tests
 
 ```bash

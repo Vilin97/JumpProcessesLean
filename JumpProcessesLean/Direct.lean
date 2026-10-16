@@ -14,7 +14,7 @@ def direct {α R : Type} [Inhabited α] (op : Arithmetic α) (src : RandomSource
   let (u, rng) ← drawUniform op src rng
   let reaction ← weightedIndex op rates (op.mul u total)
   let time := op.add now (op.div e total)
-  if !(op.finite time && op.lt now time) then throw .invalidTime
+  if !(op.finite time && op.le now time) then throw .invalidTime
   return (some ⟨time, reaction⟩, rng)
 
 end JumpProcessesLean

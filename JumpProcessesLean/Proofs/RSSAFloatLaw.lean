@@ -128,7 +128,7 @@ theorem rssa_float_certificate_refines {k : Nat} (rates : Array Binary64) (bound
     have hout : ExecFloat.Binary.isFinite (now + E / T) = true := by
       have h := hc.clockValid
       have hp : binary64Arithmetic.finite (now + E / T) = true ∧
-          binary64Arithmetic.lt now (now + E / T) = true := by
+          binary64Arithmetic.le now (now + E / T) = true := by
         simpa only [clockFlag, Bool.and_eq_true] using h
       exact hp.1
     have hTp : 0 < floatReal T := by

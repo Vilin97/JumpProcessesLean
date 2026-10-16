@@ -188,7 +188,8 @@ def run (C : Gen6.Compiled) (codes : Array (Array Nat)) (ms : Array Nat) (n : Na
             if acc then
               let time := now + elapsed / total
               if !decide (time < floatInf) then .error .invalidTime
-              else if !decide (now < time) then .error .invalidTime
+              else if !decide (floatNegInf < time) then .error .invalidTime
+              else if !decide (now ≤ time) then .error .invalidTime
               else if !decide (time ≤ horizon) then
                 .ok ⟨⟨pop, c.lo, c.hi⟩, horizon, count.toNat, ⟨rng.s0, rng.s1, rng.s2, rng.s3⟩,
                   trace.push (horizon, ⟨pop, c.lo, c.hi⟩)⟩
