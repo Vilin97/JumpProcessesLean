@@ -51,6 +51,7 @@ GENERATIONS = [
     ("treerssa-g22", "two tree levels per descent step on deep trees, firing and walks inlined"),
     ("treerssa-g23", "two tree levels per descent step from depth 9"),
     ("treerssa-g24", "descent ends in a branch-free pair of levels"),
+    ("treerssa-g25", "firing reads the brackets from the cache: no reference counting per event"),
 ]
 FINAL = GENERATIONS[-1][0]
 TREE = "#c0392b"

@@ -21,7 +21,7 @@
   },
   "lean_proof_build": "passed",
   "proof_dependency_audits": {
-    "count": 326,
+    "count": 331,
     "result": "passed; only propext, Classical.choice, Quot.sound"
   },
   "executable_real_one_event_laws": "proved equal for all marked Borel time sets; NRM rates strictly positive; RSSA unbounded first-success law",
@@ -79,7 +79,7 @@
   "tree_rssa": {
     "specification": "TreeRSSA.simulate: RSSA with population brackets and a binary sum tree over the upper bounds, generic in arithmetic and random source",
     "real_correctness": "proved: treeRSSA_simulate_eq (equal to the public simulate .rssa on the bracket model), bracketModel_consistency, tree_rssa_iid_capped_law, tree_rssa_tendsto_direct",
-    "optimized_generations": "proved: gen1_simulate_eq ... gen24_simulate_eq, each generation equal bit for bit to TreeRSSA.simulate hostArithmetic hostSource on every network with in-range reactant species and every input",
+    "optimized_generations": "proved: gen1_simulate_eq ... gen25_simulate_eq, each generation equal bit for bit to TreeRSSA.simulate hostArithmetic hostSource on every network with in-range reactant species and every input",
     "host_float_lemma": "proved: isFinite_eq_lt and float_add_comm in Lean's logical Float model; count_add, count_sub, count_mul, count_lt, count_le, count_beq: on integers below 2^53 the model's float sum, difference, product and comparisons are exact (through FloatLib's bridge to binary64 rounding); float_le_trans, float_lt_of_lt_of_le: the model's comparisons are transitive; mul_count_mono: multiplication by a rate in [0, 2^52) is monotone on counts below 2^53",
     "trust": "compiled code trusts Lean's C implementations of the Float externs (including the C library log and exp used by the ziggurat exponential); xoshiro256++ outputs are not claimed IID",
     "benchmark": "bench/results: julia.json (all 12 exact JumpProcesses.jl 9.33.1 aggregators), lean.json (generations 0-1, RSSACR port, FloatLib drivers), generations.json (generations 2-22, port, C cross-check, one window of eight alternating rounds pinned to one core), headtohead.json (generations 17-22 against every aggregator within 2x of the fastest, same window, pinned to one core), headtohead-repeat.json (a second window, unpinned), headtohead-g21*.json, -g20*.json, -g19*.json, -g17*.json, -g16*.json (earlier generations' windows), history.svg (animated), generations.svg, headtohead.svg, summary.md",
