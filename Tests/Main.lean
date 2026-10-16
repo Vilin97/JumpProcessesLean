@@ -6,6 +6,7 @@ import JumpProcessesLean.TreeRSSA.Gen18
 import JumpProcessesLean.TreeRSSA.Gen19
 import JumpProcessesLean.TreeRSSA.Gen20
 import JumpProcessesLean.TreeRSSA.Gen21
+import JumpProcessesLean.TreeRSSA.Gen22
 
 open JumpProcessesLean
 
@@ -215,6 +216,9 @@ def absorbedClock : IO Unit := do
   let records ← getOk (TreeRSSA.Gen21.simulate net initial bigF (bigF + 1048576) (Xoshiro.seed 7))
   expect (records.state == spec.state && records.events == spec.events && records.rng == spec.rng)
     "Tree-RSSA generation 21 differs from the specification from 2^53"
+  let paired ← getOk (TreeRSSA.Gen22.simulate net initial bigF (bigF + 1048576) (Xoshiro.seed 7))
+  expect (paired.state == spec.state && paired.events == spec.events && paired.rng == spec.rng)
+    "Tree-RSSA generation 22 differs from the specification from 2^53"
   IO.println "PASS absorbed clock steps from 2^53 (Direct, NRM, RSSA, Tree-RSSA)"
 
 /-- Moments and tail frequencies of `n` host exponential draws: the sum, the sum of squares,

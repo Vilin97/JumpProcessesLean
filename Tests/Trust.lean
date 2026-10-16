@@ -314,3 +314,8 @@ import JumpProcessesLean
 #print axioms JumpProcessesLean.Proofs.gen21_run_eq
 #print axioms JumpProcessesLean.Proofs.gen21_eq_gen20
 #print axioms JumpProcessesLean.Proofs.gen21_simulate_eq
+#print axioms JumpProcessesLean.TreeRSSA.Gen22.descend2_eq
+#print axioms JumpProcessesLean.Proofs.setBoundsR22_eq
+#print axioms JumpProcessesLean.Proofs.gen22_run_eq
+#print axioms JumpProcessesLean.Proofs.gen22_eq_gen21
+#print axioms JumpProcessesLean.Proofs.gen22_simulate_eq
