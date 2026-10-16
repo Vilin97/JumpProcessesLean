@@ -12,7 +12,7 @@ branch of a firing step (`apply1C`), and builds states and the fallback cache in
 (`stateOfV`, `toCacheV`), so the event path has no reference-count operations.
 
 Its start is not inlined and tests generation 24's conditions at once; when they fail it calls
-generation 21's start, as the starts of generations 22 to 24 do. Each of those starts inlined its
+generation 21's start, as the starts of generations 22 to 24 do. Until then each start inlined its
 predecessor at two call sites, which doubled the compiled code per generation.
 -/
 

@@ -227,7 +227,7 @@ def rateMax : Float := 4503599627370496
 
 /-- Generation 18's start, entering generation 19's driver under generation 18's conditions
 when every rate `r` has `0 ≤ r < 2^52`. -/
-@[inline] def start (C : Gen6.Compiled) (codes : Array (Array Nat)) (horizon : Float) (save : Bool)
+def start (C : Gen6.Compiled) (codes : Array (Array Nat)) (horizon : Float) (save : Bool)
     (cap fuel : Nat) (pop : Array Nat) (c : Cache) (now : Float) (rng : Xoshiro) (count : Nat)
     (trace : Array (Float × State)) : Except Error (Solution Float State Xoshiro) :=
   let n := C.gen5.base.ms.size

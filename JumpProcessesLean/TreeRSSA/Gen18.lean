@@ -366,7 +366,7 @@ def allSmall (xs : Array Nat) : Bool := xs.all fun x => decide (x < 67108864)
 /-- Generation 17's start, entering the count driver when the network's factors have order at
 most two (so its dependents' codes are `0`, `1` or `4 (t + 1)`), and the counts, brackets and
 changes are below `2^26`. -/
-@[inline] def start (C : Gen6.Compiled) (codes : Array (Array Nat)) (horizon : Float) (save : Bool)
+def start (C : Gen6.Compiled) (codes : Array (Array Nat)) (horizon : Float) (save : Bool)
     (cap fuel : Nat) (pop : Array Nat) (c : Cache) (now : Float) (rng : Xoshiro) (count : Nat)
     (trace : Array (Float × State)) : Except Error (Solution Float State Xoshiro) :=
   let n := C.gen5.base.ms.size

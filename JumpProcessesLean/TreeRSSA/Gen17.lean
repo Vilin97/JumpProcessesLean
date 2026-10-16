@@ -242,7 +242,7 @@ decreasing_by
 
 /-- Generation 16's start, entering generation 17's driver when the network's changes, the
 initial brackets and the counts allow it. -/
-@[inline] def start (C : Gen6.Compiled) (codes : Array (Array Nat)) (horizon : Float) (save : Bool)
+def start (C : Gen6.Compiled) (codes : Array (Array Nat)) (horizon : Float) (save : Bool)
     (cap fuel : Nat) (pop : Array Nat) (c : Cache) (now : Float) (rng : Xoshiro) (count : Nat)
     (trace : Array (Float × State)) : Except Error (Solution Float State Xoshiro) :=
   let total := c.tree.get! 1

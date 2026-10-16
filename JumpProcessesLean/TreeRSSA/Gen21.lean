@@ -548,7 +548,7 @@ decreasing_by
 
 /-- Generation 20's start, entering generation 21's driver when also every reaction changes two
 or three species. -/
-@[inline] def start (C : Gen6.Compiled) (codes : Array (Array Nat)) (horizon : Float) (save : Bool)
+def start (C : Gen6.Compiled) (codes : Array (Array Nat)) (horizon : Float) (save : Bool)
     (cap fuel : Nat) (pop : Array Nat) (c : Cache) (now : Float) (rng : Xoshiro) (count : Nat)
     (trace : Array (Float × State)) : Except Error (Solution Float State Xoshiro) :=
   let n := C.gen5.base.ms.size

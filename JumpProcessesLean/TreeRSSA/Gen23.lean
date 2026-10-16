@@ -346,7 +346,7 @@ decreasing_by
        rw [Gen16.pred_toNat prFuel _hz]; exact Prod.Lex.right _ (by omega))
 
 /-- Generation 22's start, entering generation 23's driver. -/
-@[inline] def start (C : Gen6.Compiled) (codes : Array (Array Nat)) (horizon : Float) (save : Bool)
+def start (C : Gen6.Compiled) (codes : Array (Array Nat)) (horizon : Float) (save : Bool)
     (cap fuel : Nat) (pop : Array Nat) (c : Cache) (now : Float) (rng : Xoshiro) (count : Nat)
     (trace : Array (Float × State)) : Except Error (Solution Float State Xoshiro) :=
   let n := C.gen5.base.ms.size

@@ -521,7 +521,7 @@ decreasing_by
 
 /-- Generation 19's start, entering generation 20's driver when the compiled records' bounds
 also hold, and otherwise generation 19's start. -/
-@[inline] def start (C : Gen6.Compiled) (codes : Array (Array Nat)) (horizon : Float) (save : Bool)
+def start (C : Gen6.Compiled) (codes : Array (Array Nat)) (horizon : Float) (save : Bool)
     (cap fuel : Nat) (pop : Array Nat) (c : Cache) (now : Float) (rng : Xoshiro) (count : Nat)
     (trace : Array (Float × State)) : Except Error (Solution Float State Xoshiro) :=
   let n := C.gen5.base.ms.size

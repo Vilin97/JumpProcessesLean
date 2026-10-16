@@ -1007,5 +1007,4 @@ warning: JumpProcessesLean/Proofs/FloatOrder.lean:29:8: `if_pos` has been deprec
 warning: JumpProcessesLean/Proofs/FloatOrder.lean:31:8: `if_neg` has been deprecated: Use `ite_eq_right` instead
 warning: JumpProcessesLean/Proofs/FloatOrder.lean:311:8: `if_pos` has been deprecated: Use `ite_eq_left` instead
 warning: JumpProcessesLean/Proofs/FloatOrder.lean:316:8: `if_neg` has been deprecated: Use `ite_eq_right` instead
-✔ [4314/4315] Built JumpProcessesLean (1.1s)
 Build completed successfully (4315 jobs).
