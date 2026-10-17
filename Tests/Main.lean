@@ -255,6 +255,84 @@ def oneChange : IO Unit := do
     "Tree-RSSA generation 25 differs from the specification on reactions of one change"
   IO.println s!"PASS reactions of one change: generations 25 and 26 match the specification over {spec.events} events"
 
+/-- A word-sized pseudo-random sequence for building test networks (SplitMix64 steps). -/
+def nextWord (x : UInt64) : UInt64 × UInt64 := Xoshiro.splitMix x
+
+/-- A pseudo-random number in `[0, n)` and the next state. -/
+def below (x : UInt64) (n : Nat) : Nat × UInt64 :=
+  let (w, x) := nextWord x
+  ((w.toNat % n), x)
+
+/-- A random reaction on `ns` species: one or two distinct reactants of stoichiometry one, or
+one of stoichiometry two, and one to three changes, or with `four` sometimes four, which no
+fast path takes. -/
+def randomReaction (ns : Nat) (four : Bool) (x : UInt64) : Reaction Float × UInt64 := Id.run do
+  let (r, x) := below x 1000
+  let (shape, x) := below x 3
+  let rate := (r + 1).toFloat / (if shape = 0 then 500 else 50000)
+  let (a, x) := below x ns
+  let (b, x) := below x ns
+  let reactants : Array (Nat × Nat) :=
+    if shape = 0 then #[(a, 1)] else if shape = 1 ∧ a ≠ b then #[(a, 1), (b, 1)] else #[(a, 2)]
+  let (k, x) := below x 10
+  let nch := if k < 3 then 1 else if k < 6 then 2 else if k < 9 || !four then 3 else 4
+  let mut changes : Array (Nat × Int) := #[]
+  let mut x := x
+  for _ in [0:nch] do
+    let (sp, x1) := below x ns
+    let (d, x2) := below x1 4
+    x := x2
+    if !(changes.any (·.1 == sp)) then
+      changes := changes.push (sp, if d < 2 then (d : Int) - 2 else (d : Int) - 1)
+  return (⟨rate, reactants, changes⟩, x)
+
+/-- A random network of up to eight species and twenty reactions, with counts below 400. -/
+def randomNetwork (four : Bool) (x : UInt64) : Network Float × UInt64 := Id.run do
+  let (ns, x) := below x 8
+  let ns := ns + 1
+  let (nr, x) := below x 20
+  let mut x := x
+  let mut initial : Array Nat := #[]
+  for _ in [0:ns] do
+    let (v, x1) := below x 400
+    x := x1
+    initial := initial.push v
+  let mut reactions : Array (Reaction Float) := #[]
+  for _ in [0:nr + 1] do
+    let (rx, x1) := randomReaction ns four x
+    x := x1
+    reactions := reactions.push rx
+  return (⟨ns, initial, reactions⟩, x)
+
+/-- Generations 25 and 26 against the specification on 200 random networks, a quarter of them
+with reactions of four changes: fast paths and fallbacks alike. Networks that grow without
+bound reach the event limit; all three must then report it. -/
+def randomNetworks : IO Unit := do
+  let mut x : UInt64 := 20261017
+  let mut events := 0
+  let mut errors := 0
+  for i in [0:200] do
+    let (net, x1) := randomNetwork (i % 4 == 0) x
+    x := x1
+    let initial := TreeRSSA.initialState net net.initial
+    let spec := TreeRSSA.simulate hostArithmetic hostSource net initial 0 0.2
+      (Xoshiro.seed i.toUInt64) 100000
+    let g25 := TreeRSSA.Gen25.simulate net initial 0 0.2 (Xoshiro.seed i.toUInt64) 100000
+    let g26 := TreeRSSA.Gen26.simulate net initial 0 0.2 (Xoshiro.seed i.toUInt64) 100000
+    match spec, g25, g26 with
+    | .ok s, .ok a, .ok b =>
+      expect (a.state == s.state && a.events == s.events && a.rng == s.rng)
+        s!"random network {i}: generation 25 differs from the specification"
+      expect (b.state == s.state && b.events == s.events && b.rng == s.rng)
+        s!"random network {i}: generation 26 differs from the specification"
+      events := events + s.events
+    | .error e, .error e25, .error e26 =>
+      expect (e == e25 && e == e26) s!"random network {i}: different errors"
+      errors := errors + 1
+    | _, _, _ => throw (IO.userError s!"random network {i}: a run failed where another did not")
+  expect (errors < 50) s!"random networks: {errors} runs ended in an error"
+  IO.println s!"PASS 200 random networks: generations 25 and 26 match the specification over {events} events ({errors} runs end in the same error)"
+
 /-- Moments and tail frequencies of `n` host exponential draws: the sum, the sum of squares,
 the counts above 1, 5 and 8 (beyond the ziggurat's base layer at 7.697), and whether every
 draw was positive and finite. -/
@@ -295,6 +373,8 @@ def main : IO Unit := do
   Tests.absorbedClock
   (← IO.getStdout).flush
   Tests.oneChange
+  (← IO.getStdout).flush
+  Tests.randomNetworks
   (← IO.getStdout).flush
   Tests.hostExponential
   IO.println "All tests passed."

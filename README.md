@@ -475,7 +475,10 @@ state/count/error outcome.
   reactant species. Executable Tree-RSSA runs Lean's `Float`: the equalities hold in
   Lean's logical model of `Float`, and compiled code trusts the C implementations of
   its `@[extern]` operations, including the C library's `log` and `exp`. xoshiro256++ is a
-  pseudo-random generator, and its outputs are not claimed to be IID.
+  pseudo-random generator, and its outputs are not claimed to be IID. The newest
+  generations take their fast path when every reaction has order at most two and one to
+  three changes, counts stay below `2^25` and rate constants lie in `[0, 2^52)`; otherwise
+  they hand over to an earlier, slower generation, with the same results.
 * No nonexplosion or infinite-time CTMC extension is claimed.
 
 There are no project proof placeholders, extra axioms, `native_decide`, or unsafe
@@ -501,6 +504,11 @@ The successful logs are in `results/`.
 * From `2^53`, where floats are two apart, a clock step below one rounds to the current
   time: Direct, NRM and RSSA return it, and every driver and Tree-RSSA generations 17 to 26
   complete a 100-event extinction started there.
+* Compiled Tree-RSSA generations 25 and 26 return what the compiled specification returns
+  (state, event count and generator state) on a gene-expression network with reactions of
+  one change (153,555 events) and on 200 random networks of up to eight species and twenty
+  reactions with one to four changes each (201,133 events; 35 networks that grow without bound
+  reach the event limit in all three).
 * A Julia harness executes the pinned original algorithm bodies with 8 deterministic
   assertions. Integrator, random-tape and heap interfaces are stubbed, and the full
   SciML suite was not run. Vendored sources keep the upstream MIT license.
