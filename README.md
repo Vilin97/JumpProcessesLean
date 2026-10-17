@@ -214,6 +214,14 @@ pinned to the same core:
   BCR as its propensity mass spreads over more reactions (generation 30 from 4.1e7 to 2.5e7
   events per second, RSSACR from 2.5e7 to 1.5e7), and generation 30 speeds up on egfr_net
   (2.7e7 to 3.9e7).
+* **Build:** executables link the objects that Lake compiles without `LEAN_EXPORTING`, and
+  [`include/noexport_hidden.h`](include/noexport_hidden.h) declares every symbol in them
+  hidden, so the drivers read float constants directly instead of through the global offset
+  table; the objects stay position-independent, and those built for shared libraries are
+  unchanged. In a warm A/B of the two builds pinned to one core (best of four alternating runs,
+  the same final populations) this made generation 30 3.3% faster on multistate, 1.6% on
+  multisite2, 2.1% on egfr_net and 1.5% on BCR, and 0.6% slower on fcεRI γ2. The windows above
+  were measured with the earlier build.
 * **Generations 18 to 30, each against its predecessor** (same binary, pinned, alternating
   rounds, best of five, same final populations): 1.02× to 1.19× (18), 1.01× to 1.08× (19),
   1.05× to 1.12× (20), 1.02× to 1.04× (21), 1.01× to 1.10× (22, most on BCR), 1.01× to 1.02×
