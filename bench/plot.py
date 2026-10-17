@@ -55,6 +55,8 @@ GENERATIONS = [
     ("treerssa-g26", "reactions with one change take the fast path too"),
     ("treerssa-g27", "a lighter setup: the network compiled and the initial tree built with less work"),
     ("treerssa-g28", "a faster start test: the species of a reaction's changes compared directly"),
+    ("treerssa-g29", "on trees of 2^16 leaves or more, refresh walks re-add 11 levels before testing where they meet"),
+    ("treerssa-g30", "a setup that shares every species' changes +1 and -1 among the reactions"),
 ]
 FINAL = GENERATIONS[-1][0]
 TREE = "#c0392b"
