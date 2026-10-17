@@ -149,10 +149,13 @@ pinned to the same core:
   window: seven on multistate, three or four elsewhere. RSSACR is the fastest Julia
   aggregator on four networks, SortingDirect on multistate; the other ten are slower on every
   network (table below). A second window, unpinned, gave 1.47× to 1.80×
-  ([`headtohead-repeat.json`](bench/results/headtohead-repeat.json)). Both windows also ran
-  generations 17 and 22 to 25; in the pinned one they were 1.10× to 1.28× (generation 17),
-  1.43× to 1.79× (22), 1.44× to 1.80× (23), 1.43× to 1.80× (24) and 1.45× to 1.80× (25) the
-  fastest aggregator.
+  ([`headtohead-repeat.json`](bench/results/headtohead-repeat.json)), and a third, pinned
+  again three hours later, 1.44× to 1.81×
+  ([`headtohead-pinned2.json`](bench/results/headtohead-pinned2.json)): generation 26 ran
+  4.5% faster on multistate there (1.65×) and within 0.5% elsewhere, while Julia's rates
+  stayed within 1.5%. All three windows also ran generations 17 and 22 to 25; in the first
+  they were 1.10× to 1.28× (generation 17), 1.43× to 1.79× (22), 1.44× to 1.80× (23),
+  1.43× to 1.80× (24) and 1.45× to 1.80× (25) the fastest aggregator.
 * **Window to window:** generation 22's own windows gave it 1.44× to 1.81× pinned
   ([`headtohead-g22.json`](bench/results/headtohead-g22.json)) and 1.44× to 1.81×
   unpinned ([`headtohead-g22-repeat.json`](bench/results/headtohead-g22-repeat.json)), and
