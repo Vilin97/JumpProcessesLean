@@ -27,7 +27,7 @@ FAST = ["treerssa-g2", "treerssa-g3", "treerssa-g4", "treerssa-g5", "treerssa-g6
         "treerssa-g12", "treerssa-g13", "treerssa-g14", "treerssa-g15", "treerssa-g16",
         "treerssa-g17", "treerssa-g18", "treerssa-g19", "treerssa-g20",
         "treerssa-g21", "treerssa-g22", "treerssa-g23", "treerssa-g24",
-        "treerssa-g25", "treerssa-g26", "treerssa-g27",
+        "treerssa-g25", "treerssa-g26", "treerssa-g27", "treerssa-g28",
         "rssacr-port"]
 
 

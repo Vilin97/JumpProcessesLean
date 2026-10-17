@@ -12,6 +12,7 @@ import JumpProcessesLean.TreeRSSA.Gen24
 import JumpProcessesLean.TreeRSSA.Gen25
 import JumpProcessesLean.TreeRSSA.Gen26
 import JumpProcessesLean.TreeRSSA.Gen27
+import JumpProcessesLean.TreeRSSA.Gen28
 
 open JumpProcessesLean
 
@@ -239,6 +240,9 @@ def absorbedClock : IO Unit := do
   let light ← getOk (TreeRSSA.Gen27.simulate net initial bigF (bigF + 1048576) (Xoshiro.seed 7))
   expect (light.state == spec.state && light.events == spec.events && light.rng == spec.rng)
     "Tree-RSSA generation 27 differs from the specification from 2^53"
+  let fastTest ← getOk (TreeRSSA.Gen28.simulate net initial bigF (bigF + 1048576) (Xoshiro.seed 7))
+  expect (fastTest.state == spec.state && fastTest.events == spec.events && fastTest.rng == spec.rng)
+    "Tree-RSSA generation 28 differs from the specification from 2^53"
   IO.println "PASS absorbed clock steps from 2^53 (Direct, NRM, RSSA, Tree-RSSA)"
 
 /-- Generation 26 takes its fast path on a network with reactions of one change (a gene's
@@ -253,6 +257,7 @@ def oneChange : IO Unit := do
   let fast ← getOk (TreeRSSA.Gen26.simulate net initial 0 300 (Xoshiro.seed 3))
   let old ← getOk (TreeRSSA.Gen25.simulate net initial 0 300 (Xoshiro.seed 3))
   let light ← getOk (TreeRSSA.Gen27.simulate net initial 0 300 (Xoshiro.seed 3))
+  let fastTest ← getOk (TreeRSSA.Gen28.simulate net initial 0 300 (Xoshiro.seed 3))
   expect (spec.events > 1000) "one-change network: too few events"
   expect (fast.state == spec.state && fast.events == spec.events && fast.rng == spec.rng)
     "Tree-RSSA generation 26 differs from the specification on reactions of one change"
@@ -260,7 +265,9 @@ def oneChange : IO Unit := do
     "Tree-RSSA generation 25 differs from the specification on reactions of one change"
   expect (light.state == spec.state && light.events == spec.events && light.rng == spec.rng)
     "Tree-RSSA generation 27 differs from the specification on reactions of one change"
-  IO.println s!"PASS reactions of one change: generations 25 to 27 match the specification over {spec.events} events"
+  expect (fastTest.state == spec.state && fastTest.events == spec.events && fastTest.rng == spec.rng)
+    "Tree-RSSA generation 28 differs from the specification on reactions of one change"
+  IO.println s!"PASS reactions of one change: generations 25 to 28 match the specification over {spec.events} events"
 
 /-- A word-sized pseudo-random sequence for building test networks (SplitMix64 steps). -/
 def nextWord (x : UInt64) : UInt64 × UInt64 := Xoshiro.splitMix x
@@ -311,9 +318,9 @@ def randomNetwork (four : Bool) (x : UInt64) : Network Float × UInt64 := Id.run
     reactions := reactions.push rx
   return (⟨ns, initial, reactions⟩, x)
 
-/-- Generations 25 to 27 against the specification on 200 random networks, a quarter of them
+/-- Generations 25 to 28 against the specification on 200 random networks, a quarter of them
 with reactions of four changes: fast paths and fallbacks alike. Networks that grow without
-bound reach the event limit; all four must then report it. -/
+bound reach the event limit; all five must then report it. -/
 def randomNetworks : IO Unit := do
   let mut x : UInt64 := 20261017
   let mut events := 0
@@ -327,21 +334,24 @@ def randomNetworks : IO Unit := do
     let g25 := TreeRSSA.Gen25.simulate net initial 0 0.2 (Xoshiro.seed i.toUInt64) 100000
     let g26 := TreeRSSA.Gen26.simulate net initial 0 0.2 (Xoshiro.seed i.toUInt64) 100000
     let g27 := TreeRSSA.Gen27.simulate net initial 0 0.2 (Xoshiro.seed i.toUInt64) 100000
-    match spec, g25, g26, g27 with
-    | .ok s, .ok a, .ok b, .ok c =>
+    let g28 := TreeRSSA.Gen28.simulate net initial 0 0.2 (Xoshiro.seed i.toUInt64) 100000
+    match spec, g25, g26, g27, g28 with
+    | .ok s, .ok a, .ok b, .ok c, .ok d =>
       expect (a.state == s.state && a.events == s.events && a.rng == s.rng)
         s!"random network {i}: generation 25 differs from the specification"
       expect (b.state == s.state && b.events == s.events && b.rng == s.rng)
         s!"random network {i}: generation 26 differs from the specification"
       expect (c.state == s.state && c.events == s.events && c.rng == s.rng)
         s!"random network {i}: generation 27 differs from the specification"
+      expect (d.state == s.state && d.events == s.events && d.rng == s.rng)
+        s!"random network {i}: generation 28 differs from the specification"
       events := events + s.events
-    | .error e, .error e25, .error e26, .error e27 =>
-      expect (e == e25 && e == e26 && e == e27) s!"random network {i}: different errors"
+    | .error e, .error e25, .error e26, .error e27, .error e28 =>
+      expect (e == e25 && e == e26 && e == e27 && e == e28) s!"random network {i}: different errors"
       errors := errors + 1
-    | _, _, _, _ => throw (IO.userError s!"random network {i}: a run failed where another did not")
+    | _, _, _, _, _ => throw (IO.userError s!"random network {i}: a run failed where another did not")
   expect (errors < 50) s!"random networks: {errors} runs ended in an error"
-  IO.println s!"PASS 200 random networks: generations 25 to 27 match the specification over {events} events ({errors} runs end in the same error)"
+  IO.println s!"PASS 200 random networks: generations 25 to 28 match the specification over {events} events ({errors} runs end in the same error)"
 
 /-- Moments and tail frequencies of `n` host exponential draws: the sum, the sum of squares,
 the counts above 1, 5 and 8 (beyond the ziggurat's base layer at 7.697), and whether every
