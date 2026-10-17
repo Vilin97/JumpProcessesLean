@@ -191,6 +191,15 @@ pinned to the same core:
   [`headtohead-g17-repeat.json`](bench/results/headtohead-g17-repeat.json)) and 16
   ([`headtohead-g16.json`](bench/results/headtohead-g16.json),
   [`headtohead-g16-repeat.json`](bench/results/headtohead-g16-repeat.json)).
+* **Longer runs:** on ten times every span (multistate to T = 10^5, 128 million events; BCR to
+  T = 100, 236 million), generation 30 is 1.63× to 2.09× the fastest of the aggregators that
+  lead at the standard spans, pinned, two alternating rounds
+  ([`longspan.json`](bench/results/longspan.json), from `generations.py --scale 10`): 1.75×
+  RSSA and SortingDirect (tied) on multistate, where Direct also ran, and 1.69× RSSACR on
+  multisite2, 2.09× on egfr_net, 1.63× on BCR and 2.08× on fcεRI γ2. Both sides slow down on
+  BCR as its propensity mass spreads over more reactions (generation 30 from 4.1e7 to 2.5e7
+  events per second, RSSACR from 2.5e7 to 1.5e7), and generation 30 speeds up on egfr_net
+  (2.7e7 to 3.9e7).
 * **Generations 18 to 30, each against its predecessor** (same binary, pinned, alternating
   rounds, best of five, same final populations): 1.02× to 1.19× (18), 1.01× to 1.08× (19),
   1.05× to 1.12× (20), 1.02× to 1.04× (21), 1.01× to 1.10× (22, most on BCR), 1.01× to 1.02×
