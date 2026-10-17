@@ -3,7 +3,7 @@ import JumpProcessesLean
 /-!
 # Benchmark driver
 
-    jumpBench <model.rn> <method> <T> <reps> [maxEvents] [seed]
+    jumpBench <model.rn> <method> <T> <reps> [maxEvents] [seed] [warmup]
 
 Prints one JSON object per repetition. Methods:
 
@@ -13,6 +13,9 @@ Prints one JSON object per repetition. Methods:
 * `treerssa-spec`: the Tree-RSSA reference specification on host floats;
 * `treerssa-g1`, `treerssa-g2`, ...: the optimized generations, each proved equal to the
   specification. Equal seeds give equal runs, which the printed population digest shows.
+
+With `warmup = w > 0`, one untimed run of the same method on `(0, T/w)` with seed `seed + 1000`
+precedes the timed repetitions, as the Julia harness solves once before timing.
 -/
 
 open JumpProcessesLean
@@ -226,6 +229,10 @@ def main (args : List String) : IO UInt32 := do
     let reps := repsText.toNat!
     let maxEvents := (rest.head?.bind String.toNat?).getD 1000000000
     let seed0 := ((rest.drop 1).head?.bind String.toNat?).getD 1
+    let warmup := ((rest.drop 2).head?.bind String.toNat?).getD 0
+    if warmup > 0 then
+      let o ← runOnce netF netB method (T / warmup.toFloat) maxEvents (seed0 + 1000).toUInt64
+      IO.eprintln s!"warm-up on (0, T/{warmup}): {o.status}, {o.events} events"
     for rep in [0:reps] do
       let seed := (seed0 + rep).toUInt64
       let t0 ← IO.monoNanosNow
@@ -236,7 +243,7 @@ def main (args : List String) : IO UInt32 := do
       (← IO.getStdout).flush
     return 0
   | _ =>
-    IO.eprintln "usage: jumpBench <model.rn> <method> <T> <reps> [maxEvents] [seed]"
+    IO.eprintln "usage: jumpBench <model.rn> <method> <T> <reps> [maxEvents] [seed] [warmup]"
     return 1
 
 end Bench

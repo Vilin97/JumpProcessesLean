@@ -5,7 +5,9 @@
 //     same seed (bench/generations.py compares the digests);
 //   * a calibration of the Lean code against straightforward C.
 // build: cc -O3 -march=native -ffp-contract=off -o treerssa bench/c/treerssa.c -lm
-// usage: treerssa <model.rn> <T> [seed]
+// usage: treerssa <model.rn> <T> [seed] [warmup]
+// With warmup = w > 0, one untimed run on (0, T/w) with seed + 1000 precedes the timed run, as
+// the Julia harness solves once before timing.
 #include <math.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -186,6 +188,7 @@ static long *pop, *lo, *hi, *ms;
 static Rx *rx;
 static int **deps, *ndeps;
 static double *lower, *tree;
+static long *pop0;
 
 static inline unsigned long ff(unsigned long n, int nu) {
   unsigned long r = 1;
@@ -205,40 +208,11 @@ static void bracket(long m, long n, long *l, long *h) {
 }
 static inline int stale(long m, long n, long l, long h) { return n < l || h < n || (n < m && h != n); }
 
-int main(int argc, char **argv) {
-  FILE *f = fopen(argv[1], "r");
-  double T = atof(argv[2]);
-  uint64_t seed = argc > 3 ? strtoull(argv[3], 0, 10) : 1;
-  char tag[64];
-  if (fscanf(f, "%63s %*d", tag) != 1) return 1;
-  if (fscanf(f, "%63s %d", tag, &S) != 2) return 1;
-  pop = calloc(S, sizeof(long)); lo = calloc(S, sizeof(long)); hi = calloc(S, sizeof(long));
-  ms = calloc(S, sizeof(long));
-  for (int s = 0; s < S; s++) if (fscanf(f, "%ld", &pop[s]) != 1) return 1;
-  if (fscanf(f, "%63s %d", tag, &M) != 2) return 1;
-  rx = calloc(M, sizeof(Rx));
-  for (int j = 0; j < M; j++) {
-    char hex[32]; uint64_t bits;
-    if (fscanf(f, "%31s", hex) != 1) return 1;
-    bits = strtoull(hex, 0, 16); memcpy(&rx[j].rate, &bits, 8);
-    if (fscanf(f, "%d", &rx[j].nr) != 1) return 1;
-    rx[j].rs = calloc(rx[j].nr + 1, sizeof(int)); rx[j].rn = calloc(rx[j].nr + 1, sizeof(int));
-    for (int i = 0; i < rx[j].nr; i++) if (fscanf(f, "%d %d", &rx[j].rs[i], &rx[j].rn[i]) != 2) return 1;
-    if (fscanf(f, "%d", &rx[j].nc) != 1) return 1;
-    rx[j].cs = calloc(rx[j].nc + 1, sizeof(int)); rx[j].cd = calloc(rx[j].nc + 1, sizeof(long));
-    for (int i = 0; i < rx[j].nc; i++) if (fscanf(f, "%d %ld", &rx[j].cs[i], &rx[j].cd[i]) != 2) return 1;
-    for (int i = 0; i < rx[j].nr; i++) if (rx[j].rn[i] > ms[rx[j].rs[i]]) ms[rx[j].rs[i]] = rx[j].rn[i];
-  }
-  deps = calloc(S, sizeof(int *)); ndeps = calloc(S, sizeof(int));
-  for (int j = 0; j < M; j++) for (int i = 0; i < rx[j].nr; i++) ndeps[rx[j].rs[i]]++;
-  for (int s = 0; s < S; s++) { deps[s] = calloc(ndeps[s] + 1, sizeof(int)); ndeps[s] = 0; }
-  for (int j = 0; j < M; j++) for (int i = 0; i < rx[j].nr; i++) { int s = rx[j].rs[i]; deps[s][ndeps[s]++] = j; }
-  depth = 0; { unsigned m = M - 1; int lg = 0; while (m >>= 1) lg++; depth = lg + 1; }
-  if (M <= 1) depth = 1;
-  leaves = 1 << depth;
+// One run on (0, T) from the initial populations; returns the number of events.
+static long simulate(double T, uint64_t seed, double *secs) {
+  memcpy(pop, pop0, S * sizeof(long));
   for (int s = 0; s < S; s++) bracket(ms[s], pop[s], &lo[s], &hi[s]);
-  lower = calloc(M, sizeof(double)); tree = calloc(2 * leaves, sizeof(double));
-  memcpy(X, ZX, sizeof X); memcpy(F, ZF, sizeof F);
+  memset(tree, 0, 2 * leaves * sizeof(double));
   uint64_t x = seed; s0 = splitmix(&x); s1 = splitmix(&x); s2 = splitmix(&x); s3 = splitmix(&x);
   struct timespec t0, t1; clock_gettime(CLOCK_MONOTONIC, &t0);
   for (int j = 0; j < M; j++) { lower[j] = prop(&rx[j], lo); tree[leaves + j] = prop(&rx[j], hi); }
@@ -285,7 +259,48 @@ int main(int argc, char **argv) {
     }
   }
   clock_gettime(CLOCK_MONOTONIC, &t1);
-  double secs = (t1.tv_sec - t0.tv_sec) + 1e-9 * (t1.tv_nsec - t0.tv_nsec);
+  *secs = (t1.tv_sec - t0.tv_sec) + 1e-9 * (t1.tv_nsec - t0.tv_nsec);
+  return events;
+}
+
+int main(int argc, char **argv) {
+  FILE *f = fopen(argv[1], "r");
+  double T = atof(argv[2]);
+  uint64_t seed = argc > 3 ? strtoull(argv[3], 0, 10) : 1;
+  double warmup = argc > 4 ? atof(argv[4]) : 0;
+  char tag[64];
+  if (fscanf(f, "%63s %*d", tag) != 1) return 1;
+  if (fscanf(f, "%63s %d", tag, &S) != 2) return 1;
+  pop = calloc(S, sizeof(long)); lo = calloc(S, sizeof(long)); hi = calloc(S, sizeof(long));
+  ms = calloc(S, sizeof(long));
+  for (int s = 0; s < S; s++) if (fscanf(f, "%ld", &pop[s]) != 1) return 1;
+  if (fscanf(f, "%63s %d", tag, &M) != 2) return 1;
+  rx = calloc(M, sizeof(Rx));
+  for (int j = 0; j < M; j++) {
+    char hex[32]; uint64_t bits;
+    if (fscanf(f, "%31s", hex) != 1) return 1;
+    bits = strtoull(hex, 0, 16); memcpy(&rx[j].rate, &bits, 8);
+    if (fscanf(f, "%d", &rx[j].nr) != 1) return 1;
+    rx[j].rs = calloc(rx[j].nr + 1, sizeof(int)); rx[j].rn = calloc(rx[j].nr + 1, sizeof(int));
+    for (int i = 0; i < rx[j].nr; i++) if (fscanf(f, "%d %d", &rx[j].rs[i], &rx[j].rn[i]) != 2) return 1;
+    if (fscanf(f, "%d", &rx[j].nc) != 1) return 1;
+    rx[j].cs = calloc(rx[j].nc + 1, sizeof(int)); rx[j].cd = calloc(rx[j].nc + 1, sizeof(long));
+    for (int i = 0; i < rx[j].nc; i++) if (fscanf(f, "%d %ld", &rx[j].cs[i], &rx[j].cd[i]) != 2) return 1;
+    for (int i = 0; i < rx[j].nr; i++) if (rx[j].rn[i] > ms[rx[j].rs[i]]) ms[rx[j].rs[i]] = rx[j].rn[i];
+  }
+  deps = calloc(S, sizeof(int *)); ndeps = calloc(S, sizeof(int));
+  for (int j = 0; j < M; j++) for (int i = 0; i < rx[j].nr; i++) ndeps[rx[j].rs[i]]++;
+  for (int s = 0; s < S; s++) { deps[s] = calloc(ndeps[s] + 1, sizeof(int)); ndeps[s] = 0; }
+  for (int j = 0; j < M; j++) for (int i = 0; i < rx[j].nr; i++) { int s = rx[j].rs[i]; deps[s][ndeps[s]++] = j; }
+  depth = 0; { unsigned m = M - 1; int lg = 0; while (m >>= 1) lg++; depth = lg + 1; }
+  if (M <= 1) depth = 1;
+  leaves = 1 << depth;
+  pop0 = calloc(S, sizeof(long)); memcpy(pop0, pop, S * sizeof(long));
+  lower = calloc(M, sizeof(double)); tree = calloc(2 * leaves, sizeof(double));
+  memcpy(X, ZX, sizeof X); memcpy(F, ZF, sizeof F);
+  double secs;
+  if (warmup > 0) simulate(T / warmup, seed + 1000, &secs);
+  long events = simulate(T, seed, &secs);
   uint64_t h = 0xcbf29ce484222325ULL;
   for (int s = 0; s < S; s++) h = (h ^ (uint64_t)pop[s]) * 0x100000001b3ULL;
   printf("{\"events\": %ld, \"seconds\": %.6f, \"rate\": %.4g, \"digest\": \"%llu\"}\n", events, secs,

@@ -1,6 +1,7 @@
 """Measure the Tree-RSSA generations against each other.
 
     python3 bench/generations.py --out bench/results/generations.json [--rounds 5] [--scale 1]
+        [--warmup 0]
 
 For each network, the generations from 2 on and the RSSACR port are run alternately for several
 rounds on the benchmark span (or `--scale` times it), and each keeps its best time: alternating
@@ -10,7 +11,9 @@ since each is proved equal to the specification. Generations 0 and 1 are far slo
 measured by `run.py` on shorter spans. The method `c-reference` runs the independent C
 implementation in bench/c (path in CREF); its digest must agree too. A method
 `julia:<aggregator>` runs that JumpProcesses.jl aggregator (warmed up, one repetition per
-round), so that Julia and Lean can be measured alternately under the same conditions.
+round), so that Julia and Lean can be measured alternately under the same conditions. With
+`--warmup w`, each Lean and C process first runs once, untimed, on `(0, T/w)` with another seed,
+as the Julia harness solves once before timing; without it they are timed from a cold start.
 """
 import argparse
 import json
@@ -31,7 +34,7 @@ FAST = ["treerssa-g2", "treerssa-g3", "treerssa-g4", "treerssa-g5", "treerssa-g6
         "treerssa-g29", "treerssa-g30", "rssacr-port"]
 
 
-def once(model, method, T):
+def once(model, method, T, warmup=0):
     if method.startswith("julia:"):
         scratch = pathlib.Path(os.environ.get("BENCH_SCRATCH", "/tmp")) / "jumpbench"
         scratch.mkdir(parents=True, exist_ok=True)
@@ -41,14 +44,16 @@ def once(model, method, T):
     if method == "c-reference":
         # bench/c/treerssa.c, built with `cc -O3 -march=native -ffp-contract=off -o <CREF> bench/c/treerssa.c -lm`
         with bench.timed_section():
-            out = subprocess.run([os.environ["CREF"], str(bench.rn(model)), f"{T:.6f}", "1"],
+            out = subprocess.run([os.environ["CREF"], str(bench.rn(model)), f"{T:.6f}", "1"]
+                                 + ([str(warmup)] if warmup else []),
                                  capture_output=True, text=True, check=True).stdout
         row = json.loads(out)
         row["status"] = "ok"
         return row
     binary = os.environ.get("JUMPBENCH", str(bench.ROOT / ".lake/build/bin/jumpBench"))
     with bench.timed_section():
-        out = subprocess.run([binary, str(bench.rn(model)), method, f"{T:.6f}", "1"],
+        out = subprocess.run([binary, str(bench.rn(model)), method, f"{T:.6f}", "1"]
+                             + (["1000000000", "1", str(warmup)] if warmup else []),
                              capture_output=True, text=True, check=True).stdout
     row = json.loads([line for line in out.splitlines() if line.startswith("{")][0])
     if row["status"] != "ok":
@@ -64,12 +69,15 @@ def main():
     parser.add_argument("--methods", nargs="*", default=FAST)
     parser.add_argument("--scale", type=float, default=1.0,
                         help="run every network on this multiple of its benchmark span")
+    parser.add_argument("--warmup", type=int, default=0,
+                        help="Lean and C: one untimed run on T/warmup before the timed one")
     args = parser.parse_args()
     bench.ensure_rn()
     out = pathlib.Path(args.out)
     record = json.loads(out.read_text()) if out.exists() else {"results": {}}
     record["machine"] = bench.machine()
     record["rounds"] = args.rounds
+    record["warmup"] = args.warmup
     spans = dict(bench.MODELS)
     for model in args.models:
         T = spans[model] * args.scale
@@ -78,7 +86,7 @@ def main():
         for _ in range(args.rounds):
             for method in args.methods:
                 idle.append(bench.wait_idle())
-                row = once(model, method, T)
+                row = once(model, method, T, args.warmup)
                 if method not in best or row["seconds"] < best[method]:
                     best[method] = row["seconds"]
                 rows[method] = row
