@@ -4,7 +4,7 @@ Lean translations of JumpProcesses.jl's Direct, NRM, and RSSA. The same
 arithmetic-parameterized code runs with FloatLib binary64 arithmetic and has a real
 interpretation used by the proofs. The repository also contains
 [Tree-RSSA](#tree-rssa-a-new-ssa-optimized-under-proof), a new exact SSA. It went through
-twenty-eight optimized generations, each proved to produce exactly the specification's
+twenty-nine optimized generations, each proved to produce exactly the specification's
 trajectories. Generation 28 is faster than every JumpProcesses.jl aggregator on all five
 networks of the Catalyst paper's SSA benchmark: 1.45× to 1.85× the fastest one on each
 network, measured in the same time window.
@@ -62,10 +62,10 @@ specification is generic in the arithmetic and the random source, like the drive
 model (`treeRSSA_simulate_eq`). So on the IID streams its event probabilities are within
 the cap defect of the exact stopped-path law (`tree_rssa_iid_capped_law`), and they
 converge to those of Gillespie's Direct method as the cap grows
-(`tree_rssa_tendsto_direct`). On host floats with the xoshiro256++ source, each of twenty-eight
+(`tree_rssa_tendsto_direct`). On host floats with the xoshiro256++ source, each of twenty-nine
 optimized **generations** is proved to return exactly what the specification returns, bit
 for bit, for every input and every network whose reactant species are in range
-(`gen1_simulate_eq` … `gen28_simulate_eq`). Speed never changes the result: all
+(`gen1_simulate_eq` … `gen29_simulate_eq`). Speed never changes the result: all
 generations produce the same trajectory for the same seed.
 
 The host source draws uniforms from a word's top 53 bits and exponentials by a 256-layer
@@ -106,6 +106,7 @@ which cover the specification for every source.
 | 26 | reactions with one change (creation, degradation) take the fast path too | `gen26_eq_gen25` |
 | 27 | a lighter setup: the network compiled and the initial tree built with less work | `gen27_eq_gen26` |
 | 28 | a faster start test: the species of a reaction's changes compared directly | `gen28_eq_gen27` |
+| 29 | on trees of 2^16 leaves or more, refresh walks re-add 11 levels before testing where they meet | `gen29_eq_gen28` |
 
 Also in Lean: [a port of JumpProcesses.jl's RSSACR](JumpProcessesLean/Ports/RSSACR.lean),
 its fastest aggregator on four of the five networks below (unverified, for comparison).
@@ -181,7 +182,7 @@ pinned to the same core:
   [`headtohead-g17-repeat.json`](bench/results/headtohead-g17-repeat.json)) and 16
   ([`headtohead-g16.json`](bench/results/headtohead-g16.json),
   [`headtohead-g16-repeat.json`](bench/results/headtohead-g16-repeat.json)).
-* **Generations 18 to 28, each against its predecessor** (same binary, pinned, alternating
+* **Generations 18 to 29, each against its predecessor** (same binary, pinned, alternating
   rounds, best of five, same final populations): 1.02× to 1.19× (18), 1.01× to 1.08× (19),
   1.05× to 1.12× (20), 1.02× to 1.04× (21), 1.01× to 1.10× (22, most on BCR), 1.01× to 1.02×
   on multisite2 (23, the only network it changes), up to 1.03× on egfr_net (24) and up to
@@ -189,7 +190,10 @@ pinned to the same core:
   change; on a gene-expression network with four such reactions it is 1.18× generation 25,
   which runs generation 20 there), 1.02× on fcεRI γ2 (27, best of seven: generation 26's
   driver after a setup of 21 ms instead of 27 ms; 6 ms instead of 9 ms on BCR, which is
-  1.00×, as are the others), and 1.01× on fcεRI γ2 (28: a setup of 17.5 ms; 5 ms on BCR).
+  1.00×, as are the others), 1.01× on fcεRI γ2 (28: a setup of 17.5 ms; 5 ms on BCR), and
+  1.055× on fcεRI γ2 (29, best of seven: its tree has 2^16 leaves, and the 12 refresh walks
+  per event no longer test their meeting point on the first eleven levels; the four other
+  trees are smaller and run generation 26's driver, at 1.00×).
   Differences of 1% to 3% are at the scale of code placement: moving one unchanged driver
   48 bytes off a 64-byte boundary cost it 3.5% on multisite2. In the pinned window
   generation 28 is 1.21× to 1.51× generation 17.
@@ -318,7 +322,7 @@ Install Elan and Julia 1.11 or later, then run `bash scripts/verify.sh`. It runs
 
 1. `lake build` for all proofs;
 2. `lake test` for the native FloatLib executables;
-3. the theorem dependency audit of `Tests/Trust.lean` (347 results);
+3. the theorem dependency audit of `Tests/Trust.lean` (354 results);
 4. the original Julia fixtures.
 
 Logs are written to `results/`. The first native build compiles FloatLib's C
@@ -509,7 +513,7 @@ state/count/error outcome.
 * No nonexplosion or infinite-time CTMC extension is claimed.
 
 There are no project proof placeholders, extra axioms, `native_decide`, or unsafe
-code. `Tests/Trust.lean` audits 347 principal results. `scripts/audit.py` rejects
+code. `Tests/Trust.lean` audits 354 principal results. `scripts/audit.py` rejects
 forbidden tokens in all project sources and accepts only Lean's standard `propext`,
 `Classical.choice` and `Quot.sound`.
 
@@ -529,13 +533,14 @@ The successful logs are in `results/`.
   16 channels, A=100, rates 0.1 through 1.6, horizon 0.1, original tolerance 1.
 * Conservation, extinction, terminal horizon and chronological traces are checked.
 * From `2^53`, where floats are two apart, a clock step below one rounds to the current
-  time: Direct, NRM and RSSA return it, and every driver and Tree-RSSA generations 17 to 28
+  time: Direct, NRM and RSSA return it, and every driver and Tree-RSSA generations 17 to 29
   complete a 100-event extinction started there.
-* Compiled Tree-RSSA generations 25 to 28 return what the compiled specification returns
+* Compiled Tree-RSSA generations 25 to 29 return what the compiled specification returns
   (state, event count and generator state) on a gene-expression network with reactions of
   one change (153,555 events) and on 200 random networks of up to eight species and twenty
   reactions with one to four changes each (201,133 events; 35 networks that grow without bound
-  reach the event limit in all five).
+  reach the event limit in all six). On a random network of 40,000 reactions and 2,000
+  species, whose tree has 2^16 leaves, generations 17, 28 and 29 agree (8,033 events).
 * A Julia harness executes the pinned original algorithm bodies with 8 deterministic
   assertions. Integrator, random-tape and heap interfaces are stubbed, and the full
   SciML suite was not run. Vendored sources keep the upstream MIT license.

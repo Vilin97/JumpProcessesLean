@@ -237,8 +237,8 @@ proofs reason about Lean's logical model of `Float` and use no floating-point id
 * generation 5's refresh returns exactly generation 3's cache (`gen5_refresh_eq`). A
   skipped bound has an unchanged integer factor, and `evalAt_set` reads the old factor
   from the updated arrays;
-* generations 6 to 18 and 20 to 28 are proved equal to their predecessors (`gen6_eq_gen5` …
-  `gen18_eq_gen17`, `gen20_eq_gen19` … `gen28_eq_gen27`), and generation 19 to generation 17
+* generations 6 to 18 and 20 to 29 are proved equal to their predecessors (`gen6_eq_gen5` …
+  `gen18_eq_gen17`, `gen20_eq_gen19` … `gen29_eq_gen28`), and generation 19 to generation 17
   (`gen19_eq_gen17`). Generation 7 uses `isFinite_eq_lt`: a float is finite exactly when
   it lies strictly between the two infinities, by the same case analysis in Lean's model of
   `compare` and `isFinite`;
@@ -343,6 +343,13 @@ proofs reason about Lean's logical model of `Float` and use no floating-point id
 * generation 28's start compares the species of up to three changes directly, which decides
   `List.Nodup` of their list (`distinctSpecies_eq`); its `changesOK` is therefore generation
   17's (`changesOK28_eq`) and its start generation 27's (`start28_eq`).
+* generation 29's refresh walks first re-add eleven levels without testing whether they met
+  the path of the next changed leaf. Its trees then differ from generation 26's only at strict
+  ancestors of the pending leaf (`AgreeOff`): up to the meeting point both walks write the same
+  sums, and past it generation 29's writes only ancestors of the next leaf, whose walk writes
+  them again (`walkFixed_agree`). The last walk of a refresh writes every ancestor of its leaf,
+  so the trees agree when the refresh ends (`fixPath_agree`, `setBoundsR29_eq`), and the
+  driver returns generation 26's (`gen29_run_eq`).
 
 The trust base for executable Tree-RSSA is Lean's: compiled code runs the C
 implementations of the `@[extern]` float operations (including `log` and `exp` from the C
@@ -371,7 +378,7 @@ bash scripts/verify.sh
 ```
 
 This builds the proofs, runs the native FloatLib test suite, audits the dependencies
-of the 347 results listed in `Tests/Trust.lean`, and runs the original pinned Julia
+of the 354 results listed in `Tests/Trust.lean`, and runs the original pinned Julia
 method fixtures. The audit permits only Lean's standard `propext`, `Classical.choice`
 and `Quot.sound`, and rejects `sorry`, `admit`, `axiom`, `unsafe` and `native_decide`
 in project sources.

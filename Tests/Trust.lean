@@ -348,3 +348,10 @@ import JumpProcessesLean
 #print axioms JumpProcessesLean.Proofs.start28_eq
 #print axioms JumpProcessesLean.Proofs.gen28_eq_gen27
 #print axioms JumpProcessesLean.Proofs.gen28_simulate_eq
+#print axioms JumpProcessesLean.Proofs.fixPath_agree
+#print axioms JumpProcessesLean.Proofs.walkFixed_agree
+#print axioms JumpProcessesLean.Proofs.setBoundsR29_eq
+#print axioms JumpProcessesLean.Proofs.gen29_run_eq
+#print axioms JumpProcessesLean.Proofs.start29_eq
+#print axioms JumpProcessesLean.Proofs.gen29_eq_gen28
+#print axioms JumpProcessesLean.Proofs.gen29_simulate_eq
