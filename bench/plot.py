@@ -54,6 +54,7 @@ GENERATIONS = [
     ("treerssa-g25", "firing reads the brackets from the cache: no reference counting per event"),
     ("treerssa-g26", "reactions with one change take the fast path too"),
     ("treerssa-g27", "a lighter setup: the network compiled and the initial tree built with less work"),
+    ("treerssa-g28", "a faster start test: the species of a reaction's changes compared directly"),
 ]
 FINAL = GENERATIONS[-1][0]
 TREE = "#c0392b"
