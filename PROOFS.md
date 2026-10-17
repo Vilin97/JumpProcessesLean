@@ -237,8 +237,8 @@ proofs reason about Lean's logical model of `Float` and use no floating-point id
 * generation 5's refresh returns exactly generation 3's cache (`gen5_refresh_eq`). A
   skipped bound has an unchanged integer factor, and `evalAt_set` reads the old factor
   from the updated arrays;
-* generations 6 to 18 and 20 to 26 are proved equal to their predecessors (`gen6_eq_gen5` …
-  `gen18_eq_gen17`, `gen20_eq_gen19` … `gen26_eq_gen25`), and generation 19 to generation 17
+* generations 6 to 18 and 20 to 27 are proved equal to their predecessors (`gen6_eq_gen5` …
+  `gen18_eq_gen17`, `gen20_eq_gen19` … `gen27_eq_gen26`), and generation 19 to generation 17
   (`gen19_eq_gen17`). Generation 7 uses `isFinite_eq_lt`: a float is finite exactly when
   it lies strictly between the two infinities, by the same case analysis in Lean's model of
   `compare` and `isFinite`;
@@ -333,6 +333,13 @@ proofs reason about Lean's logical model of `Float` and use no floating-point id
   its driver is generation 25's (`gen26_run_eq`). On a network with a reaction of one change it
   runs its own driver where generation 25 falls through generation 21's start to generation
   20's; both drivers agree with generation 19's (`start26_eq`).
+* generation 27 runs generation 26's driver on inputs built with less work. Its compile is
+  generation 6's (`compile27_eq`): its factor compiler reads the reactants without a list
+  (`factorOf_eq`), and a dependent's factor read from its reaction's, with `.general #[]` past
+  the last reaction, is the factor compiled from the reaction at that index. Its initial tree
+  is `Gen1.buildTree`'s (`initialTree_eq`), and its start, on a cache without lower bounds,
+  returns generation 26's start on the cache with them: the fast path never reads them and
+  the fallback computes them (`start27_eq`).
 
 The trust base for executable Tree-RSSA is Lean's: compiled code runs the C
 implementations of the `@[extern]` float operations (including `log` and `exp` from the C
@@ -361,7 +368,7 @@ bash scripts/verify.sh
 ```
 
 This builds the proofs, runs the native FloatLib test suite, audits the dependencies
-of the 336 results listed in `Tests/Trust.lean`, and runs the original pinned Julia
+of the 342 results listed in `Tests/Trust.lean`, and runs the original pinned Julia
 method fixtures. The audit permits only Lean's standard `propext`, `Classical.choice`
 and `Quot.sound`, and rejects `sorry`, `admit`, `axiom`, `unsafe` and `native_decide`
 in project sources.

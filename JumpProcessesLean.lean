@@ -74,6 +74,7 @@ import JumpProcessesLean.TreeRSSA.Gen23
 import JumpProcessesLean.TreeRSSA.Gen24
 import JumpProcessesLean.TreeRSSA.Gen25
 import JumpProcessesLean.TreeRSSA.Gen26
+import JumpProcessesLean.TreeRSSA.Gen27
 import JumpProcessesLean.Proofs.TreeRSSATree
 import JumpProcessesLean.Proofs.TreeRSSAModel
 import JumpProcessesLean.Proofs.TreeRSSACorrect
@@ -108,3 +109,4 @@ import JumpProcessesLean.Proofs.TreeRSSAGen23
 import JumpProcessesLean.Proofs.TreeRSSAGen24
 import JumpProcessesLean.Proofs.TreeRSSAGen25
 import JumpProcessesLean.Proofs.TreeRSSAGen26
+import JumpProcessesLean.Proofs.TreeRSSAGen27
