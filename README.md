@@ -175,7 +175,9 @@ pinned to the same core:
   [`headtohead-g26-pinned2.json`](bench/results/headtohead-g26-pinned2.json): 4.5% faster on
   multistate with Julia's rates within 1.5%), and generation 22 1.44× to 1.81× in both
   ([`headtohead-g22.json`](bench/results/headtohead-g22.json),
-  [`headtohead-g22-repeat.json`](bench/results/headtohead-g22-repeat.json)). Native programs,
+  [`headtohead-g22-repeat.json`](bench/results/headtohead-g22-repeat.json)). Generation 30's
+  later windows gave 1.46× to 1.98× (evening, pinned, 2026-10-17 19:30 UTC,
+  [`headtohead-g30-evening.json`](bench/results/headtohead-g30-evening.json)). Native programs,
   the C one included, drift by up to 17% between windows on multistate, multisite2 and egfr_net
   while Julia's rates stay within 1% (a laptop-class Ryzen in its balanced power profile; BCR
   and fcεRI γ2 do not move), so only ratios within one window compare. Earlier windows are kept
