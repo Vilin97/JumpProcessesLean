@@ -53,6 +53,7 @@ GENERATIONS = [
     ("treerssa-g24", "descent ends in a branch-free pair of levels"),
     ("treerssa-g25", "firing reads the brackets from the cache: no reference counting per event"),
     ("treerssa-g26", "reactions with one change take the fast path too"),
+    ("treerssa-g27", "a lighter setup: the network compiled and the initial tree built with less work"),
 ]
 FINAL = GENERATIONS[-1][0]
 TREE = "#c0392b"

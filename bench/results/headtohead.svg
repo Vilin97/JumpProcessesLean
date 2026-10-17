@@ -11,21 +11,21 @@
 <line x1="90" x2="860" y1="147.5" y2="147.5" stroke="#e3e3e3" stroke-width="0.9"/><text x="82" y="151.5" text-anchor="end" font-size="12" fill="#555">1.50×</text>
 <line x1="90" x2="860" y1="108.8" y2="108.8" stroke="#e3e3e3" stroke-width="0.9"/><text x="82" y="112.8" text-anchor="end" font-size="12" fill="#555">1.75×</text>
 <line x1="90" x2="860" y1="70.0" y2="70.0" stroke="#e3e3e3" stroke-width="0.9"/><text x="82" y="74.0" text-anchor="end" font-size="12" fill="#555">2.00×</text>
-<rect x="123.0" y="139.0" width="39.6" height="241.0" fill="#c0392b"/><text x="142.8" y="134.0" text-anchor="middle" font-size="11" fill="#333">1.55</text>
-<rect x="167.0" y="186.4" width="39.6" height="193.6" fill="#444444"/><text x="186.8" y="181.4" text-anchor="middle" font-size="11" fill="#333">1.25</text>
-<text x="167.0" y="400" text-anchor="middle" font-size="13" fill="#222">multistate</text><text x="167.0" y="416" text-anchor="middle" font-size="11" fill="#777">vs SortingDirect 2.43e+07/s</text>
-<rect x="277.0" y="155.4" width="39.6" height="224.6" fill="#c0392b"/><text x="296.8" y="150.4" text-anchor="middle" font-size="11" fill="#333">1.45</text>
-<rect x="321.0" y="222.0" width="39.6" height="158.0" fill="#444444"/><text x="340.8" y="217.0" text-anchor="middle" font-size="11" fill="#333">1.02</text>
-<text x="321.0" y="400" text-anchor="middle" font-size="13" fill="#222">multisite2</text><text x="321.0" y="416" text-anchor="middle" font-size="11" fill="#777">vs RSSACR 1.4e+07/s</text>
-<rect x="431.0" y="134.3" width="39.6" height="245.7" fill="#c0392b"/><text x="450.8" y="129.3" text-anchor="middle" font-size="11" fill="#333">1.59</text>
-<rect x="475.0" y="180.9" width="39.6" height="199.1" fill="#444444"/><text x="494.8" y="175.9" text-anchor="middle" font-size="11" fill="#333">1.28</text>
-<text x="475.0" y="400" text-anchor="middle" font-size="13" fill="#222">egfr_net</text><text x="475.0" y="416" text-anchor="middle" font-size="11" fill="#777">vs RSSACR 1.69e+07/s</text>
-<rect x="585.0" y="131.4" width="39.6" height="248.6" fill="#c0392b"/><text x="604.8" y="126.4" text-anchor="middle" font-size="11" fill="#333">1.60</text>
-<rect x="629.0" y="166.9" width="39.6" height="213.1" fill="#444444"/><text x="648.8" y="161.9" text-anchor="middle" font-size="11" fill="#333">1.37</text>
-<text x="629.0" y="400" text-anchor="middle" font-size="13" fill="#222">BCR</text><text x="629.0" y="416" text-anchor="middle" font-size="11" fill="#777">vs RSSACR 2.55e+07/s</text>
-<rect x="739.0" y="102.9" width="39.6" height="277.1" fill="#c0392b"/><text x="758.8" y="97.9" text-anchor="middle" font-size="11" fill="#333">1.79</text>
-<rect x="783.0" y="254.1" width="39.6" height="125.9" fill="#444444"/><text x="802.8" y="249.1" text-anchor="middle" font-size="11" fill="#333">0.81</text>
-<text x="783.0" y="400" text-anchor="middle" font-size="13" fill="#222">fcεRI γ2</text><text x="783.0" y="416" text-anchor="middle" font-size="11" fill="#777">vs RSSACR 1.91e+06/s</text>
-<rect x="90" y="436" width="14" height="14" fill="#c0392b"/><text x="110" y="448" font-size="12.5" fill="#222">Lean Tree-RSSA, generation 26 (proved)</text>
+<rect x="123.0" y="140.6" width="39.6" height="239.4" fill="#c0392b"/><text x="142.8" y="135.6" text-anchor="middle" font-size="11" fill="#333">1.54</text>
+<rect x="167.0" y="189.0" width="39.6" height="191.0" fill="#444444"/><text x="186.8" y="184.0" text-anchor="middle" font-size="11" fill="#333">1.23</text>
+<text x="167.0" y="400" text-anchor="middle" font-size="13" fill="#222">multistate</text><text x="167.0" y="416" text-anchor="middle" font-size="11" fill="#777">vs SortingDirect 2.46e+07/s</text>
+<rect x="277.0" y="152.2" width="39.6" height="227.8" fill="#c0392b"/><text x="296.8" y="147.2" text-anchor="middle" font-size="11" fill="#333">1.47</text>
+<rect x="321.0" y="219.4" width="39.6" height="160.6" fill="#444444"/><text x="340.8" y="214.4" text-anchor="middle" font-size="11" fill="#333">1.04</text>
+<text x="321.0" y="400" text-anchor="middle" font-size="13" fill="#222">multisite2</text><text x="321.0" y="416" text-anchor="middle" font-size="11" fill="#777">vs RSSACR 1.39e+07/s</text>
+<rect x="431.0" y="135.3" width="39.6" height="244.7" fill="#c0392b"/><text x="450.8" y="130.3" text-anchor="middle" font-size="11" fill="#333">1.58</text>
+<rect x="475.0" y="181.7" width="39.6" height="198.3" fill="#444444"/><text x="494.8" y="176.7" text-anchor="middle" font-size="11" fill="#333">1.28</text>
+<text x="475.0" y="400" text-anchor="middle" font-size="13" fill="#222">egfr_net</text><text x="475.0" y="416" text-anchor="middle" font-size="11" fill="#777">vs RSSACR 1.7e+07/s</text>
+<rect x="585.0" y="126.1" width="39.6" height="253.9" fill="#c0392b"/><text x="604.8" y="121.1" text-anchor="middle" font-size="11" fill="#333">1.64</text>
+<rect x="629.0" y="163.0" width="39.6" height="217.0" fill="#444444"/><text x="648.8" y="158.0" text-anchor="middle" font-size="11" fill="#333">1.40</text>
+<text x="629.0" y="400" text-anchor="middle" font-size="13" fill="#222">BCR</text><text x="629.0" y="416" text-anchor="middle" font-size="11" fill="#777">vs RSSACR 2.51e+07/s</text>
+<rect x="739.0" y="93.5" width="39.6" height="286.5" fill="#c0392b"/><text x="758.8" y="88.5" text-anchor="middle" font-size="11" fill="#333">1.85</text>
+<rect x="783.0" y="252.9" width="39.6" height="127.1" fill="#444444"/><text x="802.8" y="247.9" text-anchor="middle" font-size="11" fill="#333">0.82</text>
+<text x="783.0" y="400" text-anchor="middle" font-size="13" fill="#222">fcεRI γ2</text><text x="783.0" y="416" text-anchor="middle" font-size="11" fill="#777">vs RSSACR 1.89e+06/s</text>
+<rect x="90" y="436" width="14" height="14" fill="#c0392b"/><text x="110" y="448" font-size="12.5" fill="#222">Lean Tree-RSSA, generation 27 (proved)</text>
 <rect x="420" y="436" width="14" height="14" fill="#444444"/><text x="440" y="448" font-size="12.5" fill="#222">same algorithm in C (unverified)</text>
 </svg>
