@@ -9,6 +9,6 @@ PASS extinction and trace chronology for all three algorithms
 PASS absorbed clock steps from 2^53 (Direct, NRM, RSSA, Tree-RSSA)
 PASS reactions of one change: generations 25 to 29 match the specification over 153555 events
 PASS 200 random networks: generations 25 to 29 match the specification over 201133 events (35 runs end in the same error)
-PASS a tree of 2^16 leaves: generations 17, 28 and 29 agree over 8033 events
+PASS a tree of 2^16 leaves: generations 17, 28 and 29 agree over 8234 events, across the count bound 2^25
 PASS host ziggurat exponential: mean 1.000181, P(E > 8) 0.000328
 All tests passed.

@@ -366,7 +366,9 @@ def randomNetworks : IO Unit := do
   IO.println s!"PASS 200 random networks: generations 25 to 29 match the specification over {events} events ({errors} runs end in the same error)"
 
 /-- Generation 29's refresh walks run on trees of `2^16` leaves or more: a random network of
-40,000 reactions on 2,000 species with counts below 20, against generations 28 and 17. -/
+40,000 reactions on 2,000 species with counts below 20, against generations 28 and 17. A
+2,001st species starts at `2^25 - 1` and doubles itself (`A → 2A`), so that the run crosses the
+fast path's count bound and generation 29's driver hands over to generation 17's. -/
 def deepTree : IO Unit := do
   let mut x : UInt64 := 20261018
   let mut reactions : Array (Reaction Float) := #[]
@@ -379,7 +381,8 @@ def deepTree : IO Unit := do
     let (v, x1) := below x 20
     x := x1
     initial := initial.push v
-  let net : Network Float := ⟨2000, initial, reactions⟩
+  let net : Network Float := ⟨2001, initial.push 33554431,
+    reactions.push ⟨0.0001, #[(2000, 1)], #[(2000, 1)]⟩⟩
   let init := TreeRSSA.initialState net net.initial
   let g17 ← getOk (TreeRSSA.Gen17.simulate net init 0 0.05 (Xoshiro.seed 11) 1000000)
   let g28 ← getOk (TreeRSSA.Gen28.simulate net init 0 0.05 (Xoshiro.seed 11) 1000000)
@@ -389,7 +392,8 @@ def deepTree : IO Unit := do
     "Tree-RSSA generation 29 differs from generation 28 on a tree of 2^16 leaves"
   expect (g17.state == g28.state && g17.events == g28.events && g17.rng == g28.rng)
     "Tree-RSSA generation 17 differs from generation 28 on a tree of 2^16 leaves"
-  IO.println s!"PASS a tree of 2^16 leaves: generations 17, 28 and 29 agree over {g28.events} events"
+  expect (g29.state.pop[2000]! ≥ 33554432) "tree of 2^16 leaves: the count bound was not crossed"
+  IO.println s!"PASS a tree of 2^16 leaves: generations 17, 28 and 29 agree over {g28.events} events, across the count bound 2^25"
 
 /-- Moments and tail frequencies of `n` host exponential draws: the sum, the sum of squares,
 the counts above 1, 5 and 8 (beyond the ziggurat's base layer at 7.697), and whether every
