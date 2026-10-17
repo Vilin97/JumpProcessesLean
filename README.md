@@ -7,7 +7,8 @@ interpretation used by the proofs. The repository also contains
 thirty optimized generations, each proved to produce exactly the specification's
 trajectories. Generation 30 is faster than every JumpProcesses.jl aggregator on all five
 networks of the Catalyst paper's SSA benchmark: 1.43× to 2.00× the fastest one on each
-network, measured in the same time window.
+network, measured in the same time window from a cold start, and 1.67× to 2.03× when each
+Lean process first warms up as Julia's does.
 
 **Checked (real, end to end).** The public `simulate` driver runs on the
 public `tapeSource`, with a tape read from two independent IID Uniform(0,1) streams.
@@ -191,6 +192,19 @@ pinned to the same core:
   [`headtohead-g17-repeat.json`](bench/results/headtohead-g17-repeat.json)) and 16
   ([`headtohead-g16.json`](bench/results/headtohead-g16.json),
   [`headtohead-g16-repeat.json`](bench/results/headtohead-g16-repeat.json)).
+* **Cold and warm starts:** each Lean and C measurement above is a fresh process, timed from a
+  cold start: on an idle core the clock is still rising during a 0.3 s run. A busy loop of 10
+  to 30 ms on the same core just before it makes generation 30 10% to 20% faster on multistate,
+  multisite2 and egfr_net (0% to 3% on BCR and fcεRI γ2), and the C program alike; these are
+  the three networks whose native rates drift between windows. Julia's harness times its solve
+  after compiling and one warm-up solve, so Julia is always measured warm. With `generations.py
+  --warmup 1`, every Lean and C process first runs once, untimed, on the same span with another
+  seed. In such a pinned window (2026-10-17 21:02 UTC,
+  [`headtohead-warm.json`](bench/results/headtohead-warm.json)) generation 30 is 1.67× to 2.03×
+  the fastest aggregator (1.70× on multistate, 1.69× on multisite2, 1.88× on egfr_net, 1.67× on
+  BCR, 2.03× on fcεRI γ2), and 1.69× to 2.02× in an unpinned one right after
+  ([`headtohead-warm-repeat.json`](bench/results/headtohead-warm-repeat.json)). Lean's time
+  still includes compiling the network and freeing it, which Julia's excludes.
 * **Longer runs:** on ten times every span (multistate to T = 10^5, 128 million events; BCR to
   T = 100, 236 million), generation 30 is 1.63× to 2.09× the fastest of the aggregators that
   lead at the standard spans, pinned, two alternating rounds
