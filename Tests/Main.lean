@@ -406,7 +406,22 @@ def deepTree : IO Unit := do
   expect (g17.state == g28.state && g17.events == g28.events && g17.rng == g28.rng)
     "Tree-RSSA generation 17 differs from generation 28 on a tree of 2^16 leaves"
   expect (g29.state.pop[2000]! ≥ 33554432) "tree of 2^16 leaves: the count bound was not crossed"
-  IO.println s!"PASS a tree of 2^16 leaves: generations 17, 28, 29 and 30 agree over {g28.events} events, across the count bound 2^25"
+  -- a saved trace, and the event limit, through generation 29's driver
+  let t28 ← getOk (TreeRSSA.Gen28.simulate net init 0 0.002 (Xoshiro.seed 12) 1000000 true)
+  let t29 ← getOk (TreeRSSA.Gen29.simulate net init 0 0.002 (Xoshiro.seed 12) 1000000 true)
+  let t30 ← getOk (TreeRSSA.Gen30.simulate net init 0 0.002 (Xoshiro.seed 12) 1000000 true)
+  expect (t28.trace.size > 10) s!"tree of 2^16 leaves: a trace of {t28.trace.size} states"
+  expect (t29.trace == t28.trace && t30.trace == t28.trace && t29.rng == t28.rng &&
+      t30.rng == t28.rng)
+    "Tree-RSSA generations 29 and 30 differ from generation 28 in a trace on a tree of 2^16 leaves"
+  match TreeRSSA.Gen28.simulate net init 0 0.05 (Xoshiro.seed 13) 500,
+      TreeRSSA.Gen29.simulate net init 0 0.05 (Xoshiro.seed 13) 500,
+      TreeRSSA.Gen30.simulate net init 0 0.05 (Xoshiro.seed 13) 500 with
+  | .error e28, .error e29, .error e30 =>
+    expect (e28 == .eventLimit && e29 == e28 && e30 == e28)
+      "tree of 2^16 leaves: different errors at the event limit"
+  | _, _, _ => throw (IO.userError "tree of 2^16 leaves: the event limit was not reached")
+  IO.println s!"PASS a tree of 2^16 leaves: generations 17, 28, 29 and 30 agree over {g28.events} events, across the count bound 2^25, in a trace of {t28.trace.size} states and at the event limit"
 
 /-- Moments and tail frequencies of `n` host exponential draws: the sum, the sum of squares,
 the counts above 1, 5 and 8 (beyond the ziggurat's base layer at 7.697), and whether every

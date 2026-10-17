@@ -553,7 +553,8 @@ The successful logs are in `results/`.
   reactions with one to four changes each (201,133 events; 35 networks that grow without bound
   reach the event limit in all seven). On a random network of 40,000 reactions and 2,000
   species, whose tree has 2^16 leaves, generations 17 and 28 to 30 agree (8,234 events), also
-  after an added species crosses the fast path's count bound 2^25.
+  after an added species crosses the fast path's count bound 2^25, in a saved trace of 313
+  states and at the event limit.
 * A Julia harness executes the pinned original algorithm bodies with 8 deterministic
   assertions. Integrator, random-tape and heap interfaces are stubbed, and the full
   SciML suite was not run. Vendored sources keep the upstream MIT license.
