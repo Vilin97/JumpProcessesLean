@@ -1,16 +1,16 @@
 """Measure the Tree-RSSA generations against each other.
 
-    python3 bench/generations.py --out bench/results/generations.json [--rounds 5]
+    python3 bench/generations.py --out bench/results/generations.json [--rounds 5] [--scale 1]
 
 For each network, the generations from 2 on and the RSSACR port are run alternately for several
-rounds on the benchmark span, and each keeps its best time: alternating and taking the best
-time make the comparison between generations robust to other load on the machine. Every run
-also prints a digest of the final populations; all generations must agree, since each is
-proved equal to the specification. Generations 0 and 1 are far slower and are measured by
-`run.py` on shorter spans. The method `c-reference` runs the independent C implementation in
-bench/c (path in CREF); its digest must agree too. A method `julia:<aggregator>` runs that
-JumpProcesses.jl aggregator (warmed up, one repetition per round), so that Julia and Lean can
-be measured alternately under the same conditions.
+rounds on the benchmark span (or `--scale` times it), and each keeps its best time: alternating
+and taking the best time make the comparison between generations robust to other load on the
+machine. Every run also prints a digest of the final populations; all generations must agree,
+since each is proved equal to the specification. Generations 0 and 1 are far slower and are
+measured by `run.py` on shorter spans. The method `c-reference` runs the independent C
+implementation in bench/c (path in CREF); its digest must agree too. A method
+`julia:<aggregator>` runs that JumpProcesses.jl aggregator (warmed up, one repetition per
+round), so that Julia and Lean can be measured alternately under the same conditions.
 """
 import argparse
 import json
@@ -62,6 +62,8 @@ def main():
     parser.add_argument("--rounds", type=int, default=5)
     parser.add_argument("--models", nargs="*", default=[m for m, _ in bench.MODELS])
     parser.add_argument("--methods", nargs="*", default=FAST)
+    parser.add_argument("--scale", type=float, default=1.0,
+                        help="run every network on this multiple of its benchmark span")
     args = parser.parse_args()
     bench.ensure_rn()
     out = pathlib.Path(args.out)
@@ -70,7 +72,7 @@ def main():
     record["rounds"] = args.rounds
     spans = dict(bench.MODELS)
     for model in args.models:
-        T = spans[model]
+        T = spans[model] * args.scale
         best, rows = {}, {}
         idle = []
         for _ in range(args.rounds):
