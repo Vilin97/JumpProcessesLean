@@ -355,3 +355,13 @@ import JumpProcessesLean
 #print axioms JumpProcessesLean.Proofs.start29_eq
 #print axioms JumpProcessesLean.Proofs.gen29_eq_gen28
 #print axioms JumpProcessesLean.Proofs.gen29_simulate_eq
+#print axioms JumpProcessesLean.Proofs.mapNew_eq
+#print axioms JumpProcessesLean.Proofs.ratesOf_eq
+#print axioms JumpProcessesLean.Proofs.pickRates_eq
+#print axioms JumpProcessesLean.Proofs.changeOf_eq
+#print axioms JumpProcessesLean.Proofs.changeWOf_eq
+#print axioms JumpProcessesLean.Proofs.compile30_eq
+#print axioms JumpProcessesLean.Proofs.compileW30_eq
+#print axioms JumpProcessesLean.Proofs.start30_eq
+#print axioms JumpProcessesLean.Proofs.gen30_eq_gen29
+#print axioms JumpProcessesLean.Proofs.gen30_simulate_eq

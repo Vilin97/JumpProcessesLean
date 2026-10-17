@@ -49,22 +49,10 @@ theorem above_iff (x i : Nat) : Above x i ↔ (0 < i ∧ i = x / 2) ∨ Above (x
     · exact ⟨hi, 1, by omega, by rw [h]; rfl⟩
     · exact ⟨hi, j + 1, by omega, by rw [div_two_pow_succ]; exact h⟩
 
-theorem not_above_self (x : Nat) : ¬ Above x x := by
-  rintro ⟨hx, j, hj, h⟩
-  have : x / 2 ^ j < x := Nat.div_lt_self hx (by have := two_le_two_pow hj; omega)
-  omega
-
 theorem div_two_pow_le_half (x j : Nat) (hj : 0 < j) : x / 2 ^ j ≤ x / 2 := by
   obtain ⟨j', rfl⟩ : ∃ j', j = j' + 1 := ⟨j - 1, by omega⟩
   rw [div_two_pow_succ]
   exact Nat.div_le_self _ _
-
-/-- A node's sibling is not among its strict ancestors. -/
-theorem not_above_sib (x : Nat) : ¬ Above x (2 * (x / 2) + (1 - x % 2)) := by
-  rintro ⟨hi, j, hj, h⟩
-  have h1 := div_two_pow_le_half x j hj
-  generalize x / 2 ^ j = y at h h1
-  omega
 
 theorem not_above_one (i : Nat) : ¬ Above 1 i := by
   rintro ⟨hi, j, hj, h⟩

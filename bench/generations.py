@@ -28,7 +28,7 @@ FAST = ["treerssa-g2", "treerssa-g3", "treerssa-g4", "treerssa-g5", "treerssa-g6
         "treerssa-g17", "treerssa-g18", "treerssa-g19", "treerssa-g20",
         "treerssa-g21", "treerssa-g22", "treerssa-g23", "treerssa-g24",
         "treerssa-g25", "treerssa-g26", "treerssa-g27", "treerssa-g28",
-        "treerssa-g29", "rssacr-port"]
+        "treerssa-g29", "treerssa-g30", "rssacr-port"]
 
 
 def once(model, method, T):
