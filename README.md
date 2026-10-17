@@ -247,7 +247,8 @@ pinned to the same core:
   compiling the network, building the initial brackets, tree and records, and freeing them
   (0.08 ms on multistate, 4 ms on BCR, 12–14 ms on fcεRI γ2, about 4% of that run). Julia's
   time is the `solve` call alone, after a warm-up solve, with the `JumpProblem` built
-  beforehand. Both differences favor Julia.
+  beforehand. Both differences favor Julia, and so does the cold start of each Lean process
+  (above).
 
 The numbers come from a shared machine with other jobs running, so ±15% between runs is
 normal. Each script records the machine, the commit, and whether the working tree had
