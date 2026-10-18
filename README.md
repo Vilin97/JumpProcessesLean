@@ -220,11 +220,11 @@ pinned to the same core:
   table; the objects stay position-independent, and those built for shared libraries are
   unchanged. In a warm A/B of the two builds pinned to one core (best of four alternating runs,
   the same final populations) this made generation 30 3.3% faster on multistate, 1.6% on
-  multisite2, 2.1% on egfr_net and 1.5% on BCR, and 0.6% slower on fcεRI γ2. The windows above
-  were measured with the earlier build. Measured with it, generation 30 is 1.46× to 1.98×
-  (cold, pinned, 2026-10-17 22:51 UTC,
-  [`headtohead-g30h.json`](bench/results/headtohead-g30h.json)), 1.70× to 1.98× (warm, pinned,
-  2026-10-17 23:22 UTC,
+  multisite2, 2.1% on egfr_net and 1.5% on BCR, and 0.6% slower on fcεRI γ2; from a cold start,
+  2.7%, 1.2%, 1.6% and 1.1% faster and 0.9% slower. The windows above were measured with the
+  earlier build. Measured with it, generation 30 is 1.46× to 1.98× (cold, pinned, 2026-10-17
+  22:51 UTC, [`headtohead-g30h.json`](bench/results/headtohead-g30h.json)), 1.70× to 1.98×
+  (warm, pinned, 2026-10-17 23:22 UTC,
   [`headtohead-g30h-warm.json`](bench/results/headtohead-g30h-warm.json)), 1.47× to 2.00×
   (cold, unpinned, 2026-10-17 23:54 UTC,
   [`headtohead-g30h-repeat.json`](bench/results/headtohead-g30h-repeat.json)), 1.71× to 2.00×
