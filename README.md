@@ -227,9 +227,13 @@ pinned to the same core:
   2026-10-17 23:22 UTC,
   [`headtohead-g30h-warm.json`](bench/results/headtohead-g30h-warm.json)), 1.47× to 2.00×
   (cold, unpinned, 2026-10-17 23:54 UTC,
-  [`headtohead-g30h-repeat.json`](bench/results/headtohead-g30h-repeat.json)) and 1.71× to
-  2.00× (warm, unpinned, 2026-10-18 00:25 UTC,
-  [`headtohead-g30h-warm-repeat.json`](bench/results/headtohead-g30h-warm-repeat.json)) the
+  [`headtohead-g30h-repeat.json`](bench/results/headtohead-g30h-repeat.json)), 1.71× to 2.00×
+  (warm, unpinned, 2026-10-18 00:25 UTC,
+  [`headtohead-g30h-warm-repeat.json`](bench/results/headtohead-g30h-warm-repeat.json)), 1.49×
+  to 1.97× (cold, pinned, at night, 2026-10-18 01:30 UTC,
+  [`headtohead-g30h-night.json`](bench/results/headtohead-g30h-night.json)) and 1.71× to 1.98×
+  (warm, pinned, at night, 2026-10-18 02:00 UTC,
+  [`headtohead-g30h-night-warm.json`](bench/results/headtohead-g30h-night-warm.json)) the
   fastest aggregator.
 * **Generations 18 to 30, each against its predecessor** (same binary, pinned, alternating
   rounds, best of five, same final populations): 1.02× to 1.19× (18), 1.01× to 1.08× (19),
