@@ -223,10 +223,14 @@ pinned to the same core:
   multisite2, 2.1% on egfr_net and 1.5% on BCR, and 0.6% slower on fcεRI γ2. The windows above
   were measured with the earlier build. Measured with it, generation 30 is 1.46× to 1.98×
   (cold, pinned, 2026-10-17 22:51 UTC,
-  [`headtohead-g30h.json`](bench/results/headtohead-g30h.json)) and 1.70× to 1.98× (warm,
-  pinned, 2026-10-17 23:22 UTC,
-  [`headtohead-g30h-warm.json`](bench/results/headtohead-g30h-warm.json)) the fastest
-  aggregator.
+  [`headtohead-g30h.json`](bench/results/headtohead-g30h.json)), 1.70× to 1.98× (warm, pinned,
+  2026-10-17 23:22 UTC,
+  [`headtohead-g30h-warm.json`](bench/results/headtohead-g30h-warm.json)), 1.47× to 2.00×
+  (cold, unpinned, 2026-10-17 23:54 UTC,
+  [`headtohead-g30h-repeat.json`](bench/results/headtohead-g30h-repeat.json)) and 1.71× to
+  2.00× (warm, unpinned, 2026-10-18 00:25 UTC,
+  [`headtohead-g30h-warm-repeat.json`](bench/results/headtohead-g30h-warm-repeat.json)) the
+  fastest aggregator.
 * **Generations 18 to 30, each against its predecessor** (same binary, pinned, alternating
   rounds, best of five, same final populations): 1.02× to 1.19× (18), 1.01× to 1.08× (19),
   1.05× to 1.12× (20), 1.02× to 1.04× (21), 1.01× to 1.10× (22, most on BCR), 1.01× to 1.02×
